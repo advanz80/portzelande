@@ -62,7 +62,7 @@ async function start() {
     if (saveAcc > 5000) { saveAcc = 0; SaveManager.save(); }
   });
 
-  if (new URLSearchParams(location.search).has('debug')) window.__game = game;
+  if (new URLSearchParams(location.search).has('debug')) { window.__game = game; window.__audio = Audio; }
 }
 
 start();

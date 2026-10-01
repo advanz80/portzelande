@@ -108,8 +108,11 @@ class AudioEngineClass {
   // ── Muziek ────────────────────────────────────────────────────────────────
   music(name) {
     if (!this.ctx) { this.pendingTheme = name; return; }
-    if (this.theme === name) return;
+    if (this.theme === name || this.nextTheme === name) return;
+    this.nextTheme = name;
     const start = () => {
+      if (this.nextTheme !== name) return; // inmiddels een ander thema gevraagd
+      this.nextTheme = null;
       this.theme = name;
       this.cfg = THEMES[name];
       this.step = 0;
@@ -127,6 +130,7 @@ class AudioEngineClass {
   }
 
   stopMusic() {
+    this.nextTheme = null;
     if (!this.ctx) return;
     this.musicGain.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.15);
     this.theme = null;
