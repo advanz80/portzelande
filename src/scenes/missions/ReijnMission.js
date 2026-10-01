@@ -155,7 +155,7 @@ export class ReijnMission extends MissionBase {
     this.addScore(40);
     Audio.sfx('coin');
     const y = 215 + (this.clues.length - 1) * 58;
-    const note = this.add.text(990, y, `• ${text}`, textStyle(16, P.ink, { wordWrap: { width: 250 } })).setOrigin(0, 0);
+    const note = this.add.text(990, y, `• ${text}`, textStyle(17, P.ink, { wordWrap: { width: 255 } })).setOrigin(0, 0);
     this.notes.add(note);
     note.setAlpha(0).x += 30;
     this.tweens.add({ targets: note, alpha: 1, x: 990, duration: 300, delay: 200 });

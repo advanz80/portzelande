@@ -118,7 +118,7 @@ export class DriessenMission extends MissionBase {
     c.add([hl, bg, av, nm]);
     d.skills.forEach((s, k) => c.add(this.add.image(-70 + k * 50, 16, 'icons', ROLES[s]).setDisplaySize(44, 44)));
     d.shifts.forEach((s, k) => c.add(this.add.image(80 + k * 36, 16, 'icons', SHIFTS[s]).setDisplaySize(32, 32)));
-    if (d.pirate) c.add(this.add.text(70, -30, this.T('pirateCv'), textStyle(13, P.inkSoft)).setOrigin(0, 0.5));
+    if (d.pirate) c.add(this.add.text(70, -30, this.T('pirateCv'), textStyle(15, P.inkSoft)).setOrigin(0, 0.5));
     Object.assign(c, d);
     c.highlight = hl;
     c.home = { x: 250, y: QUEUE_Y[i] };

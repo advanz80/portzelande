@@ -115,7 +115,7 @@ export class HUDScene extends Phaser.Scene {
       const c = this.add.container(0, 0);
       const a = this.add.image(0, 0, 'icons', 'arrow').setDisplaySize(54, 54);
       const dot = this.add.circle(0, 0, 20, 0xffffff).setStrokeStyle(4, HEX.ink);
-      const tx = this.add.text(0, 0, '', textStyle(16, P.cream, { stroke: P.ink, strokeThickness: 4 })).setOrigin(0.5);
+      const tx = this.add.text(0, 0, '', textStyle(18, P.cream, { stroke: P.ink, strokeThickness: 4 })).setOrigin(0.5);
       c.add([a, dot, tx]); c.arrow = a; c.dot = dot; c.label = tx;
       this.arrows.push(c);
     }

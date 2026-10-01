@@ -140,7 +140,7 @@ export class HaertMission extends MissionBase {
       const oc = this.add.container(860, y).setDepth(10);
       oc.add(card(this, 0, 0, 600, 146, 0xffffff));
       oc.add(this.add.image(-250, -10, 'icons', o.type === 'zzp' ? 'briefcase' : 'people').setDisplaySize(64, 64));
-      oc.add(this.add.text(-250, 42, o.type === 'zzp' ? this.T('zzp') : this.T('agency'), textStyle(13, P.inkSoft, { align: 'center', wordWrap: { width: 110 } })).setOrigin(0.5));
+      oc.add(this.add.text(-250, 42, o.type === 'zzp' ? this.T('zzp') : this.T('agency'), textStyle(15, P.inkSoft, { align: 'center', wordWrap: { width: 110 } })).setOrigin(0.5));
       oc.add(this.add.text(-200, -44, `${i + 1}. ${o.name}`, textStyle(22, P.ink)).setOrigin(0, 0.5));
       const stars = '★'.repeat(Math.floor(o.rating)) + '☆'.repeat(5 - Math.floor(o.rating));
       oc.add(this.add.text(-200, -10, `${stars} ${o.rating.toFixed(1).replace('.', ',')}  (${o.reviews})`, textStyle(18, '#d49b1a')).setOrigin(0, 0.5));
@@ -148,7 +148,7 @@ export class HaertMission extends MissionBase {
       const startTxt = { now: this.T('startNow'), week: this.T('startWeek'), later: this.T('startLater') }[o.start];
       oc.add(this.add.image(-40, 22, 'icons', 'clock').setDisplaySize(26, 26));
       oc.add(this.add.text(-24, 22, startTxt, textStyle(18, P.ink)).setOrigin(0, 0.5));
-      oc.add(this.add.text(-200, 50, o.kvk ? `${this.T('kvk')} ${Phaser.Math.Between(10, 99)}${Phaser.Math.Between(100000, 999999)}` : this.T('noKvk'), textStyle(14, o.kvk ? P.green : P.red)).setOrigin(0, 0.5));
+      oc.add(this.add.text(-200, 50, o.kvk ? `${this.T('kvk')} ${Phaser.Math.Between(10, 99)}${Phaser.Math.Between(100000, 999999)}` : this.T('noKvk'), textStyle(16, o.kvk ? P.green : P.red)).setOrigin(0, 0.5));
       const b = button(this, 220, 0, this.T('choose'), () => this.pick(i), { width: 130, height: 60, color: this.brand.color, textColor: P.cream, size: 22 });
       oc.add(b);
       oc.x = 1400;
