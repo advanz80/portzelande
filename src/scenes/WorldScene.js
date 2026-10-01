@@ -5,7 +5,9 @@ import { BRANDS, MISSION_IDS } from '../config/brands.js';
 import { NPC_LOOKS } from '../config/npcs.js';
 import { SaveManager } from '../core/SaveManager.js';
 import { Audio } from '../core/AudioEngine.js';
-import { Controls } from '../core/Controls.js';
+import { isTouch } from '../core/Controls.js';
+
+const NO_CONTROLS = { vector: () => ({ x: 0, y: 0 }), action: () => false, setVisible() {}, setActionVisible() {} };
 import { burst, shake, floatText, confettiRain } from '../core/Juice.js';
 import { logo, bake } from '../ui/widgets.js';
 import { showDialog } from './DialogScene.js';
@@ -24,6 +26,9 @@ export const SECTOR_ICONS = { business: 'briefcase', education: 'gradcap', gover
 
 export class WorldScene extends Phaser.Scene {
   constructor() { super('World'); }
+
+  /** Besturing leeft in de HUD-scène, zodat camera-zoom de touch-knoppen niet raakt. */
+  get controls() { return this.hud?.controls || NO_CONTROLS; }
 
   create() {
     const s = SaveManager.state;
@@ -60,10 +65,11 @@ export class WorldScene extends Phaser.Scene {
     this.playerAnim = ensureAnims(this, 'player');
     this.dyn.push(this.player);
     cam.startFollow(this.player, true, 0.12, 0.12);
+    // Op kleine schermen (telefoon) iets inzoomen voor leesbaarheid
+    this.baseZoom = this.scale.displayScale.x > 1.4 ? 1.25 : 1;
+    cam.setZoom(this.baseZoom);
     cam.fadeIn(500, 15, 61, 92);
 
-    this.controls = new Controls(this, { actionLabel: '!' });
-    this.controls.setActionVisible(false);
 
     this.scene.launch('HUD');
     this.hud = this.scene.get('HUD');
@@ -78,7 +84,11 @@ export class WorldScene extends Phaser.Scene {
       this.time.delayedCall(700, () => {
         showDialog(this, {
           lines: t('story.intro'),
-          onDone: () => { s.seenIntro = true; SaveManager.save(); this.hud.toast(t('missions.bhc.zone') + ' → ' + BRANDS.bhc.name, BRANDS.bhc.color, 'map'); },
+          onDone: () => {
+            s.seenIntro = true; SaveManager.save();
+            this.hud.toast(t(isTouch(this) ? 'hud.moveHintTouch' : 'hud.moveHintKeys'), HEX.cream, 'shoe', 4000);
+            this.time.delayedCall(4600, () => this.hud.toast(t('missions.bhc.zone') + ' → ' + BRANDS.bhc.name, BRANDS.bhc.color, 'map'));
+          },
         });
       });
     }
@@ -384,7 +394,7 @@ export class WorldScene extends Phaser.Scene {
     SaveManager.save();
     const cam = this.cameras.main;
     Audio.sfx('whoosh');
-    cam.zoomTo(1.6, 700, 'Cubic.easeIn');
+    cam.zoomTo(this.baseZoom * 1.5, 700, 'Cubic.easeIn');
     cam.fadeOut(700, 15, 61, 92);
     cam.once('camerafadeoutcomplete', () => {
       this.scene.stop('HUD');
@@ -400,7 +410,7 @@ export class WorldScene extends Phaser.Scene {
     SaveManager.save();
     Audio.sfx('whoosh');
     const cam = this.cameras.main;
-    cam.zoomTo(1.5, 500, 'Cubic.easeIn');
+    cam.zoomTo(this.baseZoom * 1.4, 500, 'Cubic.easeIn');
     cam.fadeOut(500, 15, 61, 92);
     cam.once('camerafadeoutcomplete', () => {
       this.scene.sleep('HUD');
@@ -420,9 +430,10 @@ export class WorldScene extends Phaser.Scene {
     this.input.keyboard.resetKeys();
     this.busy = false;
     this.controls.setVisible(true);
+    this.musicZone = this.currentZone;
     Audio.music(this.currentZone || 'world');
     const cam = this.cameras.main;
-    cam.setZoom(1);
+    cam.setZoom(this.baseZoom);
     cam.fadeIn(500, 15, 61, 92);
     const r = this.pendingResult;
     this.pendingResult = null;
@@ -698,14 +709,18 @@ export class WorldScene extends Phaser.Scene {
     }
 
     // zone-melding
+    // met hysterese: binnen 300 px = binnenkomen, pas buiten 400 px = verlaten
     let zone = null;
-    for (const id of MISSION_IDS) {
-      const st = STATIONS[id];
-      if (Math.hypot(p.x - st.x, p.y - st.y) < 330) zone = id;
-    }
+    const cz = this.currentZone;
+    if (cz && Math.hypot(p.x - STATIONS[cz].x, p.y - STATIONS[cz].y) < 400) zone = cz;
+    else for (const id of MISSION_IDS) if (Math.hypot(p.x - STATIONS[id].x, p.y - STATIONS[id].y) < 300) zone = id;
+    // muziek pas wisselen als je even in de zone blijft
+    if (this.musicZone !== zone && !this.hunt && !this.busy) {
+      this.zoneTimer = (this.zoneTimer || 0) + dt;
+      if (this.zoneTimer > 1200) { this.musicZone = zone; this.zoneTimer = 0; Audio.music(zone || 'world'); }
+    } else this.zoneTimer = 0;
     if (zone !== this.currentZone) {
       this.currentZone = zone;
-      if (!this.hunt && !this.busy) Audio.music(zone || 'world');
       if (zone && this.hud?.scene.isActive() && !this.hunt) this.hud.toast(`${t(`missions.${zone}.zone`)} · ${BRANDS[zone].name}`, BRANDS[zone].color, null, 1600);
     }
   }

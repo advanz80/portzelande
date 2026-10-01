@@ -7,7 +7,7 @@ import { SaveManager } from '../core/SaveManager.js';
 import { formatTime } from '../core/Leaderboard.js';
 import { Audio } from '../core/AudioEngine.js';
 import { pulse, burst } from '../core/Juice.js';
-import { isTouch } from '../core/Controls.js';
+import { isTouch, Controls } from '../core/Controls.js';
 
 export class HUDScene extends Phaser.Scene {
   constructor() { super('HUD'); }
@@ -57,6 +57,9 @@ export class HUDScene extends Phaser.Scene {
     this.huntText = this.add.text(-110, 0, '', textStyle(28, P.ink)).setOrigin(0, 0.5);
     this.huntTime = this.add.text(150, 0, '', textStyle(28, P.red)).setOrigin(1, 0.5);
     this.hunt.add([this.huntBadge, this.huntText, this.huntTime]);
+
+    this.controls = new Controls(this, { actionLabel: '!' });
+    this.controls.setActionVisible(false);
 
     this.input.keyboard.on('keydown-ESC', () => (this.paused ? this.closePause?.() : this.pause()));
     this.input.keyboard.on('keydown-P', () => (this.paused ? this.closePause?.() : this.pause()));

@@ -38,7 +38,9 @@
     "toMenu": "Naar hoofdmenu",
     "saved": "Voortgang opgeslagen",
     "fragmentGot": "Sleutelfragment van {bedrijf}!",
-    "allFragments": "Alle 6 fragmenten! Op naar het piratenschip!"
+    "allFragments": "Alle 6 fragmenten! Op naar het piratenschip!",
+    "moveHintKeys": "Lopen: WASD of pijltjes · Praten: spatie",
+    "moveHintTouch": "Sleep op de linkerhelft om te lopen · tik ! om te praten"
   },
   "common": {
     "start": "Start!",
