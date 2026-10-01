@@ -7,7 +7,7 @@ import { SaveManager } from '../core/SaveManager.js';
 import { Audio } from '../core/AudioEngine.js';
 import { Controls } from '../core/Controls.js';
 import { burst, shake, floatText, confettiRain } from '../core/Juice.js';
-import { logo } from '../ui/widgets.js';
+import { logo, bake } from '../ui/widgets.js';
 import { showDialog } from './DialogScene.js';
 import { makeCharacter, ensureAnims, randomLook, pirateLook } from '../gfx/CharacterFactory.js';
 import { rng } from '../gfx/draw.js';
@@ -134,6 +134,7 @@ export class WorldScene extends Phaser.Scene {
     f.fillStyle(HEX.water).fillEllipse(PLAZA.x, PLAZA.y + 6, 150, 50);
     f.fillStyle(HEX.stone).fillRect(PLAZA.x - 10, PLAZA.y - 50, 20, 56).strokeRect(PLAZA.x - 10, PLAZA.y - 50, 20, 56);
     f.fillStyle(HEX.stone).fillEllipse(PLAZA.x, PLAZA.y - 50, 60, 20).strokeEllipse(PLAZA.x, PLAZA.y - 50, 60, 20);
+    bake(this, f, 'fountain', PLAZA.x - 100, PLAZA.y - 70, 200, 130);
     this.colliders.push({ x: PLAZA.x, y: PLAZA.y + 10, r: 90 });
     const spray = this.add.particles(PLAZA.x, PLAZA.y - 56, 'px_drop', {
       speedY: { min: -260, max: -180 }, speedX: { min: -70, max: 70 }, gravityY: 600, lifespan: 750,

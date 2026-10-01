@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { t } from '../core/i18n.js';
 import { P, HEX, textStyle, titleStyle } from '../gfx/palette.js';
-import { button, roundButton, panel, logo, transitionTo, dim } from '../ui/widgets.js';
+import { button, roundButton, panel, logo, transitionTo, dim, bake } from '../ui/widgets.js';
 import { BRANDS, MISSION_IDS } from '../config/brands.js';
 import { SaveManager } from '../core/SaveManager.js';
 import { Audio } from '../core/AudioEngine.js';
@@ -21,6 +21,7 @@ export class MenuScene extends Phaser.Scene {
     const sky = this.add.graphics().setDepth(-2);
     sky.fillGradientStyle(0x6fd3ff, 0x6fd3ff, 0xbfefff, 0xbfefff, 1);
     sky.fillRect(0, 0, width, height * 0.55);
+    bake(this, sky, 'menu_sky', 0, 0, width, Math.ceil(height * 0.55));
     // zon
     const sun = this.add.circle(1040, 150, 70, 0xffe066).setStrokeStyle(6, HEX.ink);
     const rays = this.add.image(1040, 150, 'rays').setScale(1.2).setAlpha(0.6).setTint(0xfff3b0);
@@ -51,6 +52,7 @@ export class MenuScene extends Phaser.Scene {
     beach.beginPath(); beach.moveTo(0, height); beach.lineTo(0, height - 120);
     beach.lineTo(220, height - 90); beach.lineTo(380, height - 40); beach.lineTo(420, height); beach.closePath(); beach.fillPath(); beach.strokePath();
     beach.beginPath(); beach.moveTo(width, height); beach.lineTo(width, height - 140); beach.lineTo(width - 240, height - 80); beach.lineTo(width - 380, height - 30); beach.lineTo(width - 400, height); beach.closePath(); beach.fillPath(); beach.strokePath();
+    bake(this, beach, 'menu_beach', 0, height - 160, width, 160);
     const palm = (x, y, s, flip) => {
       this.add.image(x, y, 'palm_trunk').setOrigin(0.5, 1).setScale(s * 1.6).setFlipX(flip);
       const cr = this.add.image(x + (flip ? 6 : -6) * s, y - 124 * s * 1.6, 'palm_crown').setScale(s * 1.6);

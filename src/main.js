@@ -47,7 +47,8 @@ async function start() {
   });
 
   // Audio ontgrendelen bij eerste interactie
-  const unlock = () => Audio.unlock();
+  const noAudio = new URLSearchParams(location.search).has('noaudio');
+  const unlock = () => { if (!noAudio) Audio.unlock(); };
   window.addEventListener('pointerdown', unlock);
   window.addEventListener('keydown', unlock);
   window.addEventListener('touchend', unlock);

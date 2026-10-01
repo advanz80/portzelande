@@ -119,3 +119,16 @@ export function dim(scene, alpha = 0.55, depth = 0) {
 export function iconImg(scene, x, y, name, size = 48) {
   return scene.add.image(x, y, 'icons', name).setDisplaySize(size, size);
 }
+
+/**
+ * Bak een statische Graphics éénmalig naar een texture (Graphics worden anders
+ * elk frame opnieuw opgebouwd — duur op telefoons).
+ */
+export function bake(scene, g, key, x, y, w, h) {
+  if (scene.textures.exists(key)) scene.textures.remove(key);
+  const dt = scene.textures.addDynamicTexture(key, w, h);
+  dt.draw(g, -x, -y);
+  const depth = g.depth;
+  g.destroy();
+  return scene.add.image(x, y, key).setOrigin(0).setDepth(depth);
+}

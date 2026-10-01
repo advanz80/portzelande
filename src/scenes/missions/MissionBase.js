@@ -7,7 +7,7 @@ import { P, HEX, textStyle, titleStyle, shade } from '../../gfx/palette.js';
 import { BRANDS } from '../../config/brands.js';
 import { SaveManager } from '../../core/SaveManager.js';
 import { Audio } from '../../core/AudioEngine.js';
-import { panel, button, roundButton, logo, dim, meter } from '../../ui/widgets.js';
+import { panel, button, roundButton, logo, dim, meter, bake } from '../../ui/widgets.js';
 import { burst, confettiRain, floatText, popIn, shake } from '../../core/Juice.js';
 import { showDialog } from '../DialogScene.js';
 
@@ -60,6 +60,7 @@ export class MissionBase extends Phaser.Scene {
     g.fillGradientStyle(c1, c1, c2, c2, 1).fillRect(0, 0, width, height);
     g.fillStyle(0xffffff, 0.06);
     for (let x = -height; x < width; x += 80) g.fillTriangle(x, height, x + 40, height, x + height + 40, 0).fillTriangle(x, height, x + height, 0, x + height + 40, 0);
+    bake(this, g, `mbg_${this.missionId}`, 0, 0, width, height);
   }
 
   buildHeader() {
@@ -112,8 +113,10 @@ export class MissionBase extends Phaser.Scene {
       L.add([ib, ic, tx]);
       [ib, ic, tx].forEach((o) => { o.alpha = 0; this.tweens.add({ targets: o, alpha: 1, x: o.x + 0, delay: 150 + i * 120, duration: 300 }); });
     });
+    this.howTo = L;
     const go = () => {
       if (L.done) return; L.done = true;
+      this.howTo = null;
       this.tweens.add({ targets: L, alpha: 0, duration: 200, onComplete: () => { L.destroy(); onStart(); } });
     };
     const b = button(this, width / 2, height / 2 + 20 + h / 2 - 50, t('common.start'), go, { width: 260, color: HEX.green, icon: 'check' });
@@ -152,6 +155,7 @@ export class MissionBase extends Phaser.Scene {
 
   update(time, delta) {
     if (!this.running) return;
+    delta = Math.min(delta, 100); // bij haperende frames loopt de klok niet weg
     if (this.opts.timeLimit && !this.timerPaused) {
       const before = Math.ceil(this.timeLeft);
       this.timeLeft -= delta / 1000;
