@@ -11,6 +11,9 @@ export class Controls {
     const kb = scene.input.keyboard;
     this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SPACE,E,ENTER');
     this._action = false;
+    // Event-gebaseerd i.p.v. JustDown: ook een héél korte tik telt.
+    const hit = () => { if (this.enabled) this._action = true; };
+    kb.on('keydown-SPACE', hit); kb.on('keydown-E', hit); kb.on('keydown-ENTER', hit);
     this.joy = { x: 0, y: 0, active: false, id: -1 };
     this.touch = isTouch(scene);
     this.enabled = true;
@@ -86,9 +89,7 @@ export class Controls {
   /** True op het frame dat actie werd ingedrukt. */
   action() {
     if (!this.enabled) { this._action = false; return false; }
-    const J = Phaser.Input.Keyboard.JustDown;
-    const k = this.keys;
-    const hit = J(k.SPACE) || J(k.E) || J(k.ENTER) || this._action;
+    const hit = this._action;
     this._action = false;
     return hit;
   }
