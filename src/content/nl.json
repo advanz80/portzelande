@@ -604,7 +604,7 @@
       "startWeek": "binnen 1 week",
       "startLater": "over 3 weken",
       "zzp": "zzp'er",
-      "agency": "Detacheringspartij",
+      "agency": "Detachering",
       "rate": "€{r}/uur",
       "kvk": "KvK",
       "noKvk": "geen KvK",
@@ -989,7 +989,9 @@
             }
           }
         }
-      }
+      },
+      "defected1": "1 crewlid loopt over naar jouw kant!",
+      "defected0": "Niemand loopt over… de crew twijfelt nog."
     }
   },
   "finale": {
