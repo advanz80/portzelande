@@ -14,7 +14,7 @@ import { rng } from '../gfx/draw.js';
 import { buildTerrainChunks, inPoly, inRect } from '../world/terrain.js';
 import { distToPolyline } from '../world/util.js';
 import {
-  WORLD_W, WORLD_H, LAND, GRASS, PATHS, PLAZA, PIER, JETTIES, BRIDGE, SHIP, SPAWN, STATIONS, PETRA, GUARD,
+  WORLD_W, WORLD_H, LAND, GRASS, PATHS, PLAZA, PIER, JETTIES, BRIDGE, SHIP, SPAWN, GATE, STATIONS, PETRA, GUARD,
   BRIDGE_SIGN, BUILDINGS, BUNGALOWS, UMBRELLAS, TOWELS, LIFEGUARD, BADGE_SPOTS,
 } from '../world/layout.js';
 
@@ -47,7 +47,6 @@ export class WorldScene extends Phaser.Scene {
     const { width, height } = this.scale;
     this.water = this.add.tileSprite(0, 0, width, height, 'water').setOrigin(0).setScrollFactor(0).setDepth(-2000);
     this.waves = this.add.tileSprite(0, 0, width, height, 'waves').setOrigin(0).setScrollFactor(0).setDepth(-1999).setAlpha(0.6);
-    this.waves2 = this.add.tileSprite(0, 0, width, height, 'waves').setOrigin(0).setScrollFactor(0).setDepth(-1998).setAlpha(0.3).setTileScale(1.6);
 
     buildTerrainChunks(this);
     this.buildDecor();
@@ -148,7 +147,7 @@ export class WorldScene extends Phaser.Scene {
     }
 
     // entreebord
-    const gate = this.add.container(SPAWN.x, SPAWN.y + 100).setDepth(SPAWN.y + 100);
+    const gate = this.add.container(GATE.x, GATE.y).setDepth(GATE.y);
     const gbg = this.add.nineslice(0, -150, 'ui_btn', undefined, 380, 80, 20, 20, 20, 24).setTint(HEX.blue);
     gate.add(this.add.rectangle(-180, -60, 16, 150, HEX.wood).setStrokeStyle(4, HEX.ink));
     gate.add(this.add.rectangle(180, -60, 16, 150, HEX.wood).setStrokeStyle(4, HEX.ink));
@@ -385,7 +384,7 @@ export class WorldScene extends Phaser.Scene {
     SaveManager.save();
     const cam = this.cameras.main;
     Audio.sfx('whoosh');
-    cam.zoomTo(1.6, 700, 'Cubic.In');
+    cam.zoomTo(1.6, 700, 'Cubic.easeIn');
     cam.fadeOut(700, 15, 61, 92);
     cam.once('camerafadeoutcomplete', () => {
       this.scene.stop('HUD');
@@ -401,7 +400,7 @@ export class WorldScene extends Phaser.Scene {
     SaveManager.save();
     Audio.sfx('whoosh');
     const cam = this.cameras.main;
-    cam.zoomTo(1.5, 500, 'Cubic.In');
+    cam.zoomTo(1.5, 500, 'Cubic.easeIn');
     cam.fadeOut(500, 15, 61, 92);
     cam.once('camerafadeoutcomplete', () => {
       this.scene.sleep('HUD');
@@ -445,12 +444,12 @@ export class WorldScene extends Phaser.Scene {
       this.time.delayedCall(900, () => {
         const cam = this.cameras.main;
         cam.stopFollow();
-        cam.pan(BRIDGE.x + 40, BRIDGE.y + 160, 900, 'Sine.InOut');
+        cam.pan(BRIDGE.x + 40, BRIDGE.y + 160, 900, 'Sine.easeInOut');
         this.time.delayedCall(950, () => {
           this.drawBridge(true);
           this.time.delayedCall(1300, () => {
             burst(this, BRIDGE.x + 48, BRIDGE.y + 100, 'stars', 30);
-            cam.pan(this.player.x, this.player.y, 800, 'Sine.InOut');
+            cam.pan(this.player.x, this.player.y, 800, 'Sine.easeInOut');
             this.time.delayedCall(820, () => { cam.startFollow(this.player, true, 0.12, 0.12); this.busy = false; });
           });
         });
@@ -659,8 +658,6 @@ export class WorldScene extends Phaser.Scene {
     this.water.tilePositionY = cam.scrollY;
     this.waves.tilePositionX = cam.scrollX + _time * 0.012;
     this.waves.tilePositionY = cam.scrollY - _time * 0.006;
-    this.waves2.tilePositionX = (cam.scrollX - _time * 0.008) / 1.6;
-    this.waves2.tilePositionY = cam.scrollY / 1.6;
 
     this.updateWanderers(dt);
 

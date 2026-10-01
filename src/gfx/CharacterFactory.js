@@ -65,19 +65,19 @@ function drawFrame(ctx, ox, look, frame) {
     const sx = cx + side * 17;
     ctx.save();
     ctx.translate(sx, armY);
-    let rot = side * 0.18;
-    if (cheer) rot = side * 2.6;
-    if (tired) rot = side * 0.05;
+    let rot = -side * 0.12;
+    if (cheer) rot = -side * 2.45;
+    if (tired) rot = -side * 0.03;
     if (frame === 'walk1') rot += side > 0 ? 0.25 : -0.1;
     if (frame === 'walk2') rot += side > 0 ? -0.1 : 0.25;
-    if (frame === 'talk' && side > 0) rot = 1.9;
+    if (frame === 'talk' && side > 0) rot = -1.25;
     ctx.rotate(rot);
     rrect(ctx, -5, -2, 10, 20, 5); style(ctx, { fill: shade(shirt, -0.08), lw: 3 });
     circle(ctx, 0, 20, 5); style(ctx, { fill: look.skin, lw: 3 });
     if (look.hook && side > 0) { ctx.beginPath(); ctx.arc(0, 28, 5, 0, Math.PI); style(ctx, { stroke: '#c9c9d6', lw: 3 }); }
     ctx.restore();
   };
-  drawArm(-1); drawArm(1);
+  if (!cheer) { drawArm(-1); drawArm(1); }
 
   // romp
   const bodyTop = footY - 44 + bob + slump;
@@ -100,6 +100,7 @@ function drawFrame(ctx, ox, look, frame) {
   if (look.badge) { circle(ctx, cx + 8, bodyTop + 10, 4); style(ctx, { fill: look.badge, lw: 2 }); }
   // glans op romp
   ctx.save(); ctx.globalAlpha = 0.25; rrect(ctx, cx - 11, bodyTop + 4, 8, 12, 4); ctx.fillStyle = '#fff'; ctx.fill(); ctx.restore();
+  if (cheer) { drawArm(-1); drawArm(1); }
 
   // hoofd
   const hy = footY - 62 + bob + slump * 1.2;

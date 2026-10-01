@@ -51,8 +51,8 @@ export class HUDScene extends Phaser.Scene {
     this.toastY = 140;
 
     // zoektocht-paneel
-    this.hunt = this.add.container(width / 2, 120).setVisible(false);
-    this.hunt.add(panel(this, 0, 0, 380, 80));
+    this.hunt = this.add.container(width - 230, 125).setVisible(false);
+    this.hunt.add(panel(this, 0, 0, 380, 72));
     this.huntBadge = this.add.image(-150, 0, 'badge').setScale(0.6).setTint(BRANDS.bhc.color);
     this.huntText = this.add.text(-110, 0, '', textStyle(28, P.ink)).setOrigin(0, 0.5);
     this.huntTime = this.add.text(150, 0, '', textStyle(28, P.red)).setOrigin(1, 0.5);
@@ -165,6 +165,10 @@ export class HUDScene extends Phaser.Scene {
     layer.add(button(this, width / 2, height / 2 + 90, t('hud.toMenu'), () => {
       SaveManager.save();
       this.paused = false;
+      // eventueel slapende missie (bv. BHC-zoektocht) opruimen
+      for (const sc of this.scene.manager.getScenes(false)) {
+        if (sc.sys.settings.key.endsWith('Mission') && (sc.sys.isActive() || sc.sys.isSleeping())) this.scene.stop(sc.sys.settings.key);
+      }
       this.scene.stop('World');
       this.scene.stop();
       this.scene.start('Menu');

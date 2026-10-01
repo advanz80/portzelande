@@ -43,7 +43,7 @@ export class CharacterScene extends Phaser.Scene {
     const prevName = SaveManager.state?.player?.name || '';
     this.nameEl = this.add.dom(880, 225).createFromHTML(
       `<input type="text" maxlength="16" placeholder="${t('character.namePlaceholder')}" value="${prevName.replace(/"/g, '')}"
-        style="width:540px;height:52px;border:4px solid ${P.ink};border-radius:16px;padding:0 16px;font:600 26px ${FONT.ui};color:${P.ink};background:#fff;outline:none;box-sizing:border-box" />`,
+        style="width:540px;height:52px;border:4px solid ${P.ink};border-radius:16px;padding:0 16px;font:600 26px ${FONT.ui.replace(/"/g, "'")};color:${P.ink};background:#fff;outline:none;box-sizing:border-box" />`,
     );
 
     // opties

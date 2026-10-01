@@ -11,6 +11,6 @@ export const NPC_LOOKS = {
   haert: { skin: '#ffdcb8', hair: '#d9532b', hairStyle: 'long', shirt: BRANDS.haert.css, pants: '#2d3a4a', hat: 'sunglasses' },
   reijn: { skin: '#d9a066', hair: '#2d1e14', hairStyle: 'long', shirt: '#f4efe4', stripes: BRANDS.reijn.css, pants: '#3b2f3f', hat: 'bandana', bandana: BRANDS.reijn.css },
   jan: { skin: '#f2c29b', hair: '#8a8a8a', hairStyle: 'short', shirt: '#ffffff', coat: '#2d3a5a', tie: BRANDS.driessen.css, pants: '#2d3a5a', glasses: true },
-  captain: { skin: '#f2c29b', hair: '#2d1e14', hairStyle: 'long', shirt: '#f4efe4', coat: P.pirateRed, pants: '#3b2f3f', hat: 'captain', beard: '#2d1e14', eyepatch: true, hook: true, angry: true },
+  captain: { skin: '#f2c29b', hair: '#5a3825', hairStyle: 'short', shirt: '#f4efe4', coat: P.pirateRed, pants: '#3b2f3f', hat: 'captain', beard: '#8a4a22', eyepatch: true, hook: true, angry: true },
   guard: { skin: '#b07443', hair: '#2d1e14', hairStyle: 'bald', shirt: '#f4efe4', stripes: P.pirateRed, pants: '#3b2f3f', hat: 'bandana', bandana: P.ink, beard: '#2d1e14', eyepatch: true },
 };

@@ -62,7 +62,8 @@ export const JETTIES = [
 export const BRIDGE = { x: 520, y: 380, w: 96, h: 330 };              // verschijnt na BHC
 export const SHIP = { x: 610, y: 400 };                                // onderkant-midden van het piratenschip
 
-export const SPAWN = { x: 1550, y: 1930 };
+export const SPAWN = { x: 1550, y: 1820 };
+export const GATE = { x: 1550, y: 2030 };
 
 // Missiepunten: kraam + NPC
 export const STATIONS = {

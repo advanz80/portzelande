@@ -94,7 +94,7 @@ export class CreditsScene extends Phaser.Scene {
     L.add(this.add.text(width / 2 + 200, height / 2 - 40, formatTime(time), textStyle(34, P.ink)).setOrigin(1, 0.5));
     const name = s?.player?.name || t('character.defaultName');
     this.nameEl = this.add.dom(width / 2, height / 2 + 30).createFromHTML(
-      `<input type="text" maxlength="16" value="${name.replace(/"/g, '')}" style="width:380px;height:50px;border:4px solid ${P.ink};border-radius:14px;padding:0 14px;font:600 24px ${FONT.ui};color:${P.ink};text-align:center;outline:none;box-sizing:border-box" />`,
+      `<input type="text" maxlength="16" value="${name.replace(/"/g, '')}" style="width:380px;height:50px;border:4px solid ${P.ink};border-radius:14px;padding:0 14px;font:600 24px ${FONT.ui.replace(/"/g, "'")};color:${P.ink};text-align:center;outline:none;box-sizing:border-box" />`,
     );
     const submit = button(this, width / 2, height / 2 + 110, t('credits.submit'), async () => {
       submit.setEnabled(false);
