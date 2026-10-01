@@ -1038,7 +1038,8 @@
       "cannon": "Knallen",
       "helm": "Sturen",
       "galley": "Koken",
-      "crow": "Uitkijken"
+      "crow": "Uitkijken",
+      "decoy": "Grog drinken"
     },
     "claims": [
       {
@@ -1129,7 +1130,18 @@
         "text": "Iedereen naar het strand: de bitterballen zijn van mij!"
       }
     ],
-    "lose": "De kapitein houdt het nog vol… probeer deze fase opnieuw!"
+    "lose": "De kapitein houdt het nog vol… probeer deze fase opnieuw!",
+    "shield": "Schild! Deze fout telt niet.",
+    "phaseTime": "Tijd voor deze fase is op!",
+    "slot": "Slot {n}",
+    "winch": "Katrol",
+    "cageOpen": "De kooi gaat open!",
+    "helperBonuses": [
+      "+10 seconden in fase 1",
+      "schild tegen één fout in fase 3",
+      "in fase 3 één fout antwoord weggestreept",
+      "+10 seconden in fase 2"
+    ]
   },
   "credits": {
     "title": "Jan is vrij!",
@@ -1158,7 +1170,8 @@
       "Wel een paar begrotingen.",
       "",
       "Bedankt voor het spelen!"
-    ]
+    ],
+    "congrats": "Gefeliciteerd, {naam}!"
   },
   "leaderboard": {
     "title": "Leaderboard",

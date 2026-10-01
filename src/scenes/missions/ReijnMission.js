@@ -13,6 +13,31 @@ const MAX_Q = 8;
 const CREW_X = [130, 310, 490, 670, 850];
 const CREW_Y = 500;
 
+export function makeDeckTexture(scene) {
+  const width = 1280, height = 720;
+  if (!scene.textures.exists('deck_bg')) {
+    makeTexture(scene, 'deck_bg', width, height, (c) => {
+      const g = c.createLinearGradient(0, 0, 0, 200); g.addColorStop(0, '#7fd3f7'); g.addColorStop(1, '#c9f1ff');
+      c.fillStyle = g; c.fillRect(0, 0, width, 200);
+      c.fillStyle = P.water; c.fillRect(0, 170, width, 60);
+      const r = rng(9);
+      for (let y = 230; y < height; y += 36) {
+        for (let x = -((y / 36) % 3) * 70; x < width; x += 210) {
+          const k = 0.82 + r() * 0.15;
+          c.fillStyle = `rgb(${Math.round(160 * k)},${Math.round(98 * k)},${Math.round(52 * k)})`;
+          c.fillRect(x, y, 208, 34);
+          c.fillStyle = 'rgba(0,0,0,0.3)'; c.fillRect(x, y + 32, 208, 3); c.fillRect(x + 206, y, 3, 34);
+        }
+      }
+      // reling
+      c.fillStyle = '#6b3a1c'; c.fillRect(0, 200, width, 34);
+      c.strokeStyle = P.ink; c.lineWidth = 4; c.strokeRect(-4, 200, width + 8, 34);
+      for (let x = 20; x < width; x += 70) { rrect(c, x, 150, 16, 56, 4); style(c, { fill: '#8a5226', lw: 3 }); }
+      c.fillStyle = '#8a5226'; c.fillRect(0, 140, width, 16); c.strokeRect(-4, 140, width + 8, 16);
+    });
+  }
+}
+
 export class ReijnMission extends MissionBase {
   constructor() { super('ReijnMission', 'reijn', { thresholds: [200, 500, 750] }); }
 
@@ -20,27 +45,7 @@ export class ReijnMission extends MissionBase {
 
   drawBackground() {
     const { width, height } = this.scale;
-    if (!this.textures.exists('deck_bg')) {
-      makeTexture(this, 'deck_bg', width, height, (c) => {
-        const g = c.createLinearGradient(0, 0, 0, 200); g.addColorStop(0, '#7fd3f7'); g.addColorStop(1, '#c9f1ff');
-        c.fillStyle = g; c.fillRect(0, 0, width, 200);
-        c.fillStyle = P.water; c.fillRect(0, 170, width, 60);
-        const r = rng(9);
-        for (let y = 230; y < height; y += 36) {
-          for (let x = -((y / 36) % 3) * 70; x < width; x += 210) {
-            const k = 0.82 + r() * 0.15;
-            c.fillStyle = `rgb(${Math.round(160 * k)},${Math.round(98 * k)},${Math.round(52 * k)})`;
-            c.fillRect(x, y, 208, 34);
-            c.fillStyle = 'rgba(0,0,0,0.3)'; c.fillRect(x, y + 32, 208, 3); c.fillRect(x + 206, y, 3, 34);
-          }
-        }
-        // reling
-        c.fillStyle = '#6b3a1c'; c.fillRect(0, 200, width, 34);
-        c.strokeStyle = P.ink; c.lineWidth = 4; c.strokeRect(-4, 200, width + 8, 34);
-        for (let x = 20; x < width; x += 70) { rrect(c, x, 150, 16, 56, 4); style(c, { fill: '#8a5226', lw: 3 }); }
-        c.fillStyle = '#8a5226'; c.fillRect(0, 140, width, 16); c.strokeRect(-4, 140, width + 8, 16);
-      });
-    }
+    makeDeckTexture(this);
     this.add.image(0, 0, 'deck_bg').setOrigin(0).setDepth(-100);
     // mast + touwen
     this.add.rectangle(1000, 240, 30, 360, 0x6b3a1c).setStrokeStyle(4, HEX.ink).setOrigin(0.5, 1).setDepth(-60);

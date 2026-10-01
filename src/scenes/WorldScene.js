@@ -421,7 +421,7 @@ export class WorldScene extends Phaser.Scene {
     this.input.keyboard.resetKeys();
     this.busy = false;
     this.controls.setVisible(true);
-    Audio.music('world');
+    Audio.music(this.currentZone || 'world');
     const cam = this.cameras.main;
     cam.setZoom(1);
     cam.fadeIn(500, 15, 61, 92);
@@ -708,6 +708,7 @@ export class WorldScene extends Phaser.Scene {
     }
     if (zone !== this.currentZone) {
       this.currentZone = zone;
+      if (!this.hunt && !this.busy) Audio.music(zone || 'world');
       if (zone && this.hud?.scene.isActive() && !this.hunt) this.hud.toast(`${t(`missions.${zone}.zone`)} · ${BRANDS[zone].name}`, BRANDS[zone].color, null, 1600);
     }
   }

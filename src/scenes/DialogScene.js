@@ -35,6 +35,11 @@ export class DialogScene extends Phaser.Scene {
     this.choices = data.choices;
     this.onDone = data.onDone;
     this.i = 0;
+    // scène-instantie wordt hergebruikt: state resetten
+    this.closing = false;
+    this.typing = false;
+    this.choiceLayer = null;
+    this.typer = null;
   }
 
   create() {
