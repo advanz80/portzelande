@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { t } from '../core/i18n.js';
 import { P, HEX, textStyle, titleStyle } from '../gfx/palette.js';
 import { button, roundButton, panel, logo, transitionTo, dim, bake } from '../ui/widgets.js';
+import { makeMenuClouds, makeMenuBeach } from '../gfx/tex/acbg.js';
 import { BRANDS, MISSION_IDS } from '../config/brands.js';
 import { SaveManager } from '../core/SaveManager.js';
 import { Audio } from '../core/AudioEngine.js';
@@ -28,11 +29,10 @@ export class MenuScene extends Phaser.Scene {
     this.tweens.add({ targets: rays, angle: 360, duration: 40000, repeat: -1 });
     rays.setDepth(-1); sun.setDepth(0);
     // wolken
+    makeMenuClouds(this);
     for (let i = 0; i < 4; i++) {
-      const c = this.add.container(Phaser.Math.Between(0, width), 60 + i * 50);
-      for (const [x, y, r] of [[0, 0, 30], [34, -12, 38], [70, 0, 28]]) c.add(this.add.circle(x, y, r, 0xffffff).setStrokeStyle(4, HEX.ink));
-      for (const [x, y, r] of [[0, 0, 27], [34, -12, 35], [70, 0, 25]]) c.add(this.add.circle(x, y, r, 0xffffff));
-      c.setScale(0.6 + Math.random() * 0.5);
+      const c = this.add.image(Phaser.Math.Between(0, width), 60 + i * 50, `ac_cloud${i % 3}`);
+      c.setScale(0.7 + Math.random() * 0.5);
       this.tweens.add({ targets: c, x: width + 200, duration: 60000 + i * 15000, repeat: -1, onRepeat: () => { c.x = -200; } });
     }
     // zee
@@ -47,12 +47,8 @@ export class MenuScene extends Phaser.Scene {
     this.tweens.add({ targets: this.ship, angle: { from: -3, to: 3 }, y: '+=8', duration: 1800, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
 
     // strand + palmen voorgrond
-    const beach = this.add.graphics();
-    beach.fillStyle(HEX.sand).lineStyle(5, HEX.ink);
-    beach.beginPath(); beach.moveTo(0, height); beach.lineTo(0, height - 120);
-    beach.lineTo(220, height - 90); beach.lineTo(380, height - 40); beach.lineTo(420, height); beach.closePath(); beach.fillPath(); beach.strokePath();
-    beach.beginPath(); beach.moveTo(width, height); beach.lineTo(width, height - 140); beach.lineTo(width - 240, height - 80); beach.lineTo(width - 380, height - 30); beach.lineTo(width - 400, height); beach.closePath(); beach.fillPath(); beach.strokePath();
-    bake(this, beach, 'menu_beach', 0, height - 160, width, 160);
+    makeMenuBeach(this, width);
+    this.add.image(0, height - 160, 'menu_beach').setOrigin(0);
     const palm = (x, y, s, flip) => {
       this.add.image(x, y, 'palm_trunk').setOrigin(0.5, 1).setScale(s * 1.6).setFlipX(flip);
       const cr = this.add.image(x + (flip ? 6 : -6) * s, y - 124 * s * 1.6, 'palm_crown').setScale(s * 1.6);

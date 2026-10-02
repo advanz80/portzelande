@@ -51,7 +51,7 @@ function polyline(ctx, pts) {
 }
 
 /** Klein bloemetje van bovenaf (AC-stijl): blaadjes, hartje, twee groene blaadjes. */
-function flower(ctx, x, y, col, r) {
+export function flower(ctx, x, y, col, r) {
   ctx.fillStyle = '#4f9a3a';
   ellipse(ctx, x - r * 1.1, y + r * 0.9, r * 0.9, r * 0.45, -0.5); ctx.fill();
   ellipse(ctx, x + r * 1.1, y + r * 0.9, r * 0.9, r * 0.45, 0.5); ctx.fill();

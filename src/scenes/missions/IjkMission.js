@@ -6,7 +6,8 @@ import { MissionBase } from './MissionBase.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
 import { Audio } from '../../core/AudioEngine.js';
 import { burst, shake, floatText, wobble } from '../../core/Juice.js';
-import { panel, card, button, bake } from '../../ui/widgets.js';
+import { panel, card, button } from '../../ui/widgets.js';
+import { makeIjkBg } from '../../gfx/tex/acbg.js';
 import { PipePuzzle, makePipeTextures } from './PipePuzzle.js';
 
 const SRC_ICONS = { time: 'clock', leave: 'weekend', contracts: 'notebook' };
@@ -18,15 +19,9 @@ export class IjkMission extends MissionBase {
   constructor() { super('IjkMission', 'ijk', { timeLimit: 210, thresholds: [400, 850, 1200] }); }
 
   drawBackground() {
-    super.drawBackground();
-    const { width, height } = DESIGN;
-    // technische ruimte: buizen langs de wand
-    const g = this.add.graphics().setDepth(-90);
-    g.fillStyle(0x0e2a44, 0.35).fillRect(0, 80, width, height - 80);
-    g.lineStyle(14, 0x3d6b8a, 0.5);
-    for (const y of [120, 690]) g.lineBetween(0, y, width, y);
-    for (const x of [30, width - 30]) g.lineBetween(x, 80, x, height);
-    bake(this, g, 'ijk_pipes_bg', 0, 0, width, height);
+    // technische ruimte onder het zwembad: tegelwand, buizen, kranen en meters
+    if (!this.textures.exists('ijk_bg')) makeIjkBg(this, this.brand.css);
+    this.add.image(0, 0, 'ijk_bg').setOrigin(0).setDepth(-100);
   }
 
   startGame() {

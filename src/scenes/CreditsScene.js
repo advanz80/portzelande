@@ -8,7 +8,7 @@ import { Audio } from '../core/AudioEngine.js';
 import { burst, confettiRain, popIn } from '../core/Juice.js';
 import { panel, button, transitionTo, logo } from '../ui/widgets.js';
 import { BRANDS, MISSION_IDS } from '../config/brands.js';
-import { makeTexture, circle } from '../gfx/draw.js';
+import { makeSunsetBg } from '../gfx/tex/acbg.js';
 
 export class CreditsScene extends Phaser.Scene {
   constructor() { super('Credits'); }
@@ -20,19 +20,7 @@ export class CreditsScene extends Phaser.Scene {
     SaveManager.clockRunning = false;
     this.cameras.main.fadeIn(600, 15, 61, 92);
     Audio.music('credits');
-    if (!this.textures.exists('sunset_bg')) {
-      makeTexture(this, 'sunset_bg', width, height, (c) => {
-        const g = c.createLinearGradient(0, 0, 0, 420);
-        g.addColorStop(0, '#5b4b9e'); g.addColorStop(0.45, '#f08a5d'); g.addColorStop(1, '#ffd36e');
-        c.fillStyle = g; c.fillRect(0, 0, width, 420);
-        c.fillStyle = '#ffe9a8'; circle(c, width / 2, 400, 110); c.fill();
-        const s = c.createLinearGradient(0, 400, 0, 560); s.addColorStop(0, '#3f6fb5'); s.addColorStop(1, '#2a4d86');
-        c.fillStyle = s; c.fillRect(0, 400, width, 160);
-        c.fillStyle = 'rgba(255,233,168,0.6)'; for (let i = 0; i < 14; i++) c.fillRect(width / 2 - 90 + Math.random() * 180 - i * 4, 410 + i * 10, 180 - i * 10, 3);
-        c.fillStyle = P.sand; c.beginPath(); c.moveTo(0, 540); c.quadraticCurveTo(width / 2, 500, width, 540); c.lineTo(width, height); c.lineTo(0, height); c.closePath(); c.fill();
-        c.strokeStyle = P.ink; c.lineWidth = 5; c.beginPath(); c.moveTo(0, 540); c.quadraticCurveTo(width / 2, 500, width, 540); c.stroke();
-      });
-    }
+    if (!this.textures.exists('sunset_bg')) makeSunsetBg(this, width, height);
     this.add.image(0, 0, 'sunset_bg').setOrigin(0);
     const ship = this.add.image(-200, 420, 'pirateship').setScale(0.35).setOrigin(0.5, 0.86);
     this.tweens.add({ targets: ship, x: width + 200, duration: 40000, repeat: -1 });
