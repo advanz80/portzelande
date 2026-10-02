@@ -21,6 +21,7 @@ import {
 } from '../world/layout.js';
 
 const SPEED = 270;
+const CS = 1.15; // personages iets groter in het park (meer detail zichtbaar)
 export const SECTOR_COLORS = { business: HEX.orange, education: HEX.blue, government: HEX.purple };
 export const SECTOR_ICONS = { business: 'briefcase', education: 'gradcap', government: 'townhall' };
 
@@ -61,7 +62,7 @@ export class WorldScene extends Phaser.Scene {
 
     // speler
     const pos = s.pos || SPAWN;
-    this.player = this.add.sprite(pos.x, pos.y, 'player', 'idle').setOrigin(0.5, 0.92);
+    this.player = this.add.sprite(pos.x, pos.y, 'player', 'idle').setOrigin(0.5, 0.92).setScale(CS);
     this.playerAnim = ensureAnims(this, 'player');
     this.dyn.push(this.player);
     cam.startFollow(this.player, true, 0.12, 0.12);
@@ -226,10 +227,10 @@ export class WorldScene extends Phaser.Scene {
       const cloth = this.add.image(fx + 2, fy - 150, 'flagcloth').setOrigin(0, 0.5).setTint(b.color).setDepth(fy + 1);
       this.tweens.add({ targets: cloth, scaleX: { from: 1, to: 0.82 }, scaleY: { from: 1, to: 1.06 }, duration: 500 + Math.random() * 200, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
       // NPC
-      const npc = this.add.sprite(st.npc.x, st.npc.y, `npc_${id}`, 'idle').setOrigin(0.5, 0.92).setDepth(st.npc.y);
-      this.tweens.add({ targets: npc, scaleY: { from: 1, to: 1.04 }, duration: 800 + Math.random() * 300, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
+      const npc = this.add.sprite(st.npc.x, st.npc.y, `npc_${id}`, 'idle').setOrigin(0.5, 0.92).setDepth(st.npc.y).setScale(CS);
+      this.tweens.add({ targets: npc, scaleY: { from: CS, to: CS * 1.04 }, duration: 800 + Math.random() * 300, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
       this.colliders.push({ x: st.npc.x, y: st.npc.y, r: 18 });
-      const marker = this.add.image(st.npc.x, st.npc.y - 118, 'icons', 'exclaim').setDisplaySize(46, 46).setDepth(5000);
+      const marker = this.add.image(st.npc.x, st.npc.y - 134, 'icons', 'exclaim').setDisplaySize(46, 46).setDepth(5000);
       this.tweens.add({ targets: marker, y: marker.y - 12, duration: 500, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
       this.stationObjs[id] = { npc, marker };
       this.interactables.push({
@@ -279,8 +280,8 @@ export class WorldScene extends Phaser.Scene {
     });
 
     // wachter
-    this.guard = this.add.sprite(GUARD.x, GUARD.y, 'npc_guard', 'idle').setOrigin(0.5, 0.92).setDepth(GUARD.y).setVisible(this.bridgeBuilt);
-    this.tweens.add({ targets: this.guard, scaleX: { from: 1, to: -1 }, duration: 200, hold: 2000, yoyo: true, repeat: -1, repeatDelay: 2000 });
+    this.guard = this.add.sprite(GUARD.x, GUARD.y, 'npc_guard', 'idle').setOrigin(0.5, 0.92).setDepth(GUARD.y).setVisible(this.bridgeBuilt).setScale(CS);
+    this.tweens.add({ targets: this.guard, scaleX: { from: CS, to: -CS }, duration: 200, hold: 2000, yoyo: true, repeat: -1, repeatDelay: 2000 });
     this.interactables.push({
       x: GUARD.x, y: GUARD.y + 40, r: 110, active: () => this.bridgeBuilt, label: () => t('hud.talk'),
       act: () => this.talkToGuard(),
@@ -313,8 +314,8 @@ export class WorldScene extends Phaser.Scene {
 
   buildNPCs() {
     // Petra bij de ingang
-    this.petra = this.add.sprite(PETRA.x, PETRA.y, 'npc_petra', 'idle').setOrigin(0.5, 0.92).setDepth(PETRA.y);
-    this.tweens.add({ targets: this.petra, scaleY: { from: 1, to: 1.04 }, duration: 900, yoyo: true, repeat: -1 });
+    this.petra = this.add.sprite(PETRA.x, PETRA.y, 'npc_petra', 'idle').setOrigin(0.5, 0.92).setDepth(PETRA.y).setScale(CS);
+    this.tweens.add({ targets: this.petra, scaleY: { from: CS, to: CS * 1.04 }, duration: 900, yoyo: true, repeat: -1 });
     this.colliders.push({ x: PETRA.x, y: PETRA.y, r: 18 });
     this.interactables.push({
       x: PETRA.x, y: PETRA.y, r: 100, label: () => t('hud.talk'),
@@ -331,7 +332,7 @@ export class WorldScene extends Phaser.Scene {
     homes.forEach(([x, y, type], i) => {
       const key = `amb_${i}`;
       makeCharacter(this, key, type === 'p' ? pirateLook(r) : randomLook(r));
-      const spr = this.add.sprite(x, y, key, 'idle').setOrigin(0.5, 0.92);
+      const spr = this.add.sprite(x, y, key, 'idle').setOrigin(0.5, 0.92).setScale(CS);
       const w = { spr, key, anim: ensureAnims(this, key), home: { x, y }, target: null, wait: r() * 3000, type, bubble: null };
       this.wanderers.push(w);
       this.dyn.push(spr);
@@ -344,7 +345,7 @@ export class WorldScene extends Phaser.Scene {
 
   say(w, text) {
     if (w.bubble) w.bubble.destroy();
-    const c = this.add.container(w.spr.x, w.spr.y - 120).setDepth(9000);
+    const c = this.add.container(w.spr.x, w.spr.y - 136).setDepth(9000);
     const tx = this.add.text(0, -4, text, textStyle(20, P.ink, { wordWrap: { width: 280 }, align: 'center' })).setOrigin(0.5);
     const bg = this.add.nineslice(0, 0, 'ui_card', undefined, tx.width + 36, tx.height + 28, 18, 18, 18, 18);
     const tail = this.add.triangle(0, tx.height / 2 + 18, 0, 0, 20, 0, 10, 14, 0xffffff).setStrokeStyle(3, HEX.ink);
@@ -636,7 +637,7 @@ export class WorldScene extends Phaser.Scene {
   updateWanderers(dt) {
     for (const w of this.wanderers) {
       const s = w.spr;
-      if (w.bubble) w.bubble.setPosition(s.x, s.y - 120);
+      if (w.bubble) w.bubble.setPosition(s.x, s.y - 136);
       if (!w.target) {
         w.wait -= dt;
         if (w.wait <= 0) {

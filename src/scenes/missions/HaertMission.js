@@ -1,6 +1,7 @@
 // Missie Haert: zet opdrachten uit op het marktplaatsbord en kies per opdracht de beste aanbieder
 // op prijs, kwaliteit en beschikbaarheid. Pas op voor "gelukszoekers" zonder KvK.
 import Phaser from 'phaser';
+import { DESIGN } from '../../core/layout.js';
 import { MissionBase } from './MissionBase.js';
 import { t } from '../../core/i18n.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
@@ -18,7 +19,7 @@ export class HaertMission extends MissionBase {
   constructor() { super('HaertMission', 'haert', { timeLimit: 120, thresholds: [400, 1000, 1500] }); }
 
   drawBackground() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     if (!this.textures.exists('haert_bg')) {
       makeTexture(this, 'haert_bg', width, height, (c) => {
         const r = rng(3);

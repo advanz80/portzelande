@@ -2,6 +2,7 @@
 // resultaat (sterren) → beloning (sleutelfragment) → outro-dialoog → terug naar het park.
 // Een missie erft van MissionBase en implementeert minimaal startGame().
 import Phaser from 'phaser';
+import { DESIGN, centerDesign } from '../../core/layout.js';
 import { t } from '../../core/i18n.js';
 import { P, HEX, textStyle, titleStyle, shade } from '../../gfx/palette.js';
 import { BRANDS } from '../../config/brands.js';
@@ -48,13 +49,14 @@ export class MissionBase extends Phaser.Scene {
     this.drawBackground();
     this.game.events.emit('mission-start', this.missionId);
     this.buildHeader();
+    centerDesign(this, this.brand.dark || '#1a1220');
     this.layer = this.add.container(0, 0).setDepth(10);
     this.time.delayedCall(350, () => this.flowIntro());
   }
 
   // ── Achtergrond (overschrijfbaar) ──────────────────────────────────────
   drawBackground() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const g = this.add.graphics().setDepth(-100);
     const c1 = this.brand.color, c2 = Phaser.Display.Color.HexStringToColor(shade(this.brand.css, -0.35)).color;
     g.fillGradientStyle(c1, c1, c2, c2, 1).fillRect(0, 0, width, height);
@@ -64,7 +66,7 @@ export class MissionBase extends Phaser.Scene {
   }
 
   buildHeader() {
-    const { width } = this.scale;
+    const { width } = DESIGN;
     this.header = this.add.container(0, 0).setDepth(1000);
     const bar = this.add.nineslice(width / 2, 44, 'ui_panel', undefined, width - 24, 76, 30, 30, 30, 30);
     const l = logo(this, this.brand, 60, 42, 54);
@@ -99,7 +101,7 @@ export class MissionBase extends Phaser.Scene {
   howToItems() { return this.T('howTo'); }
 
   showHowTo(title = t('common.howTo'), items = this.howToItems(), onStart = () => this.countdown(() => this.beginPlay())) {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const L = this.add.container(0, 0).setDepth(2000);
     L.add(dim(this, 0.45));
     const h = 170 + items.length * 92;
@@ -130,7 +132,7 @@ export class MissionBase extends Phaser.Scene {
   }
 
   countdown(cb) {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const steps = ['3', '2', '1', t('common.go')];
     steps.forEach((s, i) => {
       this.time.delayedCall(i * 600, () => {
@@ -179,7 +181,7 @@ export class MissionBase extends Phaser.Scene {
   tick() {}
 
   onTimeUp() {
-    floatText(this, this.scale.width / 2, this.scale.height / 2, t('common.timeUp'), P.cream, 64);
+    floatText(this, DESIGN.width / 2, DESIGN.height / 2, t('common.timeUp'), P.cream, 64);
     this.time.delayedCall(900, () => this.finish());
   }
 
@@ -198,7 +200,7 @@ export class MissionBase extends Phaser.Scene {
   }
 
   showResults(stars) {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const ok = stars >= 1;
     Audio.sfx(ok ? 'fanfare' : 'lose');
     const L = this.add.container(0, 0).setDepth(4000);
@@ -235,7 +237,7 @@ export class MissionBase extends Phaser.Scene {
   }
 
   reward(stars) {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const firstTime = !SaveManager.state.fragments[this.missionId];
     SaveManager.completeMission(this.missionId, this.score, stars, this.extra);
     this.firstTime = firstTime;
@@ -272,7 +274,7 @@ export class MissionBase extends Phaser.Scene {
     const wasRunning = this.running;
     this.running = false;
     this.tweens.pauseAll();
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const L = this.add.container(0, 0).setDepth(5000);
     L.add(dim(this, 0.6));
     L.add(panel(this, width / 2, height / 2, 600, 300));
