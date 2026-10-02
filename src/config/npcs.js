@@ -5,7 +5,7 @@ import { P } from '../gfx/palette.js';
 import { BRANDS } from './brands.js';
 
 export const NPC_LOOKS = {
-  petra: { skin: '#f5c9a0', hair: '#d9a441', hairStyle: 'long', shirt: P.teal, top: 'polo', pants: '#2d3a4a', bottom: 'skirt', eyes: 'lashes', hat: 'headset', badge: P.gold, shoes: '#3b3f55' },
+  petra: { skin: '#f8d5b5', hair: '#e8c46a', hairStyle: 'long', shirt: P.teal, top: 'polo', pants: '#2d3a4a', bottom: 'skirt', eyes: 'lashes', hat: 'headset', glasses: true, badge: P.gold, shoes: '#3b3f55' },
   // Judith (BHC)
   bhc: { skin: '#f8d5b5', hair: '#d9b45a', hairStyle: 'bob', shirt: BRANDS.bhc.css, top: 'blouse', pants: '#3a4a6b', bottom: 'skirt', eyes: 'lashes', glasses: true, badge: '#c9a85a', shoes: '#8a2d3b' },
   // Kieran (Driessen)
@@ -13,9 +13,9 @@ export const NPC_LOOKS = {
   // Anne (Bloeij)
   bloeij: { skin: '#f8d5b5', hair: '#f0d27a', hairStyle: 'long', shirt: BRANDS.bloeij.css, top: 'tee', pants: '#3d6b8a', bottom: 'shorts', eyes: 'lashes', badge: '#ffffff', shoes: '#ffffff' },
   // Bart (IJk)
-  ijk: { skin: '#f8d5b5', hair: '#55555e', hairStyle: 'short', shirt: BRANDS.ijk.css, top: 'hoodie', pants: '#3a4a6b', bottom: 'pants', eyes: 'round', glasses: true, shoes: '#e8504c' },
+  ijk: { skin: '#f8d5b5', hair: '#3e3e46', hairStyle: 'short', shirt: BRANDS.ijk.css, top: 'hoodie', pants: '#3a4a6b', bottom: 'pants', eyes: 'round', glasses: true, shoes: '#e8504c' },
   // Roel (Haert)
-  haert: { skin: '#ffe0c2', hair: '#c8552d', hairStyle: 'short', shirt: BRANDS.haert.css, top: 'shirt', pants: '#5b4636', bottom: 'pants', eyes: 'dot', hat: 'sunglasses', badge: '#ffffff', beard: null, shoes: '#5b4636' },
+  haert: { skin: '#f8d5b5', hair: '#80808a', hairStyle: 'short', shirt: BRANDS.haert.css, top: 'shirt', pants: '#5b4636', bottom: 'pants', eyes: 'dot', glasses: true, badge: '#ffffff', beard: null, shoes: '#5b4636' },
   // Wendy (Reijn)
   reijn: { skin: '#f8d5b5', hair: '#5a3825', hairStyle: 'curly', shirt: '#f4efe4', top: 'tee', pattern: 'stripes', patternColor: BRANDS.reijn.css, pants: '#3b2f3f', bottom: 'shorts', eyes: 'lashes', accessory: 'earrings', shoes: '#3b2f3f' },
   jan: { skin: '#f5c9a0', hair: '#9a9aa6', hairStyle: 'short', shirt: '#ffffff', top: 'shirt', coat: '#2d3a5a', tie: BRANDS.driessen.css, pants: '#2d3a5a', bottom: 'pants', eyes: 'dot', glasses: true, shoes: '#5b4636' },
