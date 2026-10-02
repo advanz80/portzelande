@@ -29,11 +29,11 @@ export class Controls {
     // hint-ring op vaste plek
     this.hint = s.add.circle(150, height - 150, 70, 0xffffff, 0.08).setStrokeStyle(4, 0xffffff, 0.25).setScrollFactor(0).setDepth(29999);
     if (showAction) {
-      this.btn = s.add.container(width - 120, height - 130).setScrollFactor(0).setDepth(30000);
-      const bg = s.add.image(0, 0, 'ui_round').setDisplaySize(130, 130).setTint(HEX.gold).setAlpha(0.92);
-      const tx = s.add.text(0, -4, actionLabel, textStyle(46, P.ink)).setOrigin(0.5);
+      this.btn = s.add.container(width - 135, height - 145).setScrollFactor(0).setDepth(30000);
+      const bg = s.add.image(0, 0, 'ui_round').setDisplaySize(160, 160).setTint(HEX.gold).setAlpha(0.92);
+      const tx = s.add.text(0, -4, actionLabel, textStyle(56, P.ink)).setOrigin(0.5);
       this.btn.add([bg, tx]);
-      this.btn.setSize(170, 170).setInteractive();
+      this.btn.setSize(210, 210).setInteractive();
       this.btn.on('pointerdown', () => { this._action = true; this.btn.setScale(0.9); });
       this.btn.on('pointerup', () => this.btn.setScale(1));
       this.btn.on('pointerout', () => this.btn.setScale(1));
