@@ -1,6 +1,7 @@
 // Missie IJk: deel 1 koppelingspuzzel (buizen draaien zodat databronnen het HR-systeem bereiken),
 // deel 2 loonrun (afwijkingen t.o.v. de cao-kaart eruit pikken).
 import Phaser from 'phaser';
+import { DESIGN } from '../../core/layout.js';
 import { MissionBase } from './MissionBase.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
 import { Audio } from '../../core/AudioEngine.js';
@@ -18,7 +19,7 @@ export class IjkMission extends MissionBase {
 
   drawBackground() {
     super.drawBackground();
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     // technische ruimte: buizen langs de wand
     const g = this.add.graphics().setDepth(-90);
     g.fillStyle(0x0e2a44, 0.35).fillRect(0, 80, width, height - 80);
@@ -41,7 +42,7 @@ export class IjkMission extends MissionBase {
   // ── Deel 1: koppelingspuzzel ─────────────────────────────────────────
   startLevel() {
     const L = this.levels[this.levelIdx];
-    const { width } = this.scale;
+    const { width } = DESIGN;
     this.L = L;
     this.title = this.add.text(width / 2, 120, `${this.T('part1')} — ${this.T('level', { n: this.levelIdx + 1 })}`, textStyle(28, P.cream, { stroke: P.ink, strokeThickness: 6 })).setOrigin(0.5).setDepth(10);
     this.puzzle = new PipePuzzle(this, {
@@ -87,7 +88,7 @@ export class IjkMission extends MissionBase {
   }
 
   startPart2() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     this.slipIdx = 0;
     this.slipCount = 10;
     this.names = Phaser.Utils.Array.Shuffle(this.T('names').slice());

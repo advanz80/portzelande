@@ -16,6 +16,7 @@ import { CreditsScene } from './scenes/CreditsScene.js';
 import { MISSION_SCENES } from './scenes/missions/index.js';
 import { SaveManager } from './core/SaveManager.js';
 import { Audio } from './core/AudioEngine.js';
+import { gameWidth } from './core/layout.js';
 
 window.Phaser = Phaser;
 
@@ -35,7 +36,7 @@ async function start() {
   const game = new Phaser.Game({
     type: Phaser.AUTO,
     parent: 'game',
-    width: 1280,
+    width: gameWidth(),
     height: 720,
     backgroundColor: '#0f3d5c',
     scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
@@ -44,6 +45,18 @@ async function start() {
     render: { antialias: true, powerPreference: 'high-performance' },
     fps: { target: 60 },
     scene: [BootScene, MenuScene, CharacterScene, WorldScene, HUDScene, DialogScene, LeaderboardScene, FinaleScene, CreditsScene, ...MISSION_SCENES],
+  });
+
+  // Schermverhouding veranderd (bv. telefoon gedraaid)? In het menu passen we de breedte aan.
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const w = gameWidth();
+      if (Math.abs(w - game.scale.width) < 16) return;
+      const menu = game.scene.getScene('Menu');
+      if (game.scene.isActive('Menu')) { game.scale.setGameSize(w, 720); menu.scene.restart(); }
+    }, 300);
   });
 
   // Audio ontgrendelen bij eerste interactie

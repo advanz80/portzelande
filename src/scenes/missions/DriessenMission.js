@@ -1,5 +1,6 @@
 // Missie Driessen: werf en plaats kandidaten op de juiste vacatures (vaardigheid + beschikbaarheid).
 import Phaser from 'phaser';
+import { DESIGN } from '../../core/layout.js';
 import { MissionBase } from './MissionBase.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
 import { Audio } from '../../core/AudioEngine.js';
@@ -19,7 +20,7 @@ export class DriessenMission extends MissionBase {
   constructor() { super('DriessenMission', 'driessen', { timeLimit: 100, thresholds: [400, 1000, 1600] }); }
 
   drawBackground() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const g = this.add.graphics().setDepth(-100);
     g.fillStyle(0xf6e9cc).fillRect(0, 0, width, height);
     g.lineStyle(3, 0xd6bd8c, 0.8);

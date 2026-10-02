@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { DESIGN, centerDesign } from '../core/layout.js';
 import { t, setTextVars } from '../core/i18n.js';
 import { P, HEX, textStyle, titleStyle, FONT } from '../gfx/palette.js';
 import { button, panel, transitionTo } from '../ui/widgets.js';
@@ -34,10 +35,10 @@ export class CharacterScene extends Phaser.Scene {
   constructor() { super('Character'); }
 
   create() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     this.cameras.main.fadeIn(400, 15, 61, 92);
-    this.add.tileSprite(0, 0, width, height, 'water').setOrigin(0);
-    this.waves = this.add.tileSprite(0, 0, width, height, 'waves').setOrigin(0).setAlpha(0.5);
+    this.add.tileSprite(0, 0, width, height, 'water').setOrigin(0).setDepth(-100);
+    this.waves = this.add.tileSprite(0, 0, width, height, 'waves').setOrigin(0).setAlpha(0.5).setDepth(-99);
     this.add.text(width / 2, 60, t('character.title'), titleStyle(60, P.gold)).setOrigin(0.5);
 
     // startwaarden: willekeurig maar vriendelijk
@@ -81,6 +82,7 @@ export class CharacterScene extends Phaser.Scene {
     button(this, 620, 610, t('character.random'), () => this.randomize(), { width: 230, color: HEX.teal, icon: 'bulb', size: 22 });
     button(this, 940, 610, t('character.start'), () => this.start(), { width: 260, color: HEX.gold, icon: 'ship' });
     this.refreshPreview();
+    centerDesign(this, '#1a6fa3');
   }
 
   applyIdx() {

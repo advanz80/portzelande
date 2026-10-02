@@ -91,6 +91,16 @@ Het pad (`base`) wordt in de workflow automatisch op de repo-naam gezet. Bouw je
 voor een andere locatie, pas dan `REPO_BASE` aan in `vite.config.js` of zet de
 omgevingsvariabele `BASE_PATH`.
 
+## Spelen op iPhone/iPad (schermvullend)
+
+Safari laat websites de adres- en tabbalk niet verbergen. Voor de beste ervaring:
+1. Open het spel in Safari.
+2. Tik op **Deel** (vierkant met pijl) → **Zet op beginscherm** → **Voeg toe**.
+3. Start het spel voortaan via het nieuwe icoon: het opent schermvullend in liggende stand.
+
+Het spel past zijn breedte automatisch aan de schermverhouding aan (van 16:9 tot 3:1),
+zodat er geen zwarte balken naast het beeld komen.
+
 ## Personages aanpassen
 
 - **Namen** staan in `src/content/nl.json` (blok `npc` en `missions.<bedrijf>.npc`).

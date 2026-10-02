@@ -1,5 +1,6 @@
 // Missie Bloeij: loop over het strand, kies per collega de juiste interventie en houd de teamvitaliteit op peil.
 import Phaser from 'phaser';
+import { DESIGN } from '../../core/layout.js';
 import { MissionBase } from './MissionBase.js';
 import { t } from '../../core/i18n.js';
 import { P, HEX, textStyle } from '../../gfx/palette.js';
@@ -19,7 +20,7 @@ export class BloeijMission extends MissionBase {
   constructor() { super('BloeijMission', 'bloeij', { timeLimit: 150, thresholds: [300, 750, 1100] }); }
 
   drawBackground() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     if (!this.textures.exists('bl_bg')) {
       makeTexture(this, 'bl_bg', width, height, (c) => {
         c.fillStyle = P.sand; c.fillRect(0, 0, width, height);
@@ -40,7 +41,7 @@ export class BloeijMission extends MissionBase {
   }
 
   startGame() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     this.vitality = 1;
     this.helped = 0;
     this.choosing = false;
@@ -174,7 +175,7 @@ export class BloeijMission extends MissionBase {
     this.current = person;
     this.prompt.setVisible(false);
     this.controls.setVisible(false);
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const L = this.add.container(0, 0).setDepth(3000);
     this.choiceLayer = L;
     const bg = this.add.rectangle(width / 2, height / 2, width, height, 0x0f1a2a, 0.35).setInteractive();

@@ -1,6 +1,7 @@
 // Finale op het piratenschip: drie fases (matchen, koppelen, adviseren) tegen Kapitein Kostenpost.
 // Overgelopen crewleden uit de Reijn-missie geven bonussen.
 import Phaser from 'phaser';
+import { DESIGN } from '../core/layout.js';
 import { MissionBase } from './missions/MissionBase.js';
 import { t } from '../core/i18n.js';
 import { P, HEX, textStyle, titleStyle } from '../gfx/palette.js';
@@ -45,7 +46,7 @@ export class FinaleScene extends MissionBase {
   drawBackground() {
     makeDeckTexture(this);
     this.add.image(0, 0, 'deck_bg').setOrigin(0).setDepth(-100);
-    const { width } = this.scale;
+    const { width } = DESIGN;
     // zeilen op de achtergrond
     this.add.image(width / 2, 250, 'pirateship').setScale(1.1).setAlpha(0.18).setDepth(-90).setOrigin(0.5, 0.7);
     // kooi met Jan
@@ -156,7 +157,7 @@ export class FinaleScene extends MissionBase {
   }
 
   phaseTimer(seconds, onEnd) {
-    const { width } = this.scale;
+    const { width } = DESIGN;
     this.phaseLeft = seconds;
     this.phaseTotal = seconds;
     this.phaseEnd = onEnd;

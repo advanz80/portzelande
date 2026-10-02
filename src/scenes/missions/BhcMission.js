@@ -1,6 +1,7 @@
 // Missie BHC: verzamel 9 skill-badges in het park (fase 1, in de WorldScene)
 // en bouw daarna de brug: elke pijler één badge per sector (fase 2).
 import Phaser from 'phaser';
+import { DESIGN } from '../../core/layout.js';
 import { MissionBase } from './MissionBase.js';
 import { t } from '../../core/i18n.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
@@ -15,7 +16,7 @@ export class BhcMission extends MissionBase {
   constructor() { super('BhcMission', 'bhc', { thresholds: [250, 600, 850] }); }
 
   drawBackground() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const g = this.add.graphics().setDepth(-100);
     g.fillGradientStyle(0x6fd3ff, 0x6fd3ff, 0xc9f1ff, 0xc9f1ff, 1).fillRect(0, 0, width, 300);
     bake(this, g, 'bhc_sky', 0, 0, width, 300);
@@ -60,7 +61,7 @@ export class BhcMission extends MissionBase {
   }
 
   onHuntDone(res) {
-    const { width } = this.scale;
+    const { width } = DESIGN;
     this.running = false;
     this.cameras.main.fadeIn(300, 15, 61, 92);
     // score van de zoektocht
@@ -76,7 +77,7 @@ export class BhcMission extends MissionBase {
   }
 
   startBuild() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     this.running = true;
     this.errors = 0;
     this.pillars = [];
@@ -188,7 +189,7 @@ export class BhcMission extends MissionBase {
 
   bridgeDone() {
     this.running = false;
-    const { width } = this.scale;
+    const { width } = DESIGN;
     const bonus = Math.max(0, 200 - this.errors * 40);
     this.time.delayedCall(600, () => {
       Audio.sfx('great');

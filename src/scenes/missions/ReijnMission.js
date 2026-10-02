@@ -1,6 +1,7 @@
 // Missie Reijn: quickscan aan dek. Interview crewleden (beperkt aantal vragen), verzamel bevindingen,
 // stel de diagnose en kies het passende advies. Goed advies = crewleden lopen over (hulp in de finale).
 import Phaser from 'phaser';
+import { DESIGN } from '../../core/layout.js';
 import { MissionBase } from './MissionBase.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
 import { Audio } from '../../core/AudioEngine.js';
@@ -44,7 +45,7 @@ export class ReijnMission extends MissionBase {
   howToItems() { return this.T('howTo').map((it) => ({ ...it, text: it.text.replace('{max}', MAX_Q) })); }
 
   drawBackground() {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     makeDeckTexture(this);
     this.add.image(0, 0, 'deck_bg').setOrigin(0).setDepth(-100);
     // mast + touwen
@@ -88,7 +89,7 @@ export class ReijnMission extends MissionBase {
   openInterview(i) {
     if (!this.running || this.modal) return;
     const c = this.crew[i];
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const L = this.add.container(0, 0).setDepth(2000);
     this.modal = L;
     L.add(dim(this, 0.45));
@@ -165,7 +166,7 @@ export class ReijnMission extends MissionBase {
 
   // ── Diagnose & advies ────────────────────────────────────────────────
   choiceModal(title, options, onPick) {
-    const { width, height } = this.scale;
+    const { width, height } = DESIGN;
     const L = this.add.container(0, 0).setDepth(2000);
     this.modal = L;
     L.add(dim(this, 0.55));
