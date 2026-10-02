@@ -173,11 +173,11 @@
     "bhc": {
       "title": "Brug van badges",
       "zone": "Bouwplaats",
-      "npc": "Campus-coach Fleur",
+      "npc": "Campus-coach Judith",
       "intro": [
         {
           "speaker": "npc",
-          "text": "Hoi {naam}! Ik ben Fleur van Brainport Human Campus. Wij brengen bedrijfsleven, onderwijs en overheid samen."
+          "text": "Hoi {naam}! Ik ben Judith van Brainport Human Campus. Wij brengen bedrijfsleven, onderwijs en overheid samen."
         },
         {
           "speaker": "npc",
@@ -209,7 +209,7 @@
       "huntStart": "Zoek de 9 badges!",
       "badgeGot": "Badge: {badge}!",
       "stolen": "Papegaai! Badge gejat!",
-      "huntDone": "Alle badges! Terug naar Fleur!",
+      "huntDone": "Alle badges! Terug naar Judith!",
       "huntTimeout": "Tijd op! De laatste badges vliegen vanzelf naar je toe…",
       "buildTitle": "Bouw de brug",
       "buildHowTo": "Sleep de badges naar de pijlers. Elke pijler heeft precies één badge van elke sector nodig: bedrijfsleven, onderwijs en overheid.",
@@ -251,11 +251,11 @@
     "driessen": {
       "title": "Werven & plaatsen",
       "zone": "Receptieplein",
-      "npc": "Recruiter Ruud",
+      "npc": "Recruiter Kieran",
       "intro": [
         {
           "speaker": "npc",
-          "text": "{naam}! Ruud hier, van Driessen. De piraten hebben al het parkpersoneel weggejaagd!"
+          "text": "{naam}! Kieran hier, van Driessen. De piraten hebben al het parkpersoneel weggejaagd!"
         },
         {
           "speaker": "npc",
@@ -354,11 +354,11 @@
     "bloeij": {
       "title": "Fit aan het werk",
       "zone": "Strand",
-      "npc": "Vitaliteitscoach Vera",
+      "npc": "Vitaliteitscoach Anne",
       "intro": [
         {
           "speaker": "npc",
-          "text": "Hé {naam}, ik ben Vera van Bloeij. Kijk dat strand eens: overal uitgeputte collega's."
+          "text": "Hé {naam}, ik ben Anne van Bloeij. Kijk dat strand eens: overal uitgeputte collega's."
         },
         {
           "speaker": "npc",
@@ -477,11 +477,11 @@
     "ijk": {
       "title": "Data stroomt, loon klopt",
       "zone": "Pomphal onder het zwembad",
-      "npc": "Payroll-held Pieter",
+      "npc": "Payroll-held Bart",
       "intro": [
         {
           "speaker": "npc",
-          "text": "{naam}! Pieter van IJk hier. De piraten hebben de loonadministratie gesaboteerd!"
+          "text": "{naam}! Bart van IJk hier. De piraten hebben de loonadministratie gesaboteerd!"
         },
         {
           "speaker": "npc",
@@ -561,11 +561,11 @@
     "haert": {
       "title": "De regisseur",
       "zone": "Jachthaven",
-      "npc": "Regisseur Roos",
+      "npc": "Regisseur Roel",
       "intro": [
         {
           "speaker": "npc",
-          "text": "Ahoy {naam}! Roos van Haert. Ik regel de inhuur van specialisten voor de opdrachtgevers in het park."
+          "text": "Ahoy {naam}! Roel van Haert. Ik regel de inhuur van specialisten voor de opdrachtgevers in het park."
         },
         {
           "speaker": "npc",
@@ -694,11 +694,11 @@
     "reijn": {
       "title": "Quickscan aan dek",
       "zone": "Piratenkamp op de pier",
-      "npc": "Bootsvrouw Bea",
+      "npc": "Bootsvrouw Wendy",
       "intro": [
         {
           "speaker": "npc",
-          "text": "Psst… jij bent toch {naam}? Ik ben Bea, bootsvrouw bij de piraten. Of nou ja… nog wel."
+          "text": "Psst… jij bent toch {naam}? Ik ben Wendy, bootsvrouw bij de piraten. Of nou ja… nog wel."
         },
         {
           "speaker": "npc",
