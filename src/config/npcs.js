@@ -13,7 +13,7 @@ export const NPC_LOOKS = {
   // Anne (Bloeij)
   bloeij: { skin: '#f8d5b5', hair: '#f0d27a', hairStyle: 'long', shirt: BRANDS.bloeij.css, top: 'tee', pants: '#3d6b8a', bottom: 'shorts', eyes: 'lashes', badge: '#ffffff', shoes: '#ffffff' },
   // Bart (IJk)
-  ijk: { skin: '#f8d5b5', hair: '#33333b', hairStyle: 'up', temples: '#9a9aa4', age: 42, shirt: BRANDS.ijk.css, top: 'hoodie', pants: '#3a4a6b', bottom: 'pants', eyes: 'round', glasses: true, shoes: '#e8504c' },
+  ijk: { skin: '#f8d5b5', hair: '#5f5f69', hairStyle: 'spiky', temples: '#a9a9b3', age: 42, shirt: BRANDS.ijk.css, top: 'hoodie', pants: '#3a4a6b', bottom: 'pants', eyes: 'round', glasses: true, shoes: '#e8504c' },
   // Roel (Haert)
   haert: { skin: '#f8d5b5', hair: '#6e6e78', hairStyle: 'up', temples: '#c4c4cc', age: 48, shirt: BRANDS.haert.css, top: 'shirt', pants: '#5b4636', bottom: 'pants', eyes: 'dot', glasses: true, badge: '#ffffff', beard: null, shoes: '#5b4636' },
   // Wendy (Reijn)
