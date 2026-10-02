@@ -15,7 +15,7 @@ export const SKINS = ['#ffe0c2', '#f5c9a0', '#dca777', '#b57b4c', '#86553a', '#5
 export const HAIRS = ['#2d1e14', '#5a3825', '#8c5a2b', '#d9a441', '#c8552d', '#9a9aa6', '#e9dcc5', '#3b4a8a'];
 export const SHIRTS = ['#e8504c', '#3d8fe0', '#4cc764', '#f6c33b', '#8e5bd8', '#ff7aa8', '#2ec4b6', '#f59a3c', '#ffffff', '#3b3f55'];
 export const BOTTOM_COLORS = ['#3a4a6b', '#5b4636', '#2d3a4a', '#7a7f93', '#3d6b8a', '#c9b48a', '#8a2d3b'];
-export const HAIR_STYLES = ['short', 'long', 'bob', 'ponytail', 'bun', 'curly', 'spiky', 'bald', 'up'];
+export const HAIR_STYLES = ['short', 'long', 'bob', 'ponytail', 'bun', 'curly', 'spiky', 'bald', 'up', 'crew'];
 export const HATS = [null, 'cap', 'straw', 'beanie', 'bandana', 'sunglasses'];
 export const TOPS = ['tee', 'polo', 'hoodie', 'blouse', 'shirt'];
 export const BOTTOMS = ['pants', 'shorts', 'skirt'];
@@ -313,6 +313,7 @@ function hairFront(ctx, L, cx, hy, dir) {
     if (style === 'curly') for (let i = -2; i <= 2; i++) { ell(ctx, cx + i * 8, hy - 17 + Math.abs(i) * 3, 6.5, 6.5); paint(ctx, h, 1.2); }
     if (style === 'spiky') for (let i = -2; i <= 2; i++) { ctx.beginPath(); ctx.moveTo(cx + i * 7 - 4, hy - 17); ctx.lineTo(cx + i * 7, hy - 27 + Math.abs(i) * 2); ctx.lineTo(cx + i * 7 + 4, hy - 17); ctx.closePath(); paint(ctx, h, 1.2); }
     if (style === 'up') tufts(ctx, h, cx - 19, hy - 14, cx + 19, [[cx - 13, hy - 26], [cx - 4, hy - 29], [cx + 5, hy - 29], [cx + 14, hy - 26]]);
+    if (style === 'crew') tufts(ctx, h, cx - 17, hy - 16, cx + 17, [[cx - 11, hy - 23], [cx - 3, hy - 25], [cx + 5, hy - 25], [cx + 12, hy - 23]]);
     return;
   }
   if (dir === 'side') {
@@ -341,6 +342,7 @@ function hairFront(ctx, L, cx, hy, dir) {
     if (style === 'up') {
       tufts(ctx, h, cx - 16, hy - 15, cx + 22, [[cx - 11, hy - 26], [cx - 2, hy - 30], [cx + 7, hy - 32], [cx + 16, hy - 31], [cx + 23, hy - 25]]);
     }
+    if (style === 'crew') tufts(ctx, h, cx - 14, hy - 17, cx + 20, [[cx - 9, hy - 24], [cx - 1, hy - 26], [cx + 7, hy - 26], [cx + 15, hy - 24], [cx + 20, hy - 21]]);
     temples(ctx, L, cx, hy, dir);
     return;
   }
@@ -362,6 +364,11 @@ function hairFront(ctx, L, cx, hy, dir) {
       for (const dx of [-9, -1, 7]) { ctx.beginPath(); ctx.moveTo(cx + dx, hy - 18); ctx.quadraticCurveTo(cx + dx + 1, hy - 25, cx + dx + 2, hy - 30); ctx.stroke(); }
       break;
     }
+    case 'crew':
+      // heel kort, licht omhoog geborsteld (stekeltjes van een paar mm)
+      cap(hy - 13, 5);
+      tufts(ctx, h, cx - 19, hy - 17, cx + 19, [[cx - 14, hy - 24], [cx - 7, hy - 26.5], [cx, hy - 27], [cx + 7, hy - 26.5], [cx + 14, hy - 24]]);
+      break;
     case 'long':
       cap(hy - 7, 4);
       for (const s of [-1, 1]) {
