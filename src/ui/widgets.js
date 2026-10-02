@@ -1,5 +1,5 @@
 // Herbruikbare UI-bouwstenen in cartoonstijl.
-import { P, HEX, textStyle, titleStyle } from '../gfx/palette.js';
+import { P, HEX, textStyle, titleStyle, textOn } from '../gfx/palette.js';
 import { Audio } from '../core/AudioEngine.js';
 
 /** Paneel (nine-slice) */
@@ -21,12 +21,13 @@ export function button(scene, x, y, label, onClick, opts = {}) {
   const color = opts.color ?? HEX.gold;
   const c = scene.add.container(x, y);
   const bg = scene.add.nineslice(0, 0, 'ui_btn', undefined, w, h, 20, 20, 20, 24).setTint(color);
-  const txt = scene.add.text(0, -4, label, textStyle(opts.size || 26, opts.textColor || P.ink)).setOrigin(0.5);
+  const txt = scene.add.text(0, -4, label, textStyle(opts.size || 26, opts.textColor || (opts.color !== undefined ? textOn(opts.color) : P.ink))).setOrigin(0.5);
   c.add([bg, txt]);
   if (opts.icon) {
-    const ic = scene.add.image(-w / 2 + 34, -4, 'icons', opts.icon).setScale(0.6);
+    const big = h > 80;
+    const ic = scene.add.image(-w / 2 + (big ? 44 : 34), -4, 'icons', opts.icon).setScale(big ? 0.8 : 0.6);
     c.add(ic);
-    txt.x += 18;
+    txt.x += big ? 22 : 18;
   }
   c.setSize(w, h);
   c.bg = bg; c.label = txt;
@@ -90,13 +91,8 @@ export function title(scene, x, y, text, size = 64, color = P.gold) {
 
 /** Logo van een bedrijf, met fallback-badge als het bestand ontbreekt. */
 export function logo(scene, brand, x, y, size = 96) {
-  const key = `logo_${brand.id}`;
-  if (scene.textures.exists(key)) {
-    const img = scene.add.image(x, y, key);
-    const s = Math.min(size / img.width, size / img.height);
-    return img.setScale(s);
-  }
-  return scene.add.image(x, y, `logofb_${brand.id}`).setDisplaySize(size, size);
+  const key = scene.textures.exists(`logobadge_${brand.id}`) ? `logobadge_${brand.id}` : `logofb_${brand.id}`;
+  return scene.add.image(x, y, key).setDisplaySize(size, size);
 }
 
 /** Zachte fade naar een andere scène. */

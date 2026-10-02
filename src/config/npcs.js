@@ -7,7 +7,7 @@ import { BRANDS } from './brands.js';
 export const NPC_LOOKS = {
   petra: { skin: '#f5c9a0', hair: '#d9a441', hairStyle: 'long', shirt: P.teal, top: 'polo', pants: '#2d3a4a', bottom: 'skirt', eyes: 'lashes', hat: 'headset', badge: P.gold, shoes: '#3b3f55' },
   // Judith (BHC)
-  bhc: { skin: '#dca777', hair: '#5a3825', hairStyle: 'bun', shirt: BRANDS.bhc.css, top: 'blouse', pants: '#3a4a6b', bottom: 'skirt', eyes: 'lashes', glasses: true, badge: BRANDS.bhc.css, shoes: '#8a2d3b' },
+  bhc: { skin: '#dca777', hair: '#5a3825', hairStyle: 'bun', shirt: BRANDS.bhc.css, top: 'blouse', pants: '#3a4a6b', bottom: 'skirt', eyes: 'lashes', glasses: true, badge: '#c9a85a', shoes: '#8a2d3b' },
   // Kieran (Driessen)
   driessen: { skin: '#ffe0c2', hair: '#2d1e14', hairStyle: 'spiky', shirt: BRANDS.driessen.css, top: 'polo', pants: '#2d3a4a', bottom: 'pants', eyes: 'dot', badge: '#ffffff', shoes: '#3b3f55' },
   // Anne (Bloeij)

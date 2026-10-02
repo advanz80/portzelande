@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { t } from '../core/i18n.js';
-import { P, HEX, textStyle } from '../gfx/palette.js';
+import { P, HEX, textStyle, textOn } from '../gfx/palette.js';
 import { panel, roundButton, button, logo, dim } from '../ui/widgets.js';
 import { BRANDS, MISSION_IDS } from '../config/brands.js';
 import { SaveManager } from '../core/SaveManager.js';
@@ -103,7 +103,7 @@ export class HUDScene extends Phaser.Scene {
   toast(text, color = HEX.gold, icon = null, duration = 2200) {
     const { width } = this.scale;
     const c = this.add.container(width / 2, this.toastY).setDepth(50);
-    const tx = this.add.text(icon ? 22 : 0, -2, text, textStyle(26, P.ink)).setOrigin(0.5);
+    const tx = this.add.text(icon ? 22 : 0, -2, text, textStyle(26, textOn(color))).setOrigin(0.5);
     const w = tx.width + (icon ? 100 : 60);
     const bg = this.add.nineslice(0, 0, 'ui_btn', undefined, w, 62, 20, 20, 20, 24).setTint(color);
     c.add([bg, tx]);

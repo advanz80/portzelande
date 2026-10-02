@@ -16,6 +16,7 @@ import { showDialog } from './DialogScene.js';
 import { makeDeckTexture } from './missions/ReijnMission.js';
 import { PipePuzzle } from './missions/PipePuzzle.js';
 import { rng } from '../gfx/draw.js';
+import { BRANDS } from '../config/brands.js';
 
 const POSTS = [['cannon', 'cannon'], ['helm', 'ship'], ['galley', 'chefhat'], ['crow', 'magnifier']];
 
@@ -71,7 +72,7 @@ export class FinaleScene extends MissionBase {
       makeCharacter(this, key, pirateLook(rng(i * 7 + 3)));
       const s = this.add.sprite(70 + i * 70, 420 + (i % 2) * 30, key, 'cheer').setOrigin(0.5, 0.92).setScale(1.1).setDepth(15);
       this.tweens.add({ targets: s, y: s.y - 10, duration: 300 + i * 40, yoyo: true, repeat: -1 });
-      const fl = this.add.image(s.x + 12, s.y - 120, 'flagcloth').setScale(0.35).setTint(0x00a19b).setDepth(16);
+      const fl = this.add.image(s.x + 12, s.y - 120, 'flagcloth').setScale(0.35).setTint(BRANDS.reijn.color).setDepth(16);
       this.tweens.add({ targets: fl, angle: { from: -8, to: 8 }, duration: 400, yoyo: true, repeat: -1 });
       s.crewName = crew[i]?.name || 'Crew';
       this.helperSprites.push(s);

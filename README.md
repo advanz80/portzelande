@@ -34,19 +34,21 @@ Zet de logo's als SVG in `public/assets/logos/` met precies deze bestandsnamen:
 
 | Bedrijf | Bestand |
 |---|---|
-| Driessen | `driessen.svg` |
-| Bloeij | `bloeij.svg` |
-| IJk | `ijk.svg` |
-| Haert | `haert.svg` |
-| Reijn | `reijn.svg` |
-| Brainport Human Campus | `bhc.svg` |
+| Driessen | `driessen.png` (staat er al) |
+| Bloeij | `bloeij.png` (staat er al) |
+| IJk | `ijk.png` (staat er al) |
+| Haert | `haert.png` (staat er al) |
+| Reijn | `reijn.png` (staat er al) |
+| Brainport Human Campus | `bhc.png` (staat er al) |
 
 Tips:
 - Gebruik SVG's **met een `viewBox`**, dan blijven de verhoudingen goed.
 - Ontbreekt een logo, dan tekent het spel automatisch een ronde badge met de initialen in de
   huisstijlkleur. Je kunt het spel dus ook zonder logo's spelen.
-- Wil je PNG gebruiken? Pas dan in `src/scenes/BootScene.js` `this.load.svg(...)` aan naar
-  `this.load.image(...)` en de bestandsnamen in `src/config/brands.js`.
+- PNG mag ook: pas dan de bestandsnaam aan in `src/config/brands.js` (bijv. `logo: 'driessen.png'`).
+  Gebruik een transparante achtergrond en minstens 400 px breed.
+- Elk logo wordt automatisch op een rond wit badgeje met een rand in de huisstijlkleur gezet.
+  Een vierkant beeldmerk is op kleine plekken (bovenbalk) beter leesbaar dan een breed woordmerk.
 
 ## Huisstijlkleuren aanpassen
 
