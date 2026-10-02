@@ -238,11 +238,25 @@ function drawArm(ctx, L, sx, sy, rot, longSleeve) {
 function hairBack(ctx, L, cx, hy, dir) {
   const h = L.hair;
   if (L.hairStyle === 'long' && dir === 'side') {
-    const p = () => { ctx.beginPath(); ctx.moveTo(cx - 21, hy - 6); ctx.bezierCurveTo(cx - 27, hy + 8, cx - 24, hy + 20, cx - 17, hy + 26); ctx.quadraticCurveTo(cx - 12, hy + 22, cx - 8, hy + 27); ctx.quadraticCurveTo(cx - 3, hy + 22, cx + 1, hy + 24); ctx.bezierCurveTo(cx + 5, hy + 14, cx + 5, hy + 4, cx + 2, hy - 4); ctx.closePath(); };
-    soft(ctx, p, h, hy - 4, hy + 27, 1.4);
+    const p = () => { ctx.beginPath(); ctx.moveTo(cx - 21, hy - 6); ctx.bezierCurveTo(cx - 28, hy + 12, cx - 25, hy + 28, cx - 17, hy + 36); ctx.quadraticCurveTo(cx - 12, hy + 31, cx - 8, hy + 37); ctx.quadraticCurveTo(cx - 3, hy + 31, cx + 1, hy + 33); ctx.bezierCurveTo(cx + 5, hy + 18, cx + 5, hy + 4, cx + 2, hy - 4); ctx.closePath(); };
+    soft(ctx, p, h, hy - 4, hy + 37, 1.4);
+  } else if (L.hairStyle === 'long' && dir === 'back') {
+    // op de rug: lang tot over de schouders
+    const p = () => { ctx.beginPath(); ctx.moveTo(cx - 21, hy - 4); ctx.quadraticCurveTo(cx - 27, hy + 24, cx - 19, hy + 37); ctx.quadraticCurveTo(cx, hy + 41, cx + 19, hy + 37); ctx.quadraticCurveTo(cx + 27, hy + 24, cx + 21, hy - 4); ctx.closePath(); };
+    soft(ctx, p, h, hy - 4, hy + 40, 1.4);
   } else if (L.hairStyle === 'long') {
+    // vooraanzicht: alleen zichtbaar naast het gezicht (de lokken vooraan lopen door over de schouders)
     const p = () => { ctx.beginPath(); ctx.moveTo(cx - 21, hy - 4); ctx.quadraticCurveTo(cx - 25, hy + 18, cx - 17, hy + 27); ctx.lineTo(cx + 17, hy + 27); ctx.quadraticCurveTo(cx + 25, hy + 18, cx + 21, hy - 4); ctx.closePath(); };
     soft(ctx, p, h, hy - 4, hy + 27, 1.4);
+  }
+  if (L.hairStyle === 'curly') {
+    // volle krullenbos rond het hoofd (tot op de schouders)
+    const puffs = dir === 'side'
+      ? [[-19, -8], [-22, 2], [-20, 11], [-14, 17]]
+      : dir === 'back'
+        ? [[-21, -6], [-23, 4], [-21, 13], [-13, 19], [-4, 21], [4, 21], [13, 19], [21, 13], [23, 4], [21, -6]]
+        : [[-21, -6], [-24, 3], [-22, 12], [-17, 19], [21, -6], [24, 3], [22, 12], [17, 19]];
+    for (const [dx, dy] of puffs) { ell(ctx, cx + dx, hy + dy, 6.2, 6.2); paint(ctx, h, 1.1); ctx.fillStyle = shade(h, 0.28); ell(ctx, cx + dx - 1.6, hy + dy - 2, 1.8, 1.2); ctx.fill(); }
   }
   if (L.hairStyle === 'bob' && dir === 'side') {
     const p = () => { ctx.beginPath(); ctx.moveTo(cx - 23, hy); ctx.quadraticCurveTo(cx - 25, hy + 15, cx - 15, hy + 17); ctx.lineTo(cx + 2, hy + 17); ctx.quadraticCurveTo(cx + 4, hy + 8, cx, hy); ctx.closePath(); };
@@ -338,8 +352,8 @@ function hairFront(ctx, L, cx, hy, dir) {
     case 'long':
       cap(hy - 7, 4);
       for (const s of [-1, 1]) {
-        const p = () => { ctx.beginPath(); ctx.moveTo(cx + s * 22, hy - 4); ctx.quadraticCurveTo(cx + s * 25, hy + 14, cx + s * 18, hy + 25); ctx.quadraticCurveTo(cx + s * 17, hy + 10, cx + s * 15, hy - 2); ctx.closePath(); };
-        soft(ctx, p, h, hy - 4, hy + 25, 1.3);
+        const p = () => { ctx.beginPath(); ctx.moveTo(cx + s * 22, hy - 4); ctx.quadraticCurveTo(cx + s * 26, hy + 18, cx + s * 19, hy + 34); ctx.quadraticCurveTo(cx + s * 16, hy + 14, cx + s * 15, hy - 2); ctx.closePath(); };
+        soft(ctx, p, h, hy - 4, hy + 34, 1.3);
       }
       break;
     case 'bob':
