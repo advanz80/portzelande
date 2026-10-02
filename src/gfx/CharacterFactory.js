@@ -515,7 +515,13 @@ function drawAccessories(ctx, L, cx, hy, dir) {
   if (dir !== 'back' && (L.glasses || L.accessory === 'glasses')) {
     ctx.strokeStyle = '#3a3340'; ctx.lineWidth = 1.2;
     const xs = dir === 'side' ? [cx + 11] : [cx - 8, cx + 8];
-    xs.forEach((x) => { ell(ctx, x, ey, 4.8, 4.4); ctx.stroke(); ctx.fillStyle = 'rgba(200,235,255,0.25)'; ctx.fill(); });
+    // glasses: true = rond, 'rect' = rechthoekig montuur
+    const rect = L.glasses === 'rect';
+    if (rect) ctx.lineWidth = 1.5;
+    xs.forEach((x) => {
+      if (rect) { ctx.beginPath(); ctx.roundRect(x - 5.2, ey - 3.6, 10.4, 7.2, 1.6); } else ell(ctx, x, ey, 4.8, 4.4);
+      ctx.stroke(); ctx.fillStyle = 'rgba(200,235,255,0.25)'; ctx.fill();
+    });
     if (xs.length === 2) { ctx.beginPath(); ctx.moveTo(cx - 3.2, ey - 0.5); ctx.quadraticCurveTo(cx, ey - 2, cx + 3.2, ey - 0.5); ctx.stroke(); }
     else { ctx.beginPath(); ctx.moveTo(cx + 6.2, ey - 1); ctx.lineTo(cx - 3, ey - 2); ctx.stroke(); }
   }

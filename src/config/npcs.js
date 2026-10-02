@@ -13,9 +13,9 @@ export const NPC_LOOKS = {
   // Anne (Bloeij)
   bloeij: { skin: '#f8d5b5', hair: '#f0d27a', hairStyle: 'long', shirt: BRANDS.bloeij.css, top: 'tee', pants: '#3d6b8a', bottom: 'shorts', eyes: 'lashes', badge: '#ffffff', shoes: '#ffffff' },
   // Bart (IJk)
-  ijk: { skin: '#f8d5b5', hair: '#5f5f69', hairStyle: 'spiky', temples: '#a9a9b3', age: 42, shirt: BRANDS.ijk.css, top: 'hoodie', pants: '#3a4a6b', bottom: 'pants', eyes: 'round', glasses: true, shoes: '#e8504c' },
+  ijk: { skin: '#f8d5b5', hair: '#5f5f69', hairStyle: 'spiky', temples: '#a9a9b3', age: 42, shirt: BRANDS.ijk.css, top: 'hoodie', pants: '#3a4a6b', bottom: 'pants', eyes: 'round', shoes: '#e8504c' },
   // Roel (Haert)
-  haert: { skin: '#f8d5b5', hair: '#6e6e78', hairStyle: 'up', temples: '#c4c4cc', age: 48, shirt: BRANDS.haert.css, top: 'shirt', pants: '#5b4636', bottom: 'pants', eyes: 'dot', glasses: true, badge: '#ffffff', beard: null, shoes: '#5b4636' },
+  haert: { skin: '#f8d5b5', hair: '#6e6e78', hairStyle: 'up', temples: '#c4c4cc', age: 48, shirt: BRANDS.haert.css, top: 'shirt', pants: '#5b4636', bottom: 'pants', eyes: 'dot', glasses: 'rect', badge: '#ffffff', beard: null, shoes: '#5b4636' },
   // Wendy (Reijn)
   reijn: { skin: '#f8d5b5', hair: '#5a3825', hairStyle: 'curly', shirt: '#f4efe4', top: 'tee', pattern: 'stripes', patternColor: BRANDS.reijn.css, pants: '#3b2f3f', bottom: 'shorts', eyes: 'lashes', accessory: 'earrings', shoes: '#3b2f3f' },
   jan: { skin: '#f5c9a0', hair: '#9a9aa6', hairStyle: 'short', shirt: '#ffffff', top: 'shirt', coat: '#2d3a5a', tie: BRANDS.driessen.css, pants: '#2d3a5a', bottom: 'pants', eyes: 'dot', glasses: true, shoes: '#5b4636' },
