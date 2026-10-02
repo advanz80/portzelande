@@ -24,7 +24,7 @@ export const BRANDS = {
   },
   haert: {
     id: 'haert', name: 'Haert', short: 'Haert', initials: 'H',
-    ...hex('#7B2D8E'), dark: '#511C5E', logo: 'haert.svg', scene: 'HaertMission',
+    ...hex('#EC6A54'), dark: '#B0402E', logo: 'haert.png', scene: 'HaertMission',
   },
   reijn: {
     id: 'reijn', name: 'Reijn', short: 'Reijn', initials: 'R',
