@@ -189,7 +189,7 @@ export class FinaleScene extends MissionBase {
       const dt = dragTap(this, { onDrop: (item, tg) => this.p1Drop(item, tg) });
       this.p1dt = dt;
       POSTS.forEach(([key, icon], i) => {
-        const x = 520 + (i % 2) * 250, y = 420 + Math.floor(i / 2) * 130;
+        const x = 520 + (i % 2) * 250, y = 360 + Math.floor(i / 2) * 125;
         const c = this.add.container(x, y);
         c.add(card(this, 0, 0, 230, 110, 0xfff3d6));
         if (key === 'cannon') c.add(this.add.image(-60, 0, 'cannon').setScale(0.6));
@@ -203,7 +203,7 @@ export class FinaleScene extends MissionBase {
       const skills = Phaser.Utils.Array.Shuffle([...POSTS.map(([k]) => k), 'decoy']);
       const crew = Phaser.Utils.Array.Shuffle(t('missions.reijn.crew').slice());
       skills.forEach((sk, i) => {
-        const x = 330 + i * 160, y = 655;
+        const x = 330 + i * 160, y = 600; // niet te laag: op iPhone is de onderrand het veeg-gebaar
         const c = this.add.container(x, y);
         c.add(card(this, 0, 0, 150, 92, 0xffffff));
         const hl = this.add.nineslice(0, 0, 'ui_card', undefined, 166, 108, 18, 18, 18, 18).setTint(HEX.gold).setVisible(false);

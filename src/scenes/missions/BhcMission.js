@@ -74,7 +74,7 @@ export class BhcMission extends MissionBase {
   }
 
   startBuild() {
-    const { width, height } = DESIGN;
+    const { width } = DESIGN;
     this.running = true;
     this.errors = 0;
     this.pillars = [];
@@ -101,13 +101,15 @@ export class BhcMission extends MissionBase {
       this.deck.push(pl);
     }
 
-    // dienblad met badges
-    const tray = panel(this, width / 2, height - 52, 980, 96).setDepth(8);
+    // dienblad met badges: bovenin, zodat je op iPhone niet vanaf de onderrand sleept
+    // (dat is het veeg-gebaar om van app te wisselen)
+    const TRAY_Y = 150;
+    const tray = panel(this, width / 2, TRAY_Y, 980, 100).setDepth(8);
     void tray;
     const list = Phaser.Utils.Array.Shuffle(SECTORS.flatMap((s) => [s, s, s]));
     const names = { business: this.T('badges.business').slice(), education: this.T('badges.education').slice(), government: this.T('badges.government').slice() };
     this.badges = list.map((sec, i) => {
-      const x = width / 2 - 440 + i * 110, y = height - 56;
+      const x = width / 2 - 440 + i * 110, y = TRAY_Y - 6;
       const c = this.add.container(x, y).setDepth(20);
       const glow = this.add.image(0, 0, 'glow').setTint(SECTOR_COLORS[sec]).setScale(0.7).setAlpha(0.6);
       const b = this.add.image(0, 0, 'badge').setTint(SECTOR_COLORS[sec]).setScale(0.8);
@@ -138,9 +140,20 @@ export class BhcMission extends MissionBase {
 
   selectBadge(b) {
     if (this.selected) this.selected.setScale(1);
+    if (this.selected === b) { this.selected = null; this.markPillars(false); return; }
     this.selected = b;
     b.setScale(1.2);
+    this.markPillars(true);
     Audio.sfx('select');
+  }
+
+  /** Lege vakjes op de pijlers laten oplichten zolang er een badge gekozen is (tik-modus). */
+  markPillars(on) {
+    this.pillars.forEach((p) => p.slots.forEach((s) => {
+      this.tweens.killTweensOf(s.slot);
+      s.slot.setAlpha(1).setScale(1);
+      if (on && !s.badge && !p.done) this.tweens.add({ targets: s.slot, alpha: 0.4, scale: 1.12, duration: 420, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
+    }));
   }
 
   sendHome(obj) {
@@ -148,7 +161,9 @@ export class BhcMission extends MissionBase {
   }
 
   tryPlace(obj, p) {
+    if (this.selected) this.selected.setScale(1);
     this.selected = null;
+    this.markPillars(false);
     if (p.done || p.sectors.has(obj.sector)) {
       this.errors++;
       Audio.sfx('error');
