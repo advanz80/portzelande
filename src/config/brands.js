@@ -20,7 +20,7 @@ export const BRANDS = {
   },
   ijk: {
     id: 'ijk', name: 'IJk', short: 'IJk', initials: 'IJk',
-    ...hex('#0096D6'), dark: '#006694', logo: 'ijk.svg', scene: 'IjkMission',
+    ...hex('#66A48B'), dark: '#437563', logo: 'ijk.png', scene: 'IjkMission',
   },
   haert: {
     id: 'haert', name: 'Haert', short: 'Haert', initials: 'H',
