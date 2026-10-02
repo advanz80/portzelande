@@ -8,7 +8,7 @@ export const NPC_LOOKS = {
   driessen: { skin: '#ffdcb8', hair: '#2d1e14', hairStyle: 'short', shirt: BRANDS.driessen.css, pants: '#2d3a4a', tie: '#2d1e2f' },
   bloeij: { skin: '#b07443', hair: '#2d1e14', hairStyle: 'curly', shirt: BRANDS.bloeij.css, pants: '#3d6b8a', hat: 'cap', capColor: '#ffffff' },
   ijk: { skin: '#f2c29b', hair: '#a8642b', hairStyle: 'short', shirt: BRANDS.ijk.css, pants: '#3a4a6b', glasses: true },
-  haert: { skin: '#ffdcb8', hair: '#d9532b', hairStyle: 'long', shirt: BRANDS.haert.css, pants: '#2d3a4a', hat: 'sunglasses' },
+  haert: { skin: '#ffdcb8', hair: '#d9532b', hairStyle: 'short', shirt: BRANDS.haert.css, pants: '#2d3a4a', hat: 'sunglasses' },
   reijn: { skin: '#d9a066', hair: '#2d1e14', hairStyle: 'long', shirt: '#f4efe4', stripes: BRANDS.reijn.css, pants: '#3b2f3f', hat: 'bandana', bandana: BRANDS.reijn.css },
   jan: { skin: '#f2c29b', hair: '#8a8a8a', hairStyle: 'short', shirt: '#ffffff', coat: '#2d3a5a', tie: BRANDS.driessen.css, pants: '#2d3a5a', glasses: true },
   captain: { skin: '#f2c29b', hair: '#5a3825', hairStyle: 'short', shirt: '#f4efe4', coat: P.pirateRed, pants: '#3b2f3f', hat: 'captain', beard: '#8a4a22', eyepatch: true, hook: true, angry: true },
