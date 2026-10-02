@@ -1,5 +1,5 @@
 // Herbruikbare UI-bouwstenen in cartoonstijl.
-import { P, HEX, textStyle, titleStyle } from '../gfx/palette.js';
+import { P, HEX, textStyle, titleStyle, textOn } from '../gfx/palette.js';
 import { Audio } from '../core/AudioEngine.js';
 
 /** Paneel (nine-slice) */
@@ -21,7 +21,7 @@ export function button(scene, x, y, label, onClick, opts = {}) {
   const color = opts.color ?? HEX.gold;
   const c = scene.add.container(x, y);
   const bg = scene.add.nineslice(0, 0, 'ui_btn', undefined, w, h, 20, 20, 20, 24).setTint(color);
-  const txt = scene.add.text(0, -4, label, textStyle(opts.size || 26, opts.textColor || P.ink)).setOrigin(0.5);
+  const txt = scene.add.text(0, -4, label, textStyle(opts.size || 26, opts.textColor || (opts.color !== undefined ? textOn(opts.color) : P.ink))).setOrigin(0.5);
   c.add([bg, txt]);
   if (opts.icon) {
     const ic = scene.add.image(-w / 2 + 34, -4, 'icons', opts.icon).setScale(0.6);

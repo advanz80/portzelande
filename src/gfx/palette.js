@@ -49,3 +49,9 @@ export function shade(hexStr, amt) {
   r = Math.round((t - r) * p + r); g = Math.round((t - g) * p + g); b = Math.round((t - b) * p + b);
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
+
+/** Leesbare tekstkleur (donker of licht) op een achtergrondkleur 0xRRGGBB. */
+export function textOn(color) {
+  const r = (color >> 16) & 255, g = (color >> 8) & 255, b = color & 255;
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.5 ? P.cream : P.ink;
+}
