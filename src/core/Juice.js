@@ -45,10 +45,13 @@ export function confettiRain(scene, duration = 2500) {
 }
 
 export function floatText(scene, x, y, text, color = P.gold, size = 30) {
-  const t = scene.add.text(x, y, text, textStyle(size, color, { stroke: P.ink, strokeThickness: 6 })).setOrigin(0.5).setDepth(15000);
+  // Rode tekst (fout/uitleg) blijft langer staan en is iets groter, zodat je hem kunt lezen.
+  const warn = color === P.red;
+  const fs = warn ? Math.max(size, 26) : size;
+  const t = scene.add.text(x, y, text, textStyle(fs, color, { stroke: warn ? P.cream : P.ink, strokeThickness: warn ? 7 : 6, align: 'center', wordWrap: { width: 520 } })).setOrigin(0.5).setDepth(15000);
   t.setScale(0.4);
   scene.tweens.add({ targets: t, scale: 1, duration: 220, ease: 'Back.Out' });
-  scene.tweens.add({ targets: t, y: y - 70, alpha: 0, delay: 350, duration: 700, ease: 'Cubic.In', onComplete: () => t.destroy() });
+  scene.tweens.add({ targets: t, y: y - (warn ? 30 : 70), alpha: 0, delay: warn ? 2200 : 350, duration: warn ? 600 : 700, ease: 'Cubic.In', onComplete: () => t.destroy() });
   return t;
 }
 

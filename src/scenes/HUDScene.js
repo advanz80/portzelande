@@ -87,10 +87,13 @@ export class HUDScene extends Phaser.Scene {
     if (!text) { this.prompt.setVisible(false); return; }
     const label = this.touch ? text : `${t('hud.talkHintKeys')}: ${text}`;
     if (!this.prompt.visible || this.promptText.text !== label) {
-      this.promptText.setText(label);
-      this.prompt.bg.width = this.promptText.width + 60;
-      this.prompt.setSize(this.prompt.bg.width + 20, 70);
-      this.prompt.input.hitArea.setSize(this.prompt.bg.width + 20, 70);
+      // op telefoon groter: makkelijker te raken met je duim
+      const big = this.touch;
+      this.promptText.setText(label).setFontSize(big ? 36 : 24);
+      this.prompt.bg.setSize(this.promptText.width + (big ? 100 : 60), big ? 88 : 60);
+      const hw = this.prompt.bg.width + (big ? 60 : 20), hh = big ? 130 : 70;
+      this.prompt.setSize(hw, hh);
+      this.prompt.input.hitArea.setSize(hw, hh);
       this.prompt.setVisible(true).setScale(0.6);
       this.tweens.add({ targets: this.prompt, scale: 1, duration: 200, ease: 'Back.Out' });
     }
