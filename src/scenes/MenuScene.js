@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { t } from '../core/i18n.js';
 import { P, HEX, textStyle, titleStyle } from '../gfx/palette.js';
+import { isTouch } from '../core/Controls.js';
 import { button, roundButton, panel, logo, transitionTo, dim, bake } from '../ui/widgets.js';
 import { makeMenuClouds, makeMenuBeach } from '../gfx/tex/acbg.js';
 import { BRANDS, MISSION_IDS } from '../config/brands.js';
@@ -65,14 +66,18 @@ export class MenuScene extends Phaser.Scene {
     // knoppen
     const hasSave = SaveManager.hasSave();
     const btns = [];
-    let y = 330;
+    // op telefoon/tablet grotere knoppen (makkelijker raken met je duim)
+    const big = isTouch(this);
+    const bo = big ? { width: 480, height: 96, size: 34 } : { width: 340 };
+    const gap = big ? 112 : 88;
+    let y = big ? (hasSave ? 300 : 340) : 330;
     if (hasSave) {
-      btns.push(button(this, width / 2, y, t('menu.continue'), () => this.continueGame(), { width: 340, color: HEX.green, icon: 'ship' }));
-      y += 88;
+      btns.push(button(this, width / 2, y, t('menu.continue'), () => this.continueGame(), { ...bo, color: HEX.green, icon: 'ship' }));
+      y += gap;
     }
-    btns.push(button(this, width / 2, y, t('menu.newGame'), () => this.newGame(hasSave), { width: 340, color: HEX.gold, icon: 'map' }));
-    y += 88;
-    btns.push(button(this, width / 2, y, t('menu.leaderboard'), () => transitionTo(this, 'Leaderboard'), { width: 340, color: HEX.cream, icon: 'star' }));
+    btns.push(button(this, width / 2, y, t('menu.newGame'), () => this.newGame(hasSave), { ...bo, color: HEX.gold, icon: 'map' }));
+    y += gap;
+    btns.push(button(this, width / 2, y, t('menu.leaderboard'), () => transitionTo(this, 'Leaderboard'), { ...bo, color: HEX.cream, icon: 'star' }));
     btns.forEach((b, i) => { b.y += 40; b.alpha = 0; this.tweens.add({ targets: b, y: b.y - 40, alpha: 1, delay: 300 + i * 120, duration: 400, ease: 'Back.Out' }); });
 
     // logo's

@@ -24,9 +24,10 @@ export function button(scene, x, y, label, onClick, opts = {}) {
   const txt = scene.add.text(0, -4, label, textStyle(opts.size || 26, opts.textColor || (opts.color !== undefined ? textOn(opts.color) : P.ink))).setOrigin(0.5);
   c.add([bg, txt]);
   if (opts.icon) {
-    const ic = scene.add.image(-w / 2 + 34, -4, 'icons', opts.icon).setScale(0.6);
+    const big = h > 80;
+    const ic = scene.add.image(-w / 2 + (big ? 44 : 34), -4, 'icons', opts.icon).setScale(big ? 0.8 : 0.6);
     c.add(ic);
-    txt.x += 18;
+    txt.x += big ? 22 : 18;
   }
   c.setSize(w, h);
   c.bg = bg; c.label = txt;
