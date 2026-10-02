@@ -81,7 +81,7 @@ Regels:
 
 ## GitHub Pages aanzetten
 
-1. Push de code naar de standaardbranch (`main`) van de repository.
+1. Push de code naar de standaardbranch (`main` of `Main`) van de repository.
 2. Ga op GitHub naar **Settings → Pages** en kies bij **Source: GitHub Actions**.
 3. De workflow `.github/workflows/deploy.yml` bouwt en publiceert het spel bij elke push
    naar `main` (of handmatig via **Actions → Deploy naar GitHub Pages → Run workflow**).
