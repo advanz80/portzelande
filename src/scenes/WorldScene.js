@@ -176,24 +176,56 @@ export class WorldScene extends Phaser.Scene {
       [1280, 1730], [1820, 1730], [1290, 1250], [1810, 1250], [2900, 1000], [2500, 1130], [150, 1200], [1080, 1080]];
     palms.forEach(([x, y]) => this.addPalm(x, y, 0.9 + Math.random() * 0.25));
 
-    // willekeurig decor
+    // willekeurig decor: palmen, ronde (fruit)bomen, bloeiende struiken, stenen en stronken
     const r = rng(1234);
     let placed = 0, tries = 0;
-    while (placed < 46 && tries++ < 3000) {
+    const trees = ['tree_round', 'tree_round2', 'tree_orange', 'tree_apple'];
+    const bushes = ['bush', 'bush_white', 'bush_red'];
+    while (placed < 60 && tries++ < 4000) {
       const x = r() * WORLD_W, y = 800 + r() * (WORLD_H - 800);
       if (!this.isOpenGround(x, y, 70)) continue;
       const roll = r();
-      if (roll < 0.45) this.addPalm(x, y, 0.8 + r() * 0.4);
-      else if (roll < 0.8) this.addProp('bush', x, y, { r: 26 });
-      else this.addProp('rock', x, y, { r: 22 });
+      if (roll < 0.25) this.addPalm(x, y, 0.8 + r() * 0.4);
+      else if (roll < 0.55) this.addProp(trees[Math.floor(r() * trees.length)], x, y, { r: 20 }, { scale: 0.85 + r() * 0.3 });
+      else if (roll < 0.85) this.addProp(bushes[Math.floor(r() * bushes.length)], x, y, { r: 26 });
+      else if (roll < 0.93) this.addProp('rock', x, y, { r: 22 });
+      else this.addProp('stump', x, y, { r: 18 });
       placed++;
     }
     tries = 0; placed = 0;
-    while (placed < 50 && tries++ < 3000) {
+    while (placed < 24 && tries++ < 3000) {
       const x = r() * WORLD_W, y = 800 + r() * (WORLD_H - 800);
       if (!this.isOpenGround(x, y, 20)) continue;
       this.add.image(x, y, 'flowers').setOrigin(0.5, 1).setDepth(y - 40);
       placed++;
+    }
+
+    // tuinmeubels: brievenbussen en hekjes bij bungalows, bankjes, bloempotten
+    const awayFromPaths = (x, y, m) => PATHS.every((p) => distToPolyline(x, y, p.pts) > p.w / 2 + m);
+    for (const [bx, by] of BUNGALOWS) {
+      if (awayFromPaths(bx + 104, by + 16, 12)) this.addProp('mailbox', bx + 104, by + 16, { r: 9 });
+      for (const fx of [bx - 128, bx + 150]) {
+        if (inPoly(fx, by + 34, GRASS) && awayFromPaths(fx, by + 34, 50)) this.addProp('fence', fx, by + 34, { w: 76, h: 14, rect: true, oy: 6 });
+      }
+    }
+    for (const [x, y] of [[1360, 1560], [1740, 1560], [1000, 1310], [2140, 1610], [1180, 1000]]) this.addProp('bench', x, y, { w: 96, h: 22, rect: true, oy: 10 });
+    for (const st of Object.values(STATIONS)) this.addProp('flowerpot', st.x - 96, st.y + 6, { r: 10 });
+    for (const x of [1455, 1645]) this.addProp('flowerpot', x, 1252, { r: 10 });
+
+    // vlinders (weinig, voor de sfeer)
+    if (!this.anims.exists('butterfly_fly')) this.anims.create({ key: 'butterfly_fly', frames: [{ key: 'butterfly', frame: 'f0' }, { key: 'butterfly', frame: 'f1' }], frameRate: 10, repeat: -1 });
+    const bCols = [0xffffff, 0xffe066, 0xff9ecf, 0x9fd8ff];
+    for (let i = 0; i < 8; i++) {
+      let x = 0, y = 0;
+      for (let k = 0; k < 40; k++) { x = r() * WORLD_W; y = 900 + r() * (WORLD_H - 950); if (inPoly(x, y, GRASS)) break; }
+      const b = this.add.sprite(x, y, 'butterfly', 'f0').setDepth(7000).setTint(bCols[i % bCols.length]).play('butterfly_fly');
+      const wander = () => {
+        const nx = x + Phaser.Math.Between(-140, 140), ny = y + Phaser.Math.Between(-90, 90);
+        b.setFlipX(nx < b.x);
+        this.tweens.add({ targets: b, x: nx, y: ny, duration: Phaser.Math.Between(2200, 3800), ease: 'Sine.InOut', onComplete: wander });
+      };
+      wander();
+      this.tweens.add({ targets: b, scaleY: 0.85, duration: 300, yoyo: true, repeat: -1 });
     }
 
     // boten in de jachthaven
