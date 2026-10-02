@@ -38,7 +38,7 @@ Zet de logo's als SVG in `public/assets/logos/` met precies deze bestandsnamen:
 | Bloeij | `bloeij.png` (staat er al) |
 | IJk | `ijk.png` (staat er al) |
 | Haert | `haert.png` (staat er al) |
-| Reijn | `reijn.svg` |
+| Reijn | `reijn.png` (staat er al) |
 | Brainport Human Campus | `bhc.png` (staat er al) |
 
 Tips:

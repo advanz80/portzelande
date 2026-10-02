@@ -28,7 +28,7 @@ export const BRANDS = {
   },
   reijn: {
     id: 'reijn', name: 'Reijn', short: 'Reijn', initials: 'R',
-    ...hex('#00A19B'), dark: '#00706B', logo: 'reijn.svg', scene: 'ReijnMission',
+    ...hex('#A84F27'), dark: '#6E3015', logo: 'reijn.png', scene: 'ReijnMission',
   },
 };
 
