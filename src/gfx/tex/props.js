@@ -3,6 +3,7 @@
 import { P, shade } from '../palette.js';
 import { style, rrect, circle, ellipse, poly, star, softShadow, makeTexture, rng } from '../draw.js';
 import { makeACProps } from './acprops.js';
+import { makeACProps2 } from './acprops2.js';
 
 function palm(scene) {
   makeTexture(scene, 'palm_trunk', 50, 130, (c) => {
@@ -499,4 +500,5 @@ export function makeProps(scene) {
   particlesAndUi(scene);
   water(scene);
   makeACProps(scene); // AC-stijl: overschrijft palmen, struiken en bungalows met meer detail
+  makeACProps2(scene); // AC-stijl: gebouwen, strandspullen, piratenkamp, lantaarns en bordjes
 }
