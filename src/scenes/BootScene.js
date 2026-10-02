@@ -27,7 +27,9 @@ export class BootScene extends Phaser.Scene {
     });
     const base = import.meta.env.BASE_URL;
     for (const b of Object.values(BRANDS)) {
-      this.load.svg(`logo_${b.id}`, `${base}assets/logos/${b.logo}`, { width: 256, height: 256 });
+      const url = `${base}assets/logos/${b.logo}`;
+      if (b.logo.endsWith('.svg')) this.load.svg(`logo_${b.id}`, url, { width: 256, height: 256 });
+      else this.load.image(`logo_${b.id}`, url);
     }
   }
 
@@ -50,6 +52,8 @@ export class BootScene extends Phaser.Scene {
         c.fillText(b.initials, 128, 132);
       });
     }
+    // echte logo's op een rond wit badgeje met rand in de huisstijlkleur
+    for (const b of Object.values(BRANDS)) if (this.textures.exists(`logo_${b.id}`)) makeLogoBadge(this, b);
     for (const [id, look] of Object.entries(NPC_LOOKS)) makeCharacter(this, `npc_${id}`, look);
     if (SaveManager.state?.player?.look) makeCharacter(this, 'player', SaveManager.state.player.look);
 
@@ -64,4 +68,18 @@ export class BootScene extends Phaser.Scene {
     }
     this.scene.start('Menu');
   }
+}
+
+/** Rond badgeje met het echte logo erin; brede woordmerken worden passend geschaald. */
+function makeLogoBadge(scene, b) {
+  const src = scene.textures.get(`logo_${b.id}`).getSourceImage();
+  makeTexture(scene, `logobadge_${b.id}`, 256, 256, (c) => {
+    circle(c, 128, 134, 116); c.fillStyle = 'rgba(30,20,40,0.25)'; c.fill();
+    circle(c, 128, 126, 116); style(c, { fill: '#ffffff', stroke: b.css, lw: 14 });
+    circle(c, 128, 126, 123); c.strokeStyle = P.ink; c.lineWidth = 4; c.stroke();
+    // binnen de cirkel passen: breed logo mag breder, vierkant logo kleiner
+    const k = Math.min(214 / src.width, 150 / src.height);
+    const w = src.width * k, h = src.height * k;
+    c.drawImage(src, 128 - w / 2, 126 - h / 2, w, h);
+  });
 }

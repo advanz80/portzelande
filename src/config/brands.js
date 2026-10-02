@@ -12,7 +12,7 @@ export const BRANDS = {
   },
   driessen: {
     id: 'driessen', name: 'Driessen', short: 'Driessen', initials: 'D',
-    ...hex('#E2001A'), dark: '#9E0012', logo: 'driessen.svg', scene: 'DriessenMission',
+    ...hex('#E2001A'), dark: '#9E0012', logo: 'driessen.png', scene: 'DriessenMission',
   },
   bloeij: {
     id: 'bloeij', name: 'Bloeij', short: 'Bloeij', initials: 'B',

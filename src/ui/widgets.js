@@ -90,13 +90,8 @@ export function title(scene, x, y, text, size = 64, color = P.gold) {
 
 /** Logo van een bedrijf, met fallback-badge als het bestand ontbreekt. */
 export function logo(scene, brand, x, y, size = 96) {
-  const key = `logo_${brand.id}`;
-  if (scene.textures.exists(key)) {
-    const img = scene.add.image(x, y, key);
-    const s = Math.min(size / img.width, size / img.height);
-    return img.setScale(s);
-  }
-  return scene.add.image(x, y, `logofb_${brand.id}`).setDisplaySize(size, size);
+  const key = scene.textures.exists(`logobadge_${brand.id}`) ? `logobadge_${brand.id}` : `logofb_${brand.id}`;
+  return scene.add.image(x, y, key).setDisplaySize(size, size);
 }
 
 /** Zachte fade naar een andere scène. */

@@ -249,9 +249,7 @@ export class WorldScene extends Phaser.Scene {
       this.addProp(`stall_${b.id}`, st.x, st.y, { w: 160, h: 40, rect: true, oy: 20 });
       const signY = st.y - 200;
       const sign = this.add.container(st.x, signY).setDepth(st.y + 2);
-      sign.add(this.add.circle(0, 4, 48, 0x000000, 0.2));
-      sign.add(this.add.circle(0, 0, 48, 0xffffff).setStrokeStyle(5, HEX.ink));
-      sign.add(logo(this, b, 0, 0, 72));
+      sign.add(logo(this, b, 0, 0, 100));
       this.tweens.add({ targets: sign, y: signY - 6, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
       // vlag
       const fx = st.x + 120, fy = st.y + 10;
