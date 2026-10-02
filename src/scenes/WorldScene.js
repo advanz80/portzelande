@@ -11,7 +11,7 @@ const NO_CONTROLS = { vector: () => ({ x: 0, y: 0 }), action: () => false, setVi
 import { burst, shake, floatText, confettiRain } from '../core/Juice.js';
 import { logo, bake } from '../ui/widgets.js';
 import { showDialog } from './DialogScene.js';
-import { makeCharacter, ensureAnims, randomLook, pirateLook } from '../gfx/CharacterFactory.js';
+import { makeCharacter, ensureAnims, randomLook, pirateLook, faceMove } from '../gfx/CharacterFactory.js';
 import { rng } from '../gfx/draw.js';
 import { buildTerrainChunks, inPoly, inRect } from '../world/terrain.js';
 import { distToPolyline } from '../world/util.js';
@@ -646,7 +646,7 @@ export class WorldScene extends Phaser.Scene {
           }
           w.wait = 1500 + Math.random() * 3000;
         }
-        if (s.anims.isPlaying) { s.anims.stop(); s.setFrame('idle'); }
+        faceMove(s, w.key, 0, 0);
         continue;
       }
       const dx = w.target.x - s.x, dy = w.target.y - s.y, d = Math.hypot(dx, dy);
@@ -654,8 +654,8 @@ export class WorldScene extends Phaser.Scene {
       const sp = (w.type === 'p' ? 90 : 110) * dt / 1000;
       const nx = s.x + (dx / d) * sp, ny = s.y + (dy / d) * sp;
       if (!this.walkable(nx, ny)) { w.target = null; continue; }
-      s.setPosition(nx, ny).setFlipX(dx < 0);
-      if (!s.anims.isPlaying) s.play(w.anim);
+      s.setPosition(nx, ny);
+      faceMove(s, w.key, dx, dy);
     }
     // interactables meebewegen
     for (const it of this.interactables) if (it.obj) { it.x = it.obj.spr.x; it.y = it.obj.spr.y; }
@@ -681,11 +681,10 @@ export class WorldScene extends Phaser.Scene {
       const nx = p.x + v.x * sp, ny = p.y + v.y * sp;
       if (this.walkable(nx, p.y)) p.x = nx;
       if (this.walkable(p.x, ny)) p.y = ny;
-      if (Math.abs(v.x) > 0.15) p.setFlipX(v.x < 0);
-      if (!p.anims.isPlaying) p.play(this.playerAnim);
+      faceMove(p, 'player', v.x, v.y);
       this.stepAcc += dt;
       if (this.stepAcc > 320) { this.stepAcc = 0; Audio.sfx('step'); }
-    } else if (p.anims.isPlaying) { p.anims.stop(); p.setFrame('idle'); }
+    } else faceMove(p, 'player', 0, 0);
 
     for (const o of this.dyn) o.setDepth(o.y);
     if (this.hunt) this.updateHunt(dt);

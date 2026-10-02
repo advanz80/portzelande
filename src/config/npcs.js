@@ -1,16 +1,24 @@
-// Uiterlijk van de vaste personages.
+// Uiterlijk van de vaste personages. Opties: zie src/gfx/CharacterFactory.js
+// (top: tee/polo/hoodie/blouse/shirt, bottom: pants/shorts/skirt, eyes: dot/round/lashes/sleepy,
+//  hairStyle: short/long/bob/ponytail/bun/curly/spiky/bald, hat, accessory, badge = kleur naamkaartje).
 import { P } from '../gfx/palette.js';
 import { BRANDS } from './brands.js';
 
 export const NPC_LOOKS = {
-  petra: { skin: '#f2c29b', hair: '#e8c25a', hairStyle: 'long', shirt: P.teal, pants: '#2d3a4a', hat: 'headset', badge: P.gold },
-  bhc: { skin: '#d9a066', hair: '#5a3825', hairStyle: 'bun', shirt: BRANDS.bhc.css, pants: '#3a4a6b', glasses: true },
-  driessen: { skin: '#ffdcb8', hair: '#2d1e14', hairStyle: 'short', shirt: BRANDS.driessen.css, pants: '#2d3a4a', tie: '#2d1e2f' },
-  bloeij: { skin: '#b07443', hair: '#2d1e14', hairStyle: 'curly', shirt: BRANDS.bloeij.css, pants: '#3d6b8a', hat: 'cap', capColor: '#ffffff' },
-  ijk: { skin: '#f2c29b', hair: '#a8642b', hairStyle: 'short', shirt: BRANDS.ijk.css, pants: '#3a4a6b', glasses: true },
-  haert: { skin: '#ffdcb8', hair: '#d9532b', hairStyle: 'short', shirt: BRANDS.haert.css, pants: '#2d3a4a', hat: 'sunglasses' },
-  reijn: { skin: '#d9a066', hair: '#2d1e14', hairStyle: 'long', shirt: '#f4efe4', stripes: BRANDS.reijn.css, pants: '#3b2f3f', hat: 'bandana', bandana: BRANDS.reijn.css },
-  jan: { skin: '#f2c29b', hair: '#8a8a8a', hairStyle: 'short', shirt: '#ffffff', coat: '#2d3a5a', tie: BRANDS.driessen.css, pants: '#2d3a5a', glasses: true },
-  captain: { skin: '#f2c29b', hair: '#5a3825', hairStyle: 'short', shirt: '#f4efe4', coat: P.pirateRed, pants: '#3b2f3f', hat: 'captain', beard: '#8a4a22', eyepatch: true, hook: true, angry: true },
-  guard: { skin: '#b07443', hair: '#2d1e14', hairStyle: 'bald', shirt: '#f4efe4', stripes: P.pirateRed, pants: '#3b2f3f', hat: 'bandana', bandana: P.ink, beard: '#2d1e14', eyepatch: true },
+  petra: { skin: '#f5c9a0', hair: '#d9a441', hairStyle: 'long', shirt: P.teal, top: 'polo', pants: '#2d3a4a', bottom: 'skirt', eyes: 'lashes', hat: 'headset', badge: P.gold, shoes: '#3b3f55' },
+  // Judith (BHC)
+  bhc: { skin: '#dca777', hair: '#5a3825', hairStyle: 'bun', shirt: BRANDS.bhc.css, top: 'blouse', pants: '#3a4a6b', bottom: 'skirt', eyes: 'lashes', glasses: true, badge: BRANDS.bhc.css, shoes: '#8a2d3b' },
+  // Kieran (Driessen)
+  driessen: { skin: '#ffe0c2', hair: '#2d1e14', hairStyle: 'spiky', shirt: BRANDS.driessen.css, top: 'polo', pants: '#2d3a4a', bottom: 'pants', eyes: 'dot', badge: '#ffffff', shoes: '#3b3f55' },
+  // Anne (Bloeij)
+  bloeij: { skin: '#b57b4c', hair: '#2d1e14', hairStyle: 'ponytail', shirt: BRANDS.bloeij.css, top: 'tee', pants: '#3d6b8a', bottom: 'shorts', eyes: 'lashes', hat: 'cap', capColor: '#ffffff', badge: '#ffffff', shoes: '#ffffff' },
+  // Bart (IJk)
+  ijk: { skin: '#f5c9a0', hair: '#8c5a2b', hairStyle: 'short', shirt: BRANDS.ijk.css, top: 'hoodie', pants: '#3a4a6b', bottom: 'pants', eyes: 'round', glasses: true, shoes: '#e8504c' },
+  // Roel (Haert)
+  haert: { skin: '#ffe0c2', hair: '#c8552d', hairStyle: 'short', shirt: BRANDS.haert.css, top: 'shirt', pants: '#5b4636', bottom: 'pants', eyes: 'dot', hat: 'sunglasses', badge: '#ffffff', beard: null, shoes: '#5b4636' },
+  // Wendy (Reijn)
+  reijn: { skin: '#dca777', hair: '#2d1e14', hairStyle: 'long', shirt: '#f4efe4', top: 'tee', pattern: 'stripes', patternColor: BRANDS.reijn.css, pants: '#3b2f3f', bottom: 'shorts', eyes: 'lashes', hat: 'bandana', bandana: BRANDS.reijn.css, accessory: 'earrings', shoes: '#3b2f3f' },
+  jan: { skin: '#f5c9a0', hair: '#9a9aa6', hairStyle: 'short', shirt: '#ffffff', top: 'shirt', coat: '#2d3a5a', tie: BRANDS.driessen.css, pants: '#2d3a5a', bottom: 'pants', eyes: 'dot', glasses: true, shoes: '#5b4636' },
+  captain: { skin: '#f5c9a0', hair: '#5a3825', hairStyle: 'short', shirt: '#f4efe4', top: 'shirt', coat: P.pirateRed, pants: '#3b2f3f', bottom: 'pants', hat: 'captain', beard: '#8a4a22', eyepatch: true, hook: true, angry: true, shoes: '#3b2f3f' },
+  guard: { skin: '#b57b4c', hair: '#2d1e14', hairStyle: 'bald', shirt: '#f4efe4', top: 'tee', pattern: 'stripes', patternColor: P.pirateRed, pants: '#3b2f3f', bottom: 'shorts', hat: 'bandana', bandana: '#3b2f3f', beard: '#2d1e14', eyepatch: true, shoes: '#3b2f3f' },
 };

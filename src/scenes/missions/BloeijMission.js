@@ -7,7 +7,7 @@ import { Audio } from '../../core/AudioEngine.js';
 import { Controls, isTouch } from '../../core/Controls.js';
 import { burst, shake, floatText } from '../../core/Juice.js';
 import { meter, panel, button } from '../../ui/widgets.js';
-import { makeCharacter, ensureAnims, randomLook, pirateLook } from '../../gfx/CharacterFactory.js';
+import { makeCharacter, ensureAnims, randomLook, pirateLook, faceMove } from '../../gfx/CharacterFactory.js';
 import { makeTexture, circle, ellipse, rng } from '../../gfx/draw.js';
 
 const SPOTS = [[250, 300], [520, 260], [830, 300], [1090, 270], [330, 500], [660, 470], [960, 520], [560, 640]];
@@ -97,9 +97,8 @@ export class BloeijMission extends MissionBase {
     makeCharacter(this, key, pirateLook(Math.random, { angry: true }));
     const spr = this.add.sprite(x, y, key, 'idle').setOrigin(0.5, 0.92);
     const mega = this.add.image(x + 26, y - 50, 'icons', 'megaphone').setDisplaySize(40, 40);
-    const anim = ensureAnims(this, key);
-    spr.play(anim);
-    const p = { spr, mega, speed: 62 + this.pirates.length * 10, cool: 0, wob: Math.random() * 10 };
+    ensureAnims(this, key);
+    const p = { spr, key, mega, speed: 62 + this.pirates.length * 10, cool: 0, wob: Math.random() * 10 };
     this.pirates.push(p);
     spr.setAlpha(0);
     this.tweens.add({ targets: spr, alpha: 1, duration: 400 });
@@ -127,9 +126,8 @@ export class BloeijMission extends MissionBase {
     if (Math.abs(v.x) + Math.abs(v.y) > 0.1) {
       p.x = Phaser.Math.Clamp(p.x + v.x * 280 * s, 30, 1250);
       p.y = Phaser.Math.Clamp(p.y + v.y * 280 * s, 200, 710);
-      if (Math.abs(v.x) > 0.15) p.setFlipX(v.x < 0);
-      if (!p.anims.isPlaying) p.play(this.playerAnim);
-    } else if (p.anims.isPlaying) { p.anims.stop(); p.setFrame('idle'); }
+      faceMove(p, 'player', v.x, v.y);
+    } else faceMove(p, 'player', 0, 0);
     p.setDepth(p.y);
 
     // piraten
@@ -138,7 +136,8 @@ export class BloeijMission extends MissionBase {
       const dx = p.x - pr.spr.x + Math.sin(pr.wob * 1.3) * 60, dy = p.y - pr.spr.y + Math.cos(pr.wob) * 40;
       const d = Math.hypot(dx, dy) || 1;
       pr.spr.x += (dx / d) * pr.speed * s; pr.spr.y += (dy / d) * pr.speed * s;
-      pr.spr.setFlipX(dx < 0).setDepth(pr.spr.y);
+      faceMove(pr.spr, pr.key, dx, dy);
+      pr.spr.setDepth(pr.spr.y);
       pr.mega.setPosition(pr.spr.x + (dx < 0 ? -26 : 26), pr.spr.y - 50).setFlipX(dx < 0).setDepth(pr.spr.y + 1);
       pr.cool -= dt;
       if (pr.cool <= 0 && Phaser.Math.Distance.Between(p.x, p.y, pr.spr.x, pr.spr.y) < 48) {
@@ -223,8 +222,9 @@ export class BloeijMission extends MissionBase {
       this.tweens.add({ targets: pe.spr, y: pe.y - 30, duration: 200, yoyo: true, repeat: 1, ease: 'Quad.Out' });
       this.time.delayedCall(900, () => {
         const key2 = pe.spr.texture.key;
-        pe.spr.play(ensureAnims(this, key2));
+        ensureAnims(this, key2);
         const dir = pe.x < 640 ? -1 : 1;
+        faceMove(pe.spr, key2, dir, 0);
         this.tweens.add({ targets: pe.spr, x: pe.x + dir * 800, duration: 2600, onComplete: () => pe.spr.destroy() });
       });
       if (this.helped === this.people.length) {

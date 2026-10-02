@@ -91,6 +91,18 @@ Het pad (`base`) wordt in de workflow automatisch op de repo-naam gezet. Bouw je
 voor een andere locatie, pas dan `REPO_BASE` aan in `vite.config.js` of zet de
 omgevingsvariabele `BASE_PATH`.
 
+## Personages aanpassen
+
+- **Namen** staan in `src/content/nl.json` (blok `npc` en `missions.<bedrijf>.npc`).
+- **Uiterlijk** van vaste personages (Petra, de NPC's per missie, Jan, de kapitein) staat in
+  `src/config/npcs.js`. Per personage kies je o.a. `skin`, `hair`, `hairStyle`
+  (short/long/bob/ponytail/bun/curly/spiky/bald), `top` (tee/polo/hoodie/blouse/shirt), `shirt`
+  (kleur), `pattern` (stripes/dots), `bottom` (pants/shorts/skirt), `pants` (kleur), `shoes`,
+  `eyes` (dot/round/lashes/sleepy), `hat`, `accessory`, `glasses`, `badge` (kleur naamkaartje),
+  `beard`, `tie` en `coat`.
+- De personages worden getekend in `src/gfx/CharacterFactory.js` (Animal Crossing-stijl, met
+  voor-, zij- en achteraanzicht en meerdere gezichtsuitdrukkingen).
+
 ## Leaderboard
 
 Het leaderboard wordt nu lokaal opgeslagen (in de browser, via `localStorage`). Iedere
