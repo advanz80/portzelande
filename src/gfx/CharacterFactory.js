@@ -15,7 +15,7 @@ export const SKINS = ['#ffe0c2', '#f5c9a0', '#dca777', '#b57b4c', '#86553a', '#5
 export const HAIRS = ['#2d1e14', '#5a3825', '#8c5a2b', '#d9a441', '#c8552d', '#9a9aa6', '#e9dcc5', '#3b4a8a'];
 export const SHIRTS = ['#e8504c', '#3d8fe0', '#4cc764', '#f6c33b', '#8e5bd8', '#ff7aa8', '#2ec4b6', '#f59a3c', '#ffffff', '#3b3f55'];
 export const BOTTOM_COLORS = ['#3a4a6b', '#5b4636', '#2d3a4a', '#7a7f93', '#3d6b8a', '#c9b48a', '#8a2d3b'];
-export const HAIR_STYLES = ['short', 'long', 'bob', 'ponytail', 'bun', 'curly', 'spiky', 'bald'];
+export const HAIR_STYLES = ['short', 'long', 'bob', 'ponytail', 'bun', 'curly', 'spiky', 'bald', 'up'];
 export const HATS = [null, 'cap', 'straw', 'beanie', 'bandana', 'sunglasses'];
 export const TOPS = ['tee', 'polo', 'hoodie', 'blouse', 'shirt'];
 export const BOTTOMS = ['pants', 'shorts', 'skirt'];
@@ -312,6 +312,7 @@ function hairFront(ctx, L, cx, hy, dir) {
     if (style === 'bun') { ell(ctx, cx, hy - 20, 8, 7); soft(ctx, () => ell(ctx, cx, hy - 20, 8, 7), h, hy - 27, hy - 13, 1.4); }
     if (style === 'curly') for (let i = -2; i <= 2; i++) { ell(ctx, cx + i * 8, hy - 17 + Math.abs(i) * 3, 6.5, 6.5); paint(ctx, h, 1.2); }
     if (style === 'spiky') for (let i = -2; i <= 2; i++) { ctx.beginPath(); ctx.moveTo(cx + i * 7 - 4, hy - 17); ctx.lineTo(cx + i * 7, hy - 27 + Math.abs(i) * 2); ctx.lineTo(cx + i * 7 + 4, hy - 17); ctx.closePath(); paint(ctx, h, 1.2); }
+    if (style === 'up') tufts(ctx, h, cx - 19, hy - 14, cx + 19, [[cx - 13, hy - 26], [cx - 4, hy - 29], [cx + 5, hy - 29], [cx + 14, hy - 26]]);
     return;
   }
   if (dir === 'side') {
@@ -337,6 +338,10 @@ function hairFront(ctx, L, cx, hy, dir) {
     if (style === 'ponytail') { ctx.beginPath(); ctx.moveTo(cx - 18, hy - 8); ctx.quadraticCurveTo(cx - 32, hy + 4, cx - 26, hy + 20); ctx.quadraticCurveTo(cx - 22, hy + 6, cx - 16, hy - 2); ctx.closePath(); paint(ctx, h, 1.3); }
     if (style === 'spiky') for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.moveTo(cx - 12 + i * 7, hy - 18); ctx.lineTo(cx - 14 + i * 7, hy - 28); ctx.lineTo(cx - 6 + i * 7, hy - 19); ctx.closePath(); paint(ctx, h, 1.1); }
     if (style === 'curly') for (let i = 0; i < 4; i++) { ell(ctx, cx - 14 + i * 8, hy - 18 + (i % 2) * 2, 6, 6); paint(ctx, h, 1.1); }
+    if (style === 'up') {
+      tufts(ctx, h, cx - 16, hy - 15, cx + 22, [[cx - 11, hy - 26], [cx - 2, hy - 30], [cx + 7, hy - 32], [cx + 16, hy - 31], [cx + 23, hy - 25]]);
+    }
+    temples(ctx, L, cx, hy, dir);
     return;
   }
   // vooraanzicht
@@ -349,6 +354,14 @@ function hairFront(ctx, L, cx, hy, dir) {
       cap(hy - 10, 4);
       for (let i = -2; i <= 2; i++) { ctx.beginPath(); ctx.moveTo(cx + i * 8 - 5, hy - 17 + Math.abs(i) * 2); ctx.lineTo(cx + i * 8 + i, hy - 28 + Math.abs(i) * 3); ctx.lineTo(cx + i * 8 + 5, hy - 17 + Math.abs(i) * 2); ctx.closePath(); paint(ctx, h, 1.2); }
       break;
+    case 'up': {
+      // kort met opgekamde kuif
+      cap(hy - 10, 4);
+      tufts(ctx, h, cx - 21, hy - 15, cx + 21, [[cx - 16, hy - 27], [cx - 8, hy - 32], [cx, hy - 34], [cx + 8, hy - 32], [cx + 16, hy - 27]]);
+      ctx.strokeStyle = hl; ctx.lineWidth = 1.3;
+      for (const dx of [-9, -1, 7]) { ctx.beginPath(); ctx.moveTo(cx + dx, hy - 18); ctx.quadraticCurveTo(cx + dx + 1, hy - 25, cx + dx + 2, hy - 30); ctx.stroke(); }
+      break;
+    }
     case 'long':
       cap(hy - 7, 4);
       for (const s of [-1, 1]) {
@@ -367,6 +380,34 @@ function hairFront(ctx, L, cx, hy, dir) {
       cap(style === 'short' ? hy - 9 : hy - 8, style === 'ponytail' || style === 'bun' ? 3 : 4);
   }
   if (style === 'ponytail') { ell(ctx, cx + 15, hy - 14, 3, 3); paint(ctx, P.pink, 1); }
+  temples(ctx, L, cx, hy, dir);
+}
+
+/** Opgeborsteld haar: een rij zachte plukken die omhoog staan. pts = toppen [x, y]. */
+function tufts(ctx, h, x0, base, x1, pts) {
+  const top = Math.min(...pts.map((q) => q[1]));
+  const p = () => {
+    ctx.beginPath(); ctx.moveTo(x0, base);
+    pts.forEach(([tx, ty], i) => {
+      // ondiepe inkeping tussen twee plukken, ronde top
+      const nx = i + 1 < pts.length ? pts[i + 1][0] : x1;
+      const vy = ty + (base - ty) * 0.35;
+      ctx.bezierCurveTo(tx - 6, ty + 6, tx - 4, ty, tx, ty);
+      ctx.bezierCurveTo(tx + 4, ty, (tx + nx) / 2, vy - 2, (tx + nx) / 2, vy);
+    });
+    ctx.lineTo(x1, base);
+    ctx.closePath();
+  };
+  soft(ctx, p, h, top, base, 1.3);
+}
+
+/** Grijze slapen (optie `temples`: kleur), voor wat oudere personages. */
+function temples(ctx, L, cx, hy, dir) {
+  if (!L.temples) return;
+  ctx.fillStyle = L.temples;
+  // klein grijs plukje bij de slaap, binnen de haarlijn
+  if (dir === 'side') { ell(ctx, cx - 2, hy - 3, 2.4, 4); ctx.fill(); return; }
+  for (const s of [-1, 1]) { ell(ctx, cx + s * 19.5, hy - 4, 1.8, 4); ctx.fill(); }
 }
 
 function drawFace(ctx, L, cx, hy, dir, pose) {
@@ -379,6 +420,13 @@ function drawFace(ctx, L, cx, hy, dir, pose) {
   // blosjes
   ctx.fillStyle = 'rgba(255,120,130,0.38)';
   for (const x of side ? [cx + 9] : [cx - 13, cx + 13]) { ell(ctx, x, ey + 7, 3.6, 2.2); ctx.fill(); }
+  // lachrimpeltjes (optie `age` >= 40)
+  if (L.age >= 40) {
+    ctx.strokeStyle = 'rgba(150,90,70,0.45)'; ctx.lineWidth = 0.9; ctx.lineCap = 'round';
+    for (const [x, s] of side ? [[cx + 16, 1]] : [[cx - 14, -1], [cx + 14, 1]]) {
+      ctx.beginPath(); ctx.moveTo(x, ey - 1.5); ctx.lineTo(x + s * 2.6, ey - 2.6); ctx.moveTo(x + s * 0.4, ey + 0.8); ctx.lineTo(x + s * 2.8, ey + 1.4); ctx.stroke();
+    }
+  }
   // ogen
   const happy = pose === 'happy' || pose === 'cheer';
   eyeXs.forEach((x, i) => {
