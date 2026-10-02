@@ -1,7 +1,7 @@
 // Kleine Canvas2D-helpers voor de cartoon-stijl: vulling + dikke contour.
 import { P, OUTLINE } from './palette.js';
 
-export function style(ctx, { fill, stroke = P.ink, lw = OUTLINE } = {}) {
+export function style(ctx, { fill, stroke = P.line, lw = OUTLINE } = {}) {
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   if (fill) { ctx.fillStyle = fill; ctx.fill(); }

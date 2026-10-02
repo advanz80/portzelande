@@ -238,7 +238,7 @@ function drawArm(ctx, L, sx, sy, rot, longSleeve) {
 function hairBack(ctx, L, cx, hy, dir) {
   const h = L.hair;
   if (L.hairStyle === 'long' && dir === 'side') {
-    const p = () => { ctx.beginPath(); ctx.moveTo(cx - 22, hy - 4); ctx.quadraticCurveTo(cx - 26, hy + 18, cx - 18, hy + 27); ctx.lineTo(cx + 2, hy + 27); ctx.quadraticCurveTo(cx + 6, hy + 10, cx + 2, hy - 4); ctx.closePath(); };
+    const p = () => { ctx.beginPath(); ctx.moveTo(cx - 21, hy - 6); ctx.bezierCurveTo(cx - 27, hy + 8, cx - 24, hy + 20, cx - 17, hy + 26); ctx.quadraticCurveTo(cx - 12, hy + 22, cx - 8, hy + 27); ctx.quadraticCurveTo(cx - 3, hy + 22, cx + 1, hy + 24); ctx.bezierCurveTo(cx + 5, hy + 14, cx + 5, hy + 4, cx + 2, hy - 4); ctx.closePath(); };
     soft(ctx, p, h, hy - 4, hy + 27, 1.4);
   } else if (L.hairStyle === 'long') {
     const p = () => { ctx.beginPath(); ctx.moveTo(cx - 21, hy - 4); ctx.quadraticCurveTo(cx - 25, hy + 18, cx - 17, hy + 27); ctx.lineTo(cx + 17, hy + 27); ctx.quadraticCurveTo(cx + 25, hy + 18, cx + 21, hy - 4); ctx.closePath(); };
@@ -457,8 +457,8 @@ function drawAccessories(ctx, L, cx, hy, dir) {
     if (xs.length === 2) { ctx.beginPath(); ctx.moveTo(cx - 3.2, ey - 0.5); ctx.quadraticCurveTo(cx, ey - 2, cx + 3.2, ey - 0.5); ctx.stroke(); }
     else { ctx.beginPath(); ctx.moveTo(cx + 6.2, ey - 1); ctx.lineTo(cx - 3, ey - 2); ctx.stroke(); }
   }
-  if (L.accessory === 'earrings' && dir !== 'back') {
-    for (const x of dir === 'side' ? [cx - 3] : [cx - 21.5, cx + 21.5]) { ell(ctx, x, hy + 10, 1.6, 1.6); paint(ctx, P.gold, 0.8); }
+  if (L.accessory === 'earrings' && dir === 'front') {
+    for (const x of [cx - 21.5, cx + 21.5]) { ell(ctx, x, hy + 10, 1.6, 1.6); paint(ctx, P.gold, 0.8); }
   }
 }
 

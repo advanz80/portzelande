@@ -20,13 +20,13 @@ function planks(ctx, x, y, w, h, vertical) {
   ctx.strokeStyle = P.woodDark; ctx.lineWidth = 2;
   if (vertical) for (let yy = y + 16; yy < y + h; yy += 16) { ctx.beginPath(); ctx.moveTo(x + 2, yy); ctx.lineTo(x + w - 2, yy); ctx.stroke(); }
   else for (let xx = x + 16; xx < x + w; xx += 16) { ctx.beginPath(); ctx.moveTo(xx, y + 2); ctx.lineTo(xx, y + h - 2); ctx.stroke(); }
-  rrect(ctx, x, y, w, h, 4); ctx.strokeStyle = P.ink; ctx.lineWidth = 4; ctx.stroke();
+  rrect(ctx, x, y, w, h, 4); ctx.strokeStyle = P.line; ctx.lineWidth = 4; ctx.stroke();
   // palen
   const posts = vertical ? Math.floor(h / 90) : Math.floor(w / 90);
   for (let i = 0; i <= posts; i++) {
     const px = vertical ? [x - 4, x + w + 4] : [x + (i * w) / Math.max(1, posts)];
     const py = vertical ? [y + (i * h) / Math.max(1, posts)] : [y - 4, y + h + 4];
-    for (const a of px) for (const b of py) { circle(ctx, a, b, 7); ctx.fillStyle = P.woodDark; ctx.fill(); ctx.strokeStyle = P.ink; ctx.lineWidth = 3; ctx.stroke(); }
+    for (const a of px) for (const b of py) { circle(ctx, a, b, 7); ctx.fillStyle = P.woodDark; ctx.fill(); ctx.strokeStyle = P.line; ctx.lineWidth = 3; ctx.stroke(); }
   }
 }
 
@@ -56,7 +56,7 @@ export function drawTerrain(ctx) {
   }
   ctx.restore();
   polyPath(ctx, LAND); ctx.strokeStyle = P.sandDark; ctx.lineWidth = 12; ctx.stroke();
-  polyPath(ctx, LAND); ctx.strokeStyle = P.ink; ctx.lineWidth = 4; ctx.stroke();
+  polyPath(ctx, LAND); ctx.strokeStyle = P.line; ctx.lineWidth = 4; ctx.stroke();
 
   // gras
   ctx.save(); polyPath(ctx, LAND); ctx.clip();
@@ -106,7 +106,7 @@ export function drawTerrain(ctx) {
   for (let a = 0; a < Math.PI * 2; a += Math.PI / 12) {
     ctx.beginPath(); ctx.moveTo(PLAZA.x + Math.cos(a) * 40, PLAZA.y + Math.sin(a) * 40); ctx.lineTo(PLAZA.x + Math.cos(a) * PLAZA.r, PLAZA.y + Math.sin(a) * PLAZA.r); ctx.stroke();
   }
-  circle(ctx, PLAZA.x, PLAZA.y, PLAZA.r); ctx.strokeStyle = P.ink; ctx.lineWidth = 4; ctx.stroke();
+  circle(ctx, PLAZA.x, PLAZA.y, PLAZA.r); ctx.strokeStyle = P.line; ctx.lineWidth = 4; ctx.stroke();
 
   // pier en steigers
   planks(ctx, PIER.x, PIER.y, PIER.w, PIER.h, true);

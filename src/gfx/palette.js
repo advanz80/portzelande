@@ -1,6 +1,7 @@
 // Centraal, zomers palet. Dikke contour + zachte schaduwen = de huisstijl van het spel.
 export const P = {
   ink: '#2d1e2f',
+  line: '#4a3646', // zachtere contour voor wereld-objecten (AC-stijl)
   inkSoft: '#4a3a4d',
   cream: '#fff8e7',
   paper: '#fdf0d2',
@@ -24,7 +25,7 @@ export const FONT = {
   title: '"Pirata One", "Fredoka", Georgia, serif',
 };
 
-export const OUTLINE = 4;
+export const OUTLINE = 3.2;
 
 /** Standaard tekststijl voor Phaser Text. */
 export function textStyle(size = 24, color = P.ink, extra = {}) {
