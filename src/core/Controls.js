@@ -33,7 +33,7 @@ export class Controls {
       const bg = s.add.image(0, 0, 'ui_round').setDisplaySize(130, 130).setTint(HEX.gold).setAlpha(0.92);
       const tx = s.add.text(0, -4, actionLabel, textStyle(46, P.ink)).setOrigin(0.5);
       this.btn.add([bg, tx]);
-      this.btn.setSize(130, 130).setInteractive();
+      this.btn.setSize(170, 170).setInteractive();
       this.btn.on('pointerdown', () => { this._action = true; this.btn.setScale(0.9); });
       this.btn.on('pointerup', () => this.btn.setScale(1));
       this.btn.on('pointerout', () => this.btn.setScale(1));
@@ -66,7 +66,10 @@ export class Controls {
   }
 
   setActionLabel(t) { if (this.btn) this.btn.list[1].setText(t); }
-  setActionVisible(v) { if (this.btn) this.btn.setVisible(v); }
+  /** Op touch blijft de knop altijd staan; zonder doel wordt hij gedimd. */
+  setActionVisible(v) { if (this.btn) this.btn.setAlpha(v ? 1 : 0.4); }
+  /** Actie van buitenaf aanzetten (bv. tik op het "Praten"-label of op een personage). */
+  trigger() { if (this.enabled) this._action = true; }
   setVisible(v) {
     if (this.hint) this.hint.setVisible(v);
     if (this.btn) this.btn.setVisible(v);

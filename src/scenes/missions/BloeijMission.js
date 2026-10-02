@@ -89,6 +89,7 @@ export class BloeijMission extends MissionBase {
     this.helpedText = this.add.text(width - 40, 112, '', textStyle(24, P.ink, { backgroundColor: '#fff8e7', padding: { x: 12, y: 6 } })).setOrigin(1, 0.5).setDepth(900);
     this.updateHelped();
     this.prompt = this.add.text(width / 2, height - 30, '', textStyle(22, P.ink, { backgroundColor: '#f6c33b', padding: { x: 14, y: 6 } })).setOrigin(0.5).setDepth(900).setVisible(false);
+    this.prompt.setInteractive({ useHandCursor: true }).on('pointerdown', () => this.controls.trigger());
     this.touch = isTouch(this);
     ['ONE', 'TWO', 'THREE', 'FOUR'].forEach((k, i) => this.input.keyboard.on(`keydown-${k}`, () => { if (this.choosing) this.choose(INTERVENTIONS[i][0]); }));
   }

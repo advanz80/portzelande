@@ -83,7 +83,8 @@
     "fragmentGot": "Sleutelfragment van {bedrijf}!",
     "allFragments": "Alle 6 fragmenten! Op naar het piratenschip!",
     "moveHintKeys": "Lopen: WASD of pijltjes · Praten: spatie",
-    "moveHintTouch": "Sleep op de linkerhelft om te lopen · tik ! om te praten"
+    "moveHintTouch": "Sleep op de linkerhelft om te lopen · tik ! om te praten",
+    "closer": "Loop eerst dichterbij!"
   },
   "common": {
     "start": "Start!",
