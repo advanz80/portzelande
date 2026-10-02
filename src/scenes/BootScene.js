@@ -78,7 +78,7 @@ function makeLogoBadge(scene, b) {
     circle(c, 128, 126, 116); style(c, { fill: '#ffffff', stroke: b.css, lw: 14 });
     circle(c, 128, 126, 123); c.strokeStyle = P.ink; c.lineWidth = 4; c.stroke();
     // binnen de cirkel passen: breed logo mag breder, vierkant logo kleiner
-    const k = Math.min(214 / src.width, 150 / src.height);
+    const k = Math.min(214 / src.width, 150 / src.height, 208 / Math.hypot(src.width, src.height)); // hoeken binnen de cirkel
     const w = src.width * k, h = src.height * k;
     c.drawImage(src, 128 - w / 2, 126 - h / 2, w, h);
   });

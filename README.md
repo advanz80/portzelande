@@ -39,7 +39,7 @@ Zet de logo's als SVG in `public/assets/logos/` met precies deze bestandsnamen:
 | IJk | `ijk.svg` |
 | Haert | `haert.svg` |
 | Reijn | `reijn.svg` |
-| Brainport Human Campus | `bhc.svg` |
+| Brainport Human Campus | `bhc.png` (staat er al) |
 
 Tips:
 - Gebruik SVG's **met een `viewBox`**, dan blijven de verhoudingen goed.

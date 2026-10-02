@@ -8,7 +8,7 @@ const hex = (s) => ({ color: parseInt(s.slice(1), 16), css: s });
 export const BRANDS = {
   bhc: {
     id: 'bhc', name: 'Brainport Human Campus', short: 'BHC', initials: 'BHC',
-    ...hex('#F39200'), dark: '#B86A00', logo: 'bhc.svg', scene: 'BhcMission',
+    ...hex('#F39200'), dark: '#B86A00', logo: 'bhc.png', scene: 'BhcMission',
   },
   driessen: {
     id: 'driessen', name: 'Driessen', short: 'Driessen', initials: 'D',
