@@ -9,7 +9,7 @@ import { Controls, isTouch } from '../../core/Controls.js';
 import { burst, shake, floatText } from '../../core/Juice.js';
 import { meter, panel, button } from '../../ui/widgets.js';
 import { makeCharacter, ensureAnims, randomLook, pirateLook, faceMove } from '../../gfx/CharacterFactory.js';
-import { makeTexture, circle, ellipse, rng } from '../../gfx/draw.js';
+import { makeBloeijBg } from '../../gfx/tex/acbg.js';
 
 const SPOTS = [[250, 300], [520, 260], [830, 300], [1090, 270], [330, 500], [660, 470], [960, 520], [560, 640]];
 const COMPLAINT_ICON = { tired: 'zzz', back: 'bolt', stress: 'storm', low: 'sadcloud' };
@@ -21,16 +21,7 @@ export class BloeijMission extends MissionBase {
 
   drawBackground() {
     const { width, height } = DESIGN;
-    if (!this.textures.exists('bl_bg')) {
-      makeTexture(this, 'bl_bg', width, height, (c) => {
-        c.fillStyle = P.sand; c.fillRect(0, 0, width, height);
-        const r = rng(5);
-        for (let i = 0; i < 900; i++) { c.fillStyle = r() < 0.5 ? 'rgba(231,191,107,0.5)' : 'rgba(255,240,194,0.7)'; circle(c, r() * width, 160 + r() * height, 1.5 + r() * 2.5); c.fill(); }
-        for (let i = 0; i < 30; i++) { c.fillStyle = r() < 0.5 ? '#fff' : '#ffc6b8'; ellipse(c, r() * width, 180 + r() * 500, 4, 3, r() * 3); c.fill(); }
-        // natte rand
-        c.fillStyle = 'rgba(231,191,107,0.6)'; c.fillRect(0, 150, width, 26);
-      });
-    }
+    if (!this.textures.exists('bl_bg')) makeBloeijBg(this);
     this.add.image(0, 0, 'bl_bg').setOrigin(0).setDepth(-100);
     this.sea = this.add.tileSprite(0, 76, width, 84, 'water').setOrigin(0).setDepth(-99);
     this.seaW = this.add.tileSprite(0, 76, width, 84, 'waves').setOrigin(0).setDepth(-98).setAlpha(0.7);

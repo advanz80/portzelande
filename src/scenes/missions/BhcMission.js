@@ -7,7 +7,8 @@ import { t } from '../../core/i18n.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
 import { Audio } from '../../core/AudioEngine.js';
 import { burst, shake, floatText, wobble, confettiRain } from '../../core/Juice.js';
-import { panel, bake } from '../../ui/widgets.js';
+import { panel } from '../../ui/widgets.js';
+import { makeBhcBg } from '../../gfx/tex/acbg.js';
 import { SECTOR_COLORS, SECTOR_ICONS } from '../WorldScene.js';
 
 const SECTORS = ['business', 'education', 'government'];
@@ -17,19 +18,15 @@ export class BhcMission extends MissionBase {
 
   drawBackground() {
     const { width, height } = DESIGN;
-    const g = this.add.graphics().setDepth(-100);
-    g.fillGradientStyle(0x6fd3ff, 0x6fd3ff, 0xc9f1ff, 0xc9f1ff, 1).fillRect(0, 0, width, 300);
-    bake(this, g, 'bhc_sky', 0, 0, width, 300);
+    makeBhcBg(this);
+    this.add.image(0, 0, 'bhc_sky').setOrigin(0).setDepth(-100);
     this.sea = this.add.tileSprite(0, 300, width, height - 300, 'water').setOrigin(0).setDepth(-99);
     this.seaWaves = this.add.tileSprite(0, 300, width, height - 300, 'waves').setOrigin(0).setDepth(-98).setAlpha(0.6);
     this.add.rectangle(0, 300, width, 6, HEX.foam).setOrigin(0, 0.5).setDepth(-97);
     const ship = this.add.image(1130, 330, 'pirateship').setScale(0.42).setOrigin(0.5, 0.86).setDepth(-96);
     this.tweens.add({ targets: ship, angle: { from: -2, to: 2 }, y: 336, duration: 2000, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
     // strand linksonder
-    const b = this.add.graphics().setDepth(-95);
-    b.fillStyle(HEX.sand).lineStyle(5, HEX.ink);
-    b.beginPath(); b.moveTo(0, 380); b.lineTo(150, 420); b.lineTo(200, height); b.lineTo(0, height); b.closePath(); b.fillPath(); b.strokePath();
-    bake(this, b, 'bhc_beach', 0, 370, 210, height - 370);
+    this.add.image(0, 370, 'bhc_beach').setOrigin(0).setDepth(-95);
     this.add.image(70, 430, 'palm_trunk').setOrigin(0.5, 1).setDepth(-94);
     this.add.image(68, 312, 'palm_crown').setDepth(-93);
   }

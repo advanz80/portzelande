@@ -8,35 +8,15 @@ import { Audio } from '../../core/AudioEngine.js';
 import { burst, shake, floatText, confettiRain } from '../../core/Juice.js';
 import { panel, button, dim } from '../../ui/widgets.js';
 import { makeCharacter, pirateLook, ensureAnims } from '../../gfx/CharacterFactory.js';
-import { makeTexture, rng, rrect, style } from '../../gfx/draw.js';
+import { rng } from '../../gfx/draw.js';
+import { makeDeckBg } from '../../gfx/tex/acbg.js';
 
 const MAX_Q = 8;
 const CREW_X = [130, 310, 490, 670, 850];
 const CREW_Y = 500;
 
 export function makeDeckTexture(scene) {
-  const width = 1280, height = 720;
-  if (!scene.textures.exists('deck_bg')) {
-    makeTexture(scene, 'deck_bg', width, height, (c) => {
-      const g = c.createLinearGradient(0, 0, 0, 200); g.addColorStop(0, '#7fd3f7'); g.addColorStop(1, '#c9f1ff');
-      c.fillStyle = g; c.fillRect(0, 0, width, 200);
-      c.fillStyle = P.water; c.fillRect(0, 170, width, 60);
-      const r = rng(9);
-      for (let y = 230; y < height; y += 36) {
-        for (let x = -((y / 36) % 3) * 70; x < width; x += 210) {
-          const k = 0.82 + r() * 0.15;
-          c.fillStyle = `rgb(${Math.round(160 * k)},${Math.round(98 * k)},${Math.round(52 * k)})`;
-          c.fillRect(x, y, 208, 34);
-          c.fillStyle = 'rgba(0,0,0,0.3)'; c.fillRect(x, y + 32, 208, 3); c.fillRect(x + 206, y, 3, 34);
-        }
-      }
-      // reling
-      c.fillStyle = '#6b3a1c'; c.fillRect(0, 200, width, 34);
-      c.strokeStyle = P.ink; c.lineWidth = 4; c.strokeRect(-4, 200, width + 8, 34);
-      for (let x = 20; x < width; x += 70) { rrect(c, x, 150, 16, 56, 4); style(c, { fill: '#8a5226', lw: 3 }); }
-      c.fillStyle = '#8a5226'; c.fillRect(0, 140, width, 16); c.strokeRect(-4, 140, width + 8, 16);
-    });
-  }
+  if (!scene.textures.exists('deck_bg')) makeDeckBg(scene);
 }
 
 export class ReijnMission extends MissionBase {

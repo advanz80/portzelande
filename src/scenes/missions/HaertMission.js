@@ -8,7 +8,7 @@ import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
 import { Audio } from '../../core/AudioEngine.js';
 import { burst, shake, floatText, wobble } from '../../core/Juice.js';
 import { card, button, panel } from '../../ui/widgets.js';
-import { makeTexture, rng } from '../../gfx/draw.js';
+import { makeHaertBg } from '../../gfx/tex/acbg.js';
 
 const JOB_Y = [215, 385, 555];
 const OFFER_Y = [220, 390, 560];
@@ -20,24 +20,9 @@ export class HaertMission extends MissionBase {
 
   drawBackground() {
     const { width, height } = DESIGN;
-    if (!this.textures.exists('haert_bg')) {
-      makeTexture(this, 'haert_bg', width, height, (c) => {
-        const r = rng(3);
-        for (let y = 0; y < height; y += 40) {
-          for (let x = -(y / 40 % 2) * 90; x < width; x += 180) {
-            const shadeV = 0.9 + r() * 0.15;
-            c.fillStyle = `rgb(${Math.round(192 * shadeV)},${Math.round(124 * shadeV)},${Math.round(65 * shadeV)})`;
-            c.fillRect(x, y, 178, 38);
-            c.fillStyle = 'rgba(0,0,0,0.25)'; c.fillRect(x, y + 36, 178, 3); c.fillRect(x + 176, y, 3, 38);
-            c.fillStyle = '#5a3a20'; c.beginPath(); c.arc(x + 10, y + 19, 2.5, 0, 7); c.fill(); c.beginPath(); c.arc(x + 168, y + 19, 2.5, 0, 7); c.fill();
-          }
-        }
-      });
-    }
+    if (!this.textures.exists('haert_bg')) makeHaertBg(this);
     this.add.image(0, 0, 'haert_bg').setOrigin(0).setDepth(-100);
     // bord
-    this.add.rectangle(260, 400, 440, 600, 0x7a4524).setStrokeStyle(6, HEX.ink).setDepth(-50);
-    this.add.rectangle(260, 400, 412, 572, 0x9b6a3f).setDepth(-49);
     const sign = this.add.nineslice(260, 110, 'ui_btn', undefined, 300, 64, 20, 20, 20, 24).setTint(this.brand.color).setDepth(-40);
     void sign;
     this.add.text(260, 106, this.T('board'), titleStyle(34, P.cream)).setOrigin(0.5).setDepth(-39);

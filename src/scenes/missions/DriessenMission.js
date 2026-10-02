@@ -5,7 +5,8 @@ import { MissionBase } from './MissionBase.js';
 import { P, HEX, textStyle, titleStyle } from '../../gfx/palette.js';
 import { Audio } from '../../core/AudioEngine.js';
 import { burst, shake, floatText, wobble } from '../../core/Juice.js';
-import { card, bake } from '../../ui/widgets.js';
+import { card } from '../../ui/widgets.js';
+import { makeDriessenBg } from '../../gfx/tex/acbg.js';
 import { dragTap } from '../../ui/dragtap.js';
 import { makeCharacter, randomLook, pirateLook } from '../../gfx/CharacterFactory.js';
 
@@ -21,11 +22,8 @@ export class DriessenMission extends MissionBase {
 
   drawBackground() {
     const { width, height } = DESIGN;
-    const g = this.add.graphics().setDepth(-100);
-    g.fillStyle(0xf6e9cc).fillRect(0, 0, width, height);
-    g.lineStyle(3, 0xd6bd8c, 0.8);
-    for (let x = -40; x < width + 40; x += 64) for (let y = 80; y < height; y += 64) g.strokeRoundedRect(x + ((y / 64) % 2) * 32, y, 62, 62, 6);
-    bake(this, g, 'dr_bg', 0, 0, width, height);
+    makeDriessenBg(this);
+    this.add.image(0, 0, 'dr_bg').setOrigin(0).setDepth(-100);
     // vlaggenlijn
     for (let i = 0; i < 22; i++) {
       const x = 20 + i * 60;

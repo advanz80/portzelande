@@ -2,7 +2,8 @@ import Phaser from 'phaser';
 import { BRANDS } from '../config/brands.js';
 import { NPC_LOOKS } from '../config/npcs.js';
 import { makeIcons } from '../gfx/tex/icons.js';
-import { makeProps, makeStall } from '../gfx/tex/props.js';
+import { makeProps } from '../gfx/tex/props.js';
+import { makeACStall } from '../gfx/tex/acprops2.js';
 import { makeCharacter } from '../gfx/CharacterFactory.js';
 import { makeTexture, circle, style } from '../gfx/draw.js';
 import { P, FONT, titleStyle } from '../gfx/palette.js';
@@ -36,7 +37,7 @@ export class BootScene extends Phaser.Scene {
     makeIcons(this);
     makeProps(this);
     for (const b of Object.values(BRANDS)) {
-      makeStall(this, `stall_${b.id}`, b.css);
+      makeACStall(this, `stall_${b.id}`, b.css);
       // fallback-logo
       makeTexture(this, `logofb_${b.id}`, 256, 256, (c) => {
         circle(c, 128, 134, 116); c.fillStyle = 'rgba(30,20,40,0.25)'; c.fill();
