@@ -43,6 +43,10 @@ export class HUDScene extends Phaser.Scene {
     this.promptText = this.add.text(0, -4, '', textStyle(24, P.ink)).setOrigin(0.5);
     this.prompt.add([pbg, this.promptText]);
     this.prompt.bg = pbg;
+    // het label is ook een knop
+    this.prompt.setSize(300, 60).setInteractive({ useHandCursor: true });
+    this.prompt.on('pointerdown', () => { this.controls?.trigger(); this.prompt.setScale(0.92); });
+    this.prompt.on('pointerup', () => this.prompt.setScale(1));
     this.touch = isTouch(this);
 
     // pijlen
@@ -85,6 +89,8 @@ export class HUDScene extends Phaser.Scene {
     if (!this.prompt.visible || this.promptText.text !== label) {
       this.promptText.setText(label);
       this.prompt.bg.width = this.promptText.width + 60;
+      this.prompt.setSize(this.prompt.bg.width + 20, 70);
+      this.prompt.input.hitArea.setSize(this.prompt.bg.width + 20, 70);
       this.prompt.setVisible(true).setScale(0.6);
       this.tweens.add({ targets: this.prompt, scale: 1, duration: 200, ease: 'Back.Out' });
     }

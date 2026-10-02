@@ -233,10 +233,12 @@ export class WorldScene extends Phaser.Scene {
       const marker = this.add.image(st.npc.x, st.npc.y - 134, 'icons', 'exclaim').setDisplaySize(46, 46).setDepth(5000);
       this.tweens.add({ targets: marker, y: marker.y - 12, duration: 500, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
       this.stationObjs[id] = { npc, marker };
-      this.interactables.push({
+      const it = {
         x: st.npc.x, y: st.npc.y, r: 100, label: () => t('hud.talk'),
         act: () => this.talkToMission(id),
-      });
+      };
+      this.interactables.push(it);
+      this.makeTappable(npc, it);
     }
     this.refreshMarkers();
   }
@@ -282,10 +284,12 @@ export class WorldScene extends Phaser.Scene {
     // wachter
     this.guard = this.add.sprite(GUARD.x, GUARD.y, 'npc_guard', 'idle').setOrigin(0.5, 0.92).setDepth(GUARD.y).setVisible(this.bridgeBuilt).setScale(CS);
     this.tweens.add({ targets: this.guard, scaleX: { from: CS, to: -CS }, duration: 200, hold: 2000, yoyo: true, repeat: -1, repeatDelay: 2000 });
-    this.interactables.push({
+    const gIt = {
       x: GUARD.x, y: GUARD.y + 40, r: 110, active: () => this.bridgeBuilt, label: () => t('hud.talk'),
       act: () => this.talkToGuard(),
-    });
+    };
+    this.interactables.push(gIt);
+    this.makeTappable(this.guard, gIt);
   }
 
   drawBridge(animated) {
@@ -317,13 +321,15 @@ export class WorldScene extends Phaser.Scene {
     this.petra = this.add.sprite(PETRA.x, PETRA.y, 'npc_petra', 'idle').setOrigin(0.5, 0.92).setDepth(PETRA.y).setScale(CS);
     this.tweens.add({ targets: this.petra, scaleY: { from: CS, to: CS * 1.04 }, duration: 900, yoyo: true, repeat: -1 });
     this.colliders.push({ x: PETRA.x, y: PETRA.y, r: 18 });
-    this.interactables.push({
+    const pIt = {
       x: PETRA.x, y: PETRA.y, r: 100, label: () => t('hud.talk'),
       act: () => {
         const n = SaveManager.fragmentCount();
         showDialog(this, { lines: n === 6 ? t('story.petraDone') : t('story.petraAgain', { aantal: n }) });
       },
-    });
+    };
+    this.interactables.push(pIt);
+    this.makeTappable(this.petra, pIt);
 
     // rondlopende collega's en piraten
     const r = rng(99);
@@ -336,10 +342,23 @@ export class WorldScene extends Phaser.Scene {
       const w = { spr, key, anim: ensureAnims(this, key), home: { x, y }, target: null, wait: r() * 3000, type, bubble: null };
       this.wanderers.push(w);
       this.dyn.push(spr);
-      this.interactables.push({
-        x, y, r: 80, obj: w, label: () => t('hud.talk'),
+      const wIt = {
+        x, y, r: 95, obj: w, label: () => t('hud.talk'),
         act: () => this.say(w, Phaser.Utils.Array.GetRandom(t(type === 'p' ? 'story.pirateAmbient' : 'story.ambient'))),
-      });
+      };
+      this.interactables.push(wIt);
+      this.makeTappable(spr, wIt);
+    });
+  }
+
+  /** Maak een personage aantikbaar: dichtbij = praten, anders een hint. */
+  makeTappable(spr, it) {
+    spr.setInteractive({ useHandCursor: true });
+    spr.on('pointerup', () => {
+      if (this.dialogOpen || this.busy || this.hunt || this.hud?.paused) return;
+      if (it.active && !it.active()) return;
+      if (Math.hypot(this.player.x - it.x, this.player.y - it.y) < it.r * 1.6) it.act();
+      else floatText(this, spr.x, spr.y - 150, t('hud.closer'), P.cream, 22);
     });
   }
 
@@ -693,13 +712,19 @@ export class WorldScene extends Phaser.Scene {
     // interactie
     let near = null;
     if (canMove && !this.hunt) {
-      let best = Infinity;
-      for (const it of this.interactables) {
-        if (it.active && !it.active()) continue;
-        const d = Math.hypot(p.x - it.x, p.y - it.y);
-        if (d < it.r && d < best) { best = d; near = it; }
+      // 'plakkerig': blijf het vorige doel vasthouden tot je duidelijk buiten bereik bent
+      const prev = this.nearTarget;
+      if (prev && (!prev.active || prev.active()) && Math.hypot(p.x - prev.x, p.y - prev.y) < prev.r * 1.4) near = prev;
+      else {
+        let best = Infinity;
+        for (const it of this.interactables) {
+          if (it.active && !it.active()) continue;
+          const d = Math.hypot(p.x - it.x, p.y - it.y);
+          if (d < it.r && d < best) { best = d; near = it; }
+        }
       }
     }
+    this.nearTarget = near;
     if (this.hud?.scene.isActive()) {
       this.hud.setPrompt(near ? near.label() : null);
       this.controls.setActionVisible(!!near);
