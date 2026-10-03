@@ -78,7 +78,7 @@ export class FinaleScene extends MissionBase {
       this.helperSprites.push(s);
     }
     // HP-balk
-    this.add.text(1110, 120, t('npc.captain'), textStyle(20, P.cream, { stroke: P.ink, strokeThickness: 5 })).setOrigin(0.5).setDepth(30);
+    this.add.text(1110, 120, t('npc.captain'), textStyle(24, P.cream, { stroke: P.ink, strokeThickness: 5 })).setOrigin(0.5).setDepth(30);
     this.hpBar = meter(this, 950, 152, 320, 30, HEX.red).setDepth(30);
   }
 
@@ -140,7 +140,7 @@ export class FinaleScene extends MissionBase {
   captainSays(text, color = P.ink) {
     if (this.capBubble) this.capBubble.destroy();
     const c = this.add.container(1060, 250).setDepth(50);
-    const tx = this.add.text(0, 0, text, textStyle(20, color, { wordWrap: { width: 300 }, align: 'center' })).setOrigin(0.5);
+    const tx = this.add.text(0, 0, text, textStyle(25, color, { wordWrap: { width: 340 }, align: 'center' })).setOrigin(0.5);
     const bg = this.add.nineslice(0, 0, 'ui_card', undefined, tx.width + 40, tx.height + 30, 18, 18, 18, 18);
     c.add([bg, tx]);
     c.setScale(0.3);
@@ -190,13 +190,13 @@ export class FinaleScene extends MissionBase {
       const dt = dragTap(this, { onDrop: (item, tg) => this.p1Drop(item, tg) });
       this.p1dt = dt;
       POSTS.forEach(([key, icon], i) => {
-        const x = 520 + (i % 2) * 250, y = 360 + Math.floor(i / 2) * 125;
+        const x = 505 + (i % 2) * 280, y = 360 + Math.floor(i / 2) * 125;
         const c = this.add.container(x, y);
-        c.add(card(this, 0, 0, 230, 110, 0xfff3d6));
-        if (key === 'cannon') c.add(this.add.image(-60, 0, 'cannon').setScale(0.6));
-        else c.add(this.add.image(-60, 0, 'icons', icon).setDisplaySize(64, 64));
-        c.add(this.add.text(-14, 0, this.T(`posts.${key}`), textStyle(22, P.ink)).setOrigin(0, 0.5));
-        c.setSize(230, 110);
+        c.add(card(this, 0, 0, 264, 112, 0xfff3d6));
+        if (key === 'cannon') c.add(this.add.image(-82, 0, 'cannon').setScale(0.6));
+        else c.add(this.add.image(-82, 0, 'icons', icon).setDisplaySize(64, 64));
+        c.add(this.add.text(-40, 0, this.T(`posts.${key}`), textStyle(28, P.ink)).setOrigin(0, 0.5));
+        c.setSize(264, 112);
         c.post = key;
         this.p1.add(c);
         dt.addTarget(c, { post: key, obj: c });
@@ -204,17 +204,17 @@ export class FinaleScene extends MissionBase {
       const skills = Phaser.Utils.Array.Shuffle([...POSTS.map(([k]) => k), 'decoy']);
       const crew = Phaser.Utils.Array.Shuffle(t('missions.reijn.crew').slice());
       skills.forEach((sk, i) => {
-        const x = 330 + i * 160, y = 600; // niet te laag: op iPhone is de onderrand het veeg-gebaar
+        const x = 300 + i * 182, y = 600; // niet te laag: op iPhone is de onderrand het veeg-gebaar
         const c = this.add.container(x, y);
-        c.add(card(this, 0, 0, 150, 92, 0xffffff));
-        const hl = this.add.nineslice(0, 0, 'ui_card', undefined, 166, 108, 18, 18, 18, 18).setTint(HEX.gold).setVisible(false);
+        c.add(card(this, 0, 0, 172, 104, 0xffffff));
+        const hl = this.add.nineslice(0, 0, 'ui_card', undefined, 188, 120, 18, 18, 18, 18).setTint(HEX.gold).setVisible(false);
         c.addAt(hl, 0);
         c.highlight = hl;
-        c.add(this.add.text(0, -18, (crew[i] || crew[0]).name.split(' ')[1] || 'Crew', textStyle(18, P.ink)).setOrigin(0.5));
-        c.add(this.add.text(0, 14, this.T(`skills.${sk}`), textStyle(16, P.cream, { backgroundColor: sk === 'decoy' ? '#8a8a8a' : '#2d1e2f', padding: { x: 6, y: 2 } })).setOrigin(0.5));
+        c.add(this.add.text(0, -22, (crew[i] || crew[0]).name.split(' ')[1] || 'Crew', textStyle(23, P.ink)).setOrigin(0.5));
+        c.add(this.add.text(0, 16, this.T(`skills.${sk}`), textStyle(21, P.cream, { backgroundColor: sk === 'decoy' ? '#8a8a8a' : '#2d1e2f', padding: { x: 7, y: 3 } })).setOrigin(0.5));
         c.skill = sk; c.home = { x, y }; c.baseDepth = 20;
         this.p1.add(c);
-        dt.addItem(c, 150, 92);
+        dt.addItem(c, 172, 104);
       });
       this.phaseTimer(40 + (this.helpers >= 1 ? 10 : 0), () => this.endPhase1());
     });
@@ -303,10 +303,10 @@ export class FinaleScene extends MissionBase {
     const cl = this.claims[this.claimIdx];
     const L = this.add.container(0, 0).setDepth(30);
     this.claimLayer = L;
-    const bubble = this.add.container(660, 250);
-    const tx = this.add.text(0, 0, `"${cl.claim}"`, textStyle(24, P.ink, { wordWrap: { width: 560 }, align: 'center', fontStyle: 'italic 700' })).setOrigin(0.5);
-    bubble.add([this.add.nineslice(0, 0, 'ui_card', undefined, 620, tx.height + 44, 18, 18, 18, 18).setTint(0xffe1e1), tx]);
-    bubble.add(this.add.triangle(300, 10, 0, 0, 40, 10, 0, 24, 0xffe1e1).setStrokeStyle(3, HEX.ink));
+    const bubble = this.add.container(600, 240);
+    const tx = this.add.text(0, 0, `"${cl.claim}"`, textStyle(30, P.ink, { wordWrap: { width: 720 }, align: 'center', fontStyle: 'italic 700' })).setOrigin(0.5);
+    bubble.add([this.add.nineslice(0, 0, 'ui_card', undefined, 780, tx.height + 44, 18, 18, 18, 18).setTint(0xffe1e1), tx]);
+    bubble.add(this.add.triangle(380, 10, 0, 0, 40, 10, 0, 24, 0xffe1e1).setStrokeStyle(3, HEX.ink));
     L.add(bubble);
     bubble.setScale(0);
     this.tweens.add({ targets: bubble, scale: 1, duration: 250, ease: 'Back.Out' });
@@ -316,8 +316,8 @@ export class FinaleScene extends MissionBase {
     const wrongs = cl.options.map((_, i) => i).filter((i) => i !== cl.answer);
     const struck = this.hint ? Phaser.Utils.Array.GetRandom(wrongs) : -1;
     cl.options.forEach((o, i) => {
-      const b = button(this, 640, 400 + i * 92, o, () => this.answer(i, b), { width: 760, height: 80, size: 19, color: HEX.cream });
-      b.label.setWordWrapWidth(700).setAlign('center');
+      const b = button(this, 590, 400 + i * 106, o, () => this.answer(i, b), { width: 900, height: 98, size: 25, color: HEX.cream });
+      b.label.setWordWrapWidth(830).setAlign('center');
       if (i === struck) { b.setEnabled(false); b.label.setColor(P.inkSoft); }
       L.add(b);
       b.setScale(0);
