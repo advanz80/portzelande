@@ -147,7 +147,7 @@ export class PipePuzzle {
       c.add(s.add.rectangle(36, 0, 50, 18, o.flow).setStrokeStyle(4, HEX.ink));
       c.add(s.add.circle(0, 0, 40, 0xffffff).setStrokeStyle(4, HEX.ink));
       c.add(s.add.image(0, 0, 'icons', o.sourceIcons[i]).setDisplaySize(52, 52));
-      if (o.sourceLabels) c.add(s.add.text(-50, 0, o.sourceLabels[i], textStyle(17, P.cream, { stroke: P.ink, strokeThickness: 4, align: 'right' })).setOrigin(1, 0.5));
+      if (o.sourceLabels) c.add(s.add.text(-50, 0, o.sourceLabels[i], textStyle(22, P.cream, { stroke: P.ink, strokeThickness: 5, align: 'right' })).setOrigin(1, 0.5));
       this.container.add(c);
       return c;
     });
@@ -156,7 +156,7 @@ export class PipePuzzle {
     tgt.add(this.tgtPipe);
     tgt.add(s.add.nineslice(0, 0, 'ui_card', undefined, 96, 110, 18, 18, 18, 18).setTint(0xeaf6ff));
     tgt.add(s.add.image(0, -12, 'icons', o.targetIcon).setDisplaySize(60, 60));
-    tgt.add(s.add.text(0, 34, o.targetLabel, textStyle(14, P.ink)).setOrigin(0.5));
+    tgt.add(s.add.text(0, 36, o.targetLabel, textStyle(19, P.ink, { stroke: '#ffffff', strokeThickness: 4 })).setOrigin(0.5));
     this.tgt = tgt;
     this.container.add(tgt);
   }
