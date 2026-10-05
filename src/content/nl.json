@@ -1198,6 +1198,7 @@
     "submit": "Op het leaderboard!",
     "submitted": "Je staat op het leaderboard!",
     "rank": "Plaats {n}",
+    "savedOffline": "Geen internet: je score wordt later alsnog verstuurd.",
     "playAgain": "Terug naar het menu",
     "lines": [
       "PIRATES OF PORT ZÉLANDE",
@@ -1227,6 +1228,10 @@
     "name": "Naam",
     "score": "Score",
     "time": "Tijd",
-    "back": "Terug"
+    "back": "Terug",
+    "loading": "Scores ophalen…",
+    "online": "Gedeeld leaderboard: iedereen ziet deze scores",
+    "offline": "Geen verbinding: alleen scores van dit apparaat",
+    "localOnly": "Scores van dit apparaat"
   }
 }
