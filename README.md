@@ -115,22 +115,32 @@ zodat er geen zwarte balken naast het beeld komen.
 - De personages worden getekend in `src/gfx/CharacterFactory.js` (Animal Crossing-stijl, met
   voor-, zij- en achteraanzicht en meerdere gezichtsuitdrukkingen).
 
-## Leaderboard
+## Leaderboard (gedeeld via Supabase)
 
-Het leaderboard wordt nu lokaal opgeslagen (in de browser, via `localStorage`). Iedere
-speler ziet dus alleen de scores op zijn eigen apparaat.
+Zonder instellingen bewaart het spel de scores alleen op het eigen apparaat. Met een gratis
+[Supabase](https://supabase.com)-project ziet iedereen elkaars scores.
 
-Wil je één gedeeld leaderboard (bijvoorbeeld met [Supabase](https://supabase.com))?
-In `src/core/Leaderboard.js` staat een voorbeeld-`SupabaseProvider`. Maak een tabel
-`leaderboard` (`name text, score int, timeMs int, date text`), zet de provider aan en kies
-hem met:
+1. Maak op supabase.com een project aan (regio bijv. *Europe (Frankfurt)*).
+2. Open **SQL Editor**, plak de inhoud van [`docs/supabase.sql`](docs/supabase.sql) en klik **Run**.
+3. Ga naar **Project Settings → API** en kopieer de **Project URL** en de **anon public** key.
+4. Vul ze in `src/config/leaderboard.js` in, tussen de aanhalingstekens (kan direct op GitHub via
+   het potloodje):
+   ```js
+   const PROJECT_URL = 'https://abcdefgh.supabase.co';
+   const ANON_KEY = 'eyJhbGciOi...';
+   ```
+   Zet hier **nooit** de `service_role`-key: de anon-key is bedoeld om publiek in een website te staan.
+5. Commit naar `main`; na de deploy is het leaderboard gedeeld.
 
-```js
-Leaderboard.setProvider(new SupabaseProvider('https://<project>.supabase.co', '<anon-key>'));
-```
-
-Let op: met een publieke anon-key kan iedereen scores insturen. Voor een intern teamuitje is
-dat meestal prima; anders is een kleine serverless-functie met validatie verstandig.
+Goed om te weten:
+- Geen internet? Dan toont het spel de scores van het eigen apparaat en verstuurt het je score
+  later alsnog.
+- Scores verwijderen (bijv. na een testronde) doe je in Supabase via **Table Editor**.
+- De database accepteert alleen redelijke waarden (naam 1–20 tekens, score tot 20.000) en
+  niemand kan scores wijzigen of verwijderen. Iemand die handig is kan wel een nepscore insturen;
+  voor een teamuitje is dat meestal prima.
+- Een gratis Supabase-project wordt na een week zonder gebruik gepauzeerd; met één klik zet je
+  het weer aan.
 
 ## Voortgang
 

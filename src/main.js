@@ -15,6 +15,7 @@ import { FinaleScene } from './scenes/FinaleScene.js';
 import { CreditsScene } from './scenes/CreditsScene.js';
 import { MISSION_SCENES } from './scenes/missions/index.js';
 import { SaveManager } from './core/SaveManager.js';
+import { Leaderboard } from './core/Leaderboard.js';
 import { Audio } from './core/AudioEngine.js';
 import { gameWidth } from './core/layout.js';
 
@@ -75,7 +76,7 @@ async function start() {
     if (saveAcc > 5000) { saveAcc = 0; SaveManager.save(); }
   });
 
-  if (new URLSearchParams(location.search).has('debug')) { window.__game = game; window.__audio = Audio; }
+  if (new URLSearchParams(location.search).has('debug')) { window.__game = game; window.__audio = Audio; window.__lb = Leaderboard; }
 }
 
 start();
