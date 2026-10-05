@@ -26,11 +26,17 @@ export class LocalStorageProvider {
   async top(limit = 10) { return this._read().sort(compare).slice(0, limit); }
 }
 
-/** Supabase (PostgREST) — tabel: zie docs/supabase.sql. */
+/**
+ * Supabase (PostgREST) met de gedeelde tabel `app_data` (zie docs/supabase.sql):
+ * elke score is een rij met app = 'portzelande', key = 'leaderboard' en de score als JSON in `value`.
+ */
 export class SupabaseProvider {
-  constructor(url, anonKey, table = 'leaderboard') {
+  constructor(url, anonKey, { table = 'app_data', app = 'portzelande', key = 'leaderboard' } = {}) {
     this.base = `${url.replace(/\/+$/, '')}/rest/v1/${table}`;
-    this.key = anonKey;
+    this.anon = anonKey;
+    this.app = app;
+    this.key = key;
+    this.filter = `app=eq.${encodeURIComponent(app)}&key=eq.${encodeURIComponent(key)}`;
   }
   async _fetch(query, opts = {}) {
     const ctrl = new AbortController();
@@ -39,19 +45,36 @@ export class SupabaseProvider {
       const r = await fetch(this.base + query, {
         ...opts,
         signal: ctrl.signal,
-        headers: { apikey: this.key, Authorization: `Bearer ${this.key}`, 'Content-Type': 'application/json', ...(opts.headers || {}) },
+        headers: { apikey: this.anon, Authorization: `Bearer ${this.anon}`, 'Content-Type': 'application/json', ...(opts.headers || {}) },
       });
       if (!r.ok) throw new Error(`Supabase ${r.status}: ${await r.text()}`);
       return r;
     } finally { clearTimeout(timer); }
   }
   async submit(entry) {
-    await this._fetch('', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify(entry) });
+    const row = { app: this.app, key: this.key, value: entry };
+    await this._fetch('', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify(row) });
   }
   async top(limit = 10) {
-    const r = await this._fetch(`?select=name,score,timeMs,date&order=score.desc,timeMs.asc&limit=${limit}`);
-    return r.json();
+    let rows;
+    try {
+      // sorteren in de database op velden binnen de JSON
+      rows = await (await this._fetch(`?select=value&${this.filter}&order=value->score.desc,value->timeMs.asc&limit=${limit}`)).json();
+    } catch (e) {
+      if (e.name === 'AbortError' || e instanceof TypeError) throw e; // offline: niet nog eens proberen
+      // vangnet: haal de nieuwste scores op en sorteer zelf
+      rows = await (await this._fetch(`?select=value&${this.filter}&order=created_at.desc&limit=1000`)).json();
+    }
+    return rows.map((r) => sanitize(r.value)).filter(Boolean).sort(compare).slice(0, limit);
   }
+}
+
+/** Iedereen kan in app_data schrijven: lees alleen geldige scores. */
+function sanitize(v) {
+  if (!v || typeof v !== 'object') return null;
+  const score = Number(v.score), timeMs = Number(v.timeMs);
+  if (!Number.isFinite(score) || !Number.isFinite(timeMs) || score < 0 || score > 20000 || timeMs < 0) return null;
+  return { name: String(v.name || 'Anoniem').slice(0, 20), score: Math.round(score), timeMs: Math.round(timeMs), date: String(v.date || '') };
 }
 
 function compare(a, b) { return b.score - a.score || a.timeMs - b.timeMs; }
@@ -126,7 +149,7 @@ class LeaderboardService {
 }
 
 const remote = LEADERBOARD.supabaseUrl && LEADERBOARD.supabaseAnonKey
-  ? new SupabaseProvider(LEADERBOARD.supabaseUrl, LEADERBOARD.supabaseAnonKey, LEADERBOARD.table)
+  ? new SupabaseProvider(LEADERBOARD.supabaseUrl, LEADERBOARD.supabaseAnonKey, LEADERBOARD)
   : null;
 export const Leaderboard = new LeaderboardService(new LocalStorageProvider(), remote);
 

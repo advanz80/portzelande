@@ -1,21 +1,26 @@
--- Gedeeld leaderboard voor Pirates of Port Zélande.
--- Plak dit in Supabase → SQL Editor en klik "Run".
+-- Gedeelde tabel voor kleine app-gegevens (o.a. het leaderboard van Pirates of Port Zélande).
+-- Staat deze tabel al in je Supabase-project? Dan hoef je niets te doen.
+-- Anders: plak dit in Supabase → SQL Editor en klik "Run".
+--
+-- Het spel slaat elke score op als: app = 'portzelande', key = 'leaderboard',
+-- value = {"name": "...", "score": 1234, "timeMs": 1500000, "date": "..."}.
 
-create table if not exists leaderboard (
+create table if not exists app_data (
   id bigint generated always as identity primary key,
-  name text not null check (char_length(name) between 1 and 20),
-  score int not null check (score between 0 and 20000),
-  "timeMs" int not null check ("timeMs" between 0 and 36000000),
-  date timestamptz not null default now()
+  app text not null,
+  key text not null,
+  value jsonb not null check (length(value::text) < 2000),
+  created_at timestamptz default now()
 );
 
-create index if not exists leaderboard_rank on leaderboard (score desc, "timeMs" asc);
+alter table app_data enable row level security;
 
-alter table leaderboard enable row level security;
-
--- Iedereen mag scores lezen en toevoegen; niemand mag wijzigen of verwijderen
+-- Iedereen mag lezen en toevoegen; niemand mag wijzigen of verwijderen
 -- (dat kan alleen de beheerder via de Table Editor in Supabase).
-drop policy if exists "lezen" on leaderboard;
-drop policy if exists "toevoegen" on leaderboard;
-create policy "lezen" on leaderboard for select using (true);
-create policy "toevoegen" on leaderboard for insert with check (true);
+drop policy if exists "lezen" on app_data;
+drop policy if exists "toevoegen" on app_data;
+create policy "lezen" on app_data for select using (true);
+create policy "toevoegen" on app_data for insert with check (true);
+
+-- Optioneel: sneller ophalen als de tabel groot wordt.
+create index if not exists app_data_app_key on app_data (app, key);
