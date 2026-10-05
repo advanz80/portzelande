@@ -9,8 +9,8 @@
 // Laat je ze leeg, dan bewaart het spel de scores alleen op het eigen apparaat.
 // De tabel app_data maak je (eenmalig) aan met docs/supabase.sql (zie README → Leaderboard).
 
-const PROJECT_URL = '';
-const ANON_KEY = '';
+const PROJECT_URL = 'https://bfvffvrbyzmzjorplsqp.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmdmZmdnJieXptempvcnBsc3FwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwODgyMDUsImV4cCI6MjEwNjY2NDIwNX0.hFhUscSGsZGlVcW2gbbeAqK0EjhrVxRx7j0prvwGvZI';
 
 export const LEADERBOARD = {
   // lokaal ontwikkelen kan ook met VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY in een .env-bestand
